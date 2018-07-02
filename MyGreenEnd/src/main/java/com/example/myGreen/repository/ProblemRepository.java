@@ -12,9 +12,9 @@ import java.util.List;
 import com.example.myGreen.entity.Problem;
 
 @Repository
-@Table(name="PROBLEM")
+@Table(name = "PROBLEM")
 @Qualifier("problemRepository")
-public interface ProblemRepository extends JpaRepository<Problem, Long>{
+public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     @Query("select t from Problem t where t.title=:title")
     public List<Problem> findByName(@Param("title") String title);
