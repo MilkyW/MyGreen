@@ -3,8 +3,8 @@ package com.example.myGreen.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="CONTROLLER")
-public class Controller {
+@Table(name="WETNESSSENSOR")
+public class WetnessSensor {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;

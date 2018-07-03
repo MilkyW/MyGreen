@@ -5,13 +5,13 @@ import javax.persistence.*;
 import com.example.myGreen.key.SensorDataKey;
 
 @Entity
-@Table(name="TEMPERSENSORDATA")
-public class TemperSensorData {
+@Table(name="WETNESSSENSORDATA")
+public class WetnessSensorData {
 
     @EmbeddedId
     private SensorDataKey id;
 
-    private float temper;
+    private float wetness;
 
     public SensorDataKey getId() {
         return id;
@@ -21,11 +21,11 @@ public class TemperSensorData {
         this.id = id;
     }
 
-    public float getTemper() {
-        return temper;
+    public float getWetness() {
+        return wetness;
     }
 
-    public void setTemper(float temper) {
-        this.temper = temper;
+    public void setWetness(float wetness) {
+        this.wetness = wetness;
     }
 }
