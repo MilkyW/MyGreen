@@ -10,6 +10,8 @@ public class log : MonoBehaviour
     public Button register;
     public InputField username;
     public InputField password;
+    public static string uname;
+    public static string pwd;
 
     // Use this for initialization
     void Start()
@@ -40,6 +42,8 @@ public class log : MonoBehaviour
         }
         else
         {
+            uname = username.text;
+            pwd = password.text;
             SceneManager.LoadScene("garden");
         }
     }
