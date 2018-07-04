@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Assets\Example.cs" />
     <Compile Include="Assets\NewBehaviourScript.cs" />
+    <Compile Include="Assets\ShowMyName.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Users/LITTLECAT/Documents/OneDrive/SJTU/Curricula/Software Engineering/project/MyGreen/MyGreen/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
