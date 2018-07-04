@@ -63,6 +63,7 @@ public class MySQLController {
     @ResponseBody
     public void saveUser(@RequestBody User user) {
         userRepository.save(user);
+        System.out.println("id:"+user.getId());
     }
 
     @RequestMapping("isPhoneExist")
@@ -84,6 +85,23 @@ public class MySQLController {
     public boolean isAccountExist(String account) {
         User user = userRepository.findByAccount(account);
         return user!=null;
+    }
+
+    @RequestMapping("login")
+    @ResponseBody
+    public boolean login(String account, String password) {
+        System.out.println(account);
+        System.out.println(password);
+        User user = userRepository.findByAccount(account);
+        if (user == null) {
+            System.out.println("user not found");
+            return false;
+        }
+        if (!user.getPassword().equals(password)) {
+            return false;
+        }
+
+        return true;
     }
 
     /* Garden */

@@ -6,14 +6,13 @@ import javax.persistence.*;
 @Table(name="GARDEN")
 public class Garden {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
     private long userId;
     private int width;
     private int length;
     private String name;
-    private float idealTemper;
+    private float idealTemperature;
     private float idealWetness;
 
     public long getId() {
@@ -56,12 +55,12 @@ public class Garden {
         this.name = name;
     }
 
-    public float getIdealTemper() {
-        return idealTemper;
+    public float getIdealTemperature() {
+        return idealTemperature;
     }
 
-    public void setIdealTemper(float idealTemper) {
-        this.idealTemper = idealTemper;
+    public void setIdealTemperature(float idealTemperature) {
+        this.idealTemperature = idealTemperature;
     }
 
     public float getIdealWetness() {
