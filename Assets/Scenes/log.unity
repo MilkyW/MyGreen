@@ -512,6 +512,7 @@ MonoBehaviour:
   register: {fileID: 1760392735}
   username: {fileID: 1799542492}
   password: {fileID: 957358697}
+  required: []
 --- !u!1 &484310128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -70, y: 46}
+  m_AnchoredPosition: {x: -80, y: 47}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1408881361
