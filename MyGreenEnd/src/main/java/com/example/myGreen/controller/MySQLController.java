@@ -69,6 +69,7 @@ public class MySQLController {
     @RequestMapping("isPhoneExist")
     @ResponseBody
     public boolean isPhoneExist(String phone) {
+        System.out.println(phone);
         User user = userRepository.findByPhone(phone);
         return user!=null;
     }
@@ -76,6 +77,7 @@ public class MySQLController {
     @RequestMapping("isEmailExist")
     @ResponseBody
     public boolean isEmailExist(String email) {
+        System.out.println(email);
         User user = userRepository.findByEmail(email);
         return user!=null;
     }
@@ -83,6 +85,7 @@ public class MySQLController {
     @RequestMapping("isAccountExist")
     @ResponseBody
     public boolean isAccountExist(String account) {
+        System.out.println(account);
         User user = userRepository.findByAccount(account);
         return user!=null;
     }
