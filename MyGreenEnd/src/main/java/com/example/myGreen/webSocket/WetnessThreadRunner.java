@@ -1,9 +1,10 @@
 package com.example.myGreen.webSocket;
 
 import com.example.myGreen.SpringUtil;
-import com.example.myGreen.entity.TemperatureSensorData;
 import com.example.myGreen.entity.WetnessSensorData;
 import com.example.myGreen.repository.WetnessSensorDataRepository;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -11,16 +12,16 @@ import java.sql.Timestamp;
 
 public class WetnessThreadRunner implements Runnable {
     private long id;
-    private Session session;
+    private WebSocketSession session;
     private static int gap = 500;//ms
 
-    public WetnessThreadRunner(long id, Session session) {
+    public WetnessThreadRunner(long id, WebSocketSession session) {
         this.id = id;
         this.session = session;
     }
 
     private void sendMessage(String msg) throws IOException {
-        this.session.getBasicRemote().sendText(msg);
+        this.session.sendMessage(new TextMessage(msg));
     }
 
 

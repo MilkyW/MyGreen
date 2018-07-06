@@ -1,6 +1,7 @@
 package com.example.myGreen.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "USER")
@@ -18,6 +19,7 @@ public class User {
     private boolean valid;
     private String firstname;
     private String lastname;
+    private Timestamp time;
 
     public long getId() {
         return id;
@@ -97,5 +99,13 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 }
