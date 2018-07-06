@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 import com.example.myGreen.repository.*;
 import com.example.myGreen.entity.*;
+import com.example.myGreen.tool.MD5;
 
 @Controller
 @RequestMapping("/")
@@ -62,6 +65,13 @@ public class MySQLController {
     @PostMapping("saveUser")
     @ResponseBody
     public void saveUser(@RequestBody User user) {
+        try {
+            user.setPassword(MD5.EncoderByMd5(user.getPassword()));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
         userRepository.save(user);
         System.out.println("id:"+user.getId());
     }
@@ -100,11 +110,14 @@ public class MySQLController {
             System.out.println("user not found");
             return false;
         }
-        if (!user.getPassword().equals(password)) {
-            return false;
+        try {
+            System.out.println("password:"+password+",MD5:"+MD5.EncoderByMd5(password));
+            return MD5.checkPassword(password, user.getPassword());
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
     /* Garden */
@@ -133,15 +146,21 @@ public class MySQLController {
         return temperatureSensorRepository.findByGardenId(gardenId);
     }
 
-    @RequestMapping("getLatestWetnessByGardenId")
+    @RequestMapping("getLatestTemperatureByGardenId")
     @ResponseBody
-    public String getLatestWetnessByGardenId(long gardenId) {
+    public String getLatestTemperatureByGardenId(long gardenId) {
         return "";
     }
 
-    @RequestMapping("getLatestWetnessById")
+    @PostMapping("saveTemperatureSensor")
     @ResponseBody
-    public float getLatestWetnessById(long id) {
+    public void saveTemperatureSensor(TemperatureSensor sensor) {
+        temperatureSensorRepository.save(sensor);
+    }
+
+    @RequestMapping("getLatestTemperatureById")
+    @ResponseBody
+    public float getLatestTemperatureById(long id) {
         return 0;
     }
 
@@ -152,15 +171,21 @@ public class MySQLController {
         return wetnessSensorRepository.findByGardenId(gardenId);
     }
 
-    @RequestMapping("getLatestTemperatureByGardenId")
+    @RequestMapping("getLatestWetnessByGardenId")
     @ResponseBody
-    public String getLatestTemperatureByGardenId(long gardenId) {
+    public String getLatestWetnessByGardenId(long gardenId) {
         return "";
     }
 
-    @RequestMapping("getLatestTemperatureById")
+    @PostMapping("saveWetnessSensor")
     @ResponseBody
-    public float getLatestTemperatureById(long id) {
+    public void saveWetnessSensor(WetnessSensor sensor) {
+        wetnessSensorRepository.save(sensor);
+    }
+
+    @RequestMapping("getLatestWetnessById")
+    @ResponseBody
+    public float getLatestWetnessById(long id) {
         return 0;
     }
 
