@@ -1,14 +1,27 @@
-/[Ll]ibrary/
+/code/MyGreen/[Ll]ibrary/
 
-/[Tt]emp/
+/code/MyGreen/[Tt]emp/
 
-/[Oo]bj/
+/code/MyGreen/[Oo]bj/
 
-/[Bb]uild/
+/code/MyGreen/[Bb]uild/
 
-/[Bb]uilds/
+/code/MyGreen/[Bb]uilds/
 
-/[Pp]rojectSettings/ProjectVersion.txt
+/code/MyGreen/[Pp]rojectSettings/ProjectVersion.txt
+/Assets/AssetStoreTools*
+
+/code/SmartGarden/[Ll]ibrary/
+
+/code/SmartGarden/[Tt]emp/
+
+/code/SmartGarden/[Oo]bj/
+
+/code/SmartGarden/[Bb]uild/
+
+/code/SmartGarden/[Bb]uilds/
+
+/code/SmartGarden/[Pp]rojectSettings/ProjectVersion.txt
 /Assets/AssetStoreTools*
 
 
