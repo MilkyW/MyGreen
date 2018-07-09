@@ -39,7 +39,7 @@ public class function : MonoBehaviour {
         return true;
     }
 
-    public static void Clear(List<InputField> input)
+    public static void Clear(List<InputField> input,List<Text> warning)
     {
         foreach (InputField e in input)
         {
@@ -47,5 +47,29 @@ public class function : MonoBehaviour {
             e.placeholder.GetComponent<Text>().text = "Enter text...";
             e.placeholder.color = Color.gray;
         }
+        foreach (Text e in warning)
+        {
+            e.gameObject.SetActive(false);
+        }
+    }
+
+    public static bool SensorNameCheck(string name)
+    {
+        return true;
+    }
+
+    public static bool ControllerNameCheck(string name)
+    {
+        return true;
+    }
+
+    public static bool XyCheck(string x,string y)
+    {
+        return true;
+    }
+
+    public static void SaveSensor()
+    {
+
     }
 }

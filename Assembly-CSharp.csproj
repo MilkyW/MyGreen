@@ -910,12 +910,17 @@
     <Compile Include="Assets\HttpClient\HttpContent\StringContent.cs" />
     <Compile Include="Assets\HttpClient\Messages\HttpResponseMessage.cs" />
     <Compile Include="Assets\HttpClient\Messages\UploadStatusMessage.cs" />
+    <Compile Include="Assets\Script\controller_b.cs" />
+    <Compile Include="Assets\Script\controller_i.cs" />
     <Compile Include="Assets\Script\data.cs" />
     <Compile Include="Assets\Script\function.cs" />
     <Compile Include="Assets\Script\garden.cs" />
     <Compile Include="Assets\Script\info.cs" />
     <Compile Include="Assets\Script\log.cs" />
+    <Compile Include="Assets\Script\message_b.cs" />
     <Compile Include="Assets\Script\register.cs" />
+    <Compile Include="Assets\Script\sensor_b.cs" />
+    <Compile Include="Assets\Script\sensor_i.cs" />
     <Compile Include="Assets\Script\user.cs" />
     <None Include="Assets\Best HTTP (Pro)\ReleaseNotes.txt" />
     <None Include="Assets\HttpClient\readme.txt" />

@@ -7,6 +7,7 @@ using CI.HttpClient;
 using System;
 using System.Text.RegularExpressions;
 using BestHTTP;
+using LitJson;
 
 public class register : MonoBehaviour {
     public Button submit;
@@ -69,6 +70,12 @@ public class register : MonoBehaviour {
 
     void UsernameCheck()
     {
+        if (username.text == "")
+        {
+            username_pass.gameObject.SetActive(false);
+            username_existed.gameObject.SetActive(false);
+            return;
+        }
         HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/isAccountExist?account=" + username.text), HTTPMethods.Get, (req, res) => {
             if (res.DataAsText == "true")
             {
@@ -85,9 +92,14 @@ public class register : MonoBehaviour {
 
     void PhoneCheck()
     {
-        Regex r = new Regex("^13|15|18[0-9]{9}$");
-
-        if (!r.IsMatch(phone.text))
+        if (phone.text == "")
+        {
+            phone_illegal.gameObject.SetActive(false);
+            phone_pass.gameObject.SetActive(false);
+            phone_existed.gameObject.SetActive(false);
+            return;
+        }
+        if (!data.phone.IsMatch(phone.text))
         {
             phone_illegal.gameObject.SetActive(true);
             phone_existed.gameObject.SetActive(false);
@@ -111,9 +123,14 @@ public class register : MonoBehaviour {
 
     void EmailCheck()
     {
-        Regex r = new Regex("^[\\w-]+@[\\w-]+\\.(com|net|org|edu|mil|tv|biz|info)$");
-
-        if (!r.IsMatch(email.text))
+        if (email.text == "")
+        {
+            email_pass.gameObject.SetActive(false);
+            email_illegal.gameObject.SetActive(false);
+            email_existed.gameObject.SetActive(false);
+            return;
+        }
+        if (!data.email.IsMatch(email.text))
         {
             email_illegal.gameObject.SetActive(true);
             email_existed.gameObject.SetActive(false);
@@ -159,7 +176,44 @@ public class register : MonoBehaviour {
             if (e.IsActive())
                 return;
         if (function.InputFieldRequired(required))
-            SceneManager.LoadScene("garden");
+        {
+            HTTPRequest request = new HTTPRequest(new Uri(data.IP+"/saveUser"), HTTPMethods.Post, (req, res) => {
+                switch (req.State)
+                {
+                    case HTTPRequestStates.Finished:
+                        Debug.Log("Successfully save!");
+                        GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
+                        GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
+                        data.m_user.setUsername(username.text);
+                        data.m_user.setNickname(nickname.text);
+                        data.m_user.setPassword(password.text);
+                        data.m_user.setFirstname(firstname.text);
+                        data.m_user.setLastname(lastname.text);
+                        data.m_user.setGender(male.isOn);
+                        data.m_user.setPhone(phone.text);
+                        data.m_user.setEmail(email.text);
+                        break;
+                    default:
+                        Debug.Log("Error!Status code:" + res.StatusCode);
+                        break;
+                }
+            });
+            request.AddHeader("Content-Type", "application/json");
+
+            JsonData newUser = new JsonData();
+            newUser["account"] = username.text;
+            newUser["password"] = password.text;
+            newUser["nickname"] = nickname.text;
+            newUser["gender"] = male.isOn;
+            newUser["phone"] = phone.text;
+            newUser["email"] = email.text;
+            newUser["firstname"] = firstname.text;
+            newUser["lastname"] = lastname.text;
+            newUser["valid"] = "false";
+            request.RawData = System.Text.Encoding.UTF8.GetBytes(newUser.ToJson());
+
+            request.Send();
+        }
     }
 
     void LoginOnClick()

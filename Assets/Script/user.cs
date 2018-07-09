@@ -9,7 +9,7 @@ public class user {
     private string password;
     private string firstname;
     private string lastname;
-    private string gender;
+    private bool gender;
     private string phone;
     private string email;
 
@@ -23,7 +23,7 @@ public class user {
 
     public string getLastname() { return lastname; }
 
-    public string getGender() { return gender; }
+    public bool getGender() { return gender; }
 
     public string getPhone() { return phone; }
 
@@ -39,7 +39,7 @@ public class user {
 
     public void setLastname(string lastname_) { lastname = lastname_; }
 
-    public void setGender(string gender_) { gender = gender_; }
+    public void setGender(bool gender_) { gender = gender_; }
 
     public void setPhone(string phone_) { phone = phone_; }
 

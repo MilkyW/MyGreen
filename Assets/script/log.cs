@@ -47,17 +47,18 @@ public class log : MonoBehaviour
                 {
                     HTTPRequest request1 = new HTTPRequest(new Uri(data.IP + "/getUserByAccount?account=" + username.text), HTTPMethods.Get, (req1, res1) => {
                         JsonData json = JsonMapper.ToObject(res1.DataAsText);
+                        Debug.Log(res1.DataAsText);
                         data.m_user.setUsername((string)json["account"]);
                         data.m_user.setNickname((string)json["nickname"]);
                         data.m_user.setPassword((string)json["password"]);
                         data.m_user.setFirstname((string)json["firstname"]);
                         data.m_user.setLastname((string)json["lastname"]);
                         data.m_user.setPhone((string)json["phone"]);
-                        data.m_user.setGender((string)json["gender"]);
+                        data.m_user.setGender((bool)json["gender"]);
                         data.m_user.setEmail((string)json["email"]);
+                        if ((bool)json["valid"] == true)
+                            SceneManager.LoadScene("garden");
                     }).Send();
-                    Debug.Log(data.m_user.getUsername());
-                    SceneManager.LoadScene("garden");
                 }
             }).Send();
         }
