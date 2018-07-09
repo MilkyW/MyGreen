@@ -9,12 +9,12 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-public class TemperatureThreadRunner implements Runnable{
+public class TemperatureThread extends Thread {
     private long id;
     private WebSocketSession session;
     private static int gap = 500;//ms
 
-    public TemperatureThreadRunner(long id, WebSocketSession session) {
+    public TemperatureThread(long id, WebSocketSession session) {
         this.id = id;
         this.session = session;
     }
@@ -30,6 +30,10 @@ public class TemperatureThreadRunner implements Runnable{
         Timestamp latestTimestamp = new Timestamp(System.currentTimeMillis());
 
         while (true) {
+            if(this.isInterrupted()) {
+                return;
+            }
+
             /* Check if data update */
             if (temperatureSensorDataRepository == null) {
                 System.out.print("temperatureSensorDataRepository is null!");
@@ -56,7 +60,7 @@ public class TemperatureThreadRunner implements Runnable{
             }
 
             try {
-                Thread.sleep(TemperatureThreadRunner.gap);
+                Thread.sleep(TemperatureThread.gap);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;

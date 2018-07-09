@@ -11,10 +11,15 @@ import javax.persistence.Table;
 import com.example.myGreen.entity.TemperatureSensorData;
 import com.example.myGreen.key.SensorDataKey;
 
+import java.util.List;
+
 @Repository
 @Table(name = "TEMPERATURESENSORDATA")
 @Qualifier("TemperatureSensorDataRepository")
 public interface TemperatureSensorDataRepository extends JpaRepository<TemperatureSensorData, SensorDataKey> {
+
+    @Query(value = "select * from TemperatureSensorData where id=:id", nativeQuery = true)
+    public List<TemperatureSensorData> findBySensorId(@Param("id") long id);
 
     @Query(value = "select * from TemperatureSensorData where id=:id and time=(select max(time) from TemperatureSensorData having id=:id)",nativeQuery = true)
     public TemperatureSensorData findLatestDataById(@Param("id") long id);
