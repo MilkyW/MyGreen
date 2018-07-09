@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
-public class Application {
+public class MyGreenApplication {
 
     public static void main(String[] args) {
-        ApplicationContext appContext = SpringApplication.run(Application.class, args);
+        ApplicationContext appContext = SpringApplication.run(MyGreenApplication.class, args);
         SpringUtil.setApplicationContext(appContext);
     }
 }
