@@ -557,7 +557,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &219325245
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,6 +1826,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 630365995}
   username: {fileID: 1810070929}
+  nickname: {fileID: 1635902068}
+  firstname: {fileID: 1297066367}
+  lastname: {fileID: 1476451393}
+  phone: {fileID: 956148761}
+  email: {fileID: 1889368405}
+  male: {fileID: 193805082}
+  female: {fileID: 326585784}
+  warning: []
+  required: []
+  phone_existed: {fileID: 2055862905}
+  email_existed: {fileID: 927704226}
+  phone_illegal: {fileID: 1093072632}
+  email_illegal: {fileID: 1244388049}
+  phone_pass: {fileID: 153888200}
+  email_pass: {fileID: 1843190625}
+  save: {fileID: 691809254}
 --- !u!1 &535647890
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class function : MonoBehaviour {
+public class function {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static void ClearUser()
+    {
+        data.m_user.setUsername("");
+        data.m_user.setPassword("");
+        data.m_user.setFirstname("");
+        data.m_user.setLastname("");
+        data.m_user.setNickname("");
+        data.m_user.setPhone("");
+        data.m_user.setEmail("");
+        data.m_user.setGender(false);
+    }
 
     public static void RequiredInputOnEndEdit(InputField input)
     {
