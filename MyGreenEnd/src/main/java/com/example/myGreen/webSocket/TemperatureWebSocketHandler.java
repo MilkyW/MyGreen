@@ -6,7 +6,6 @@ import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,9 +17,9 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
 
     private static final ArrayList<WebSocketSession> users = new ArrayList<WebSocketSession>();
 
-    private static HashMap<String, TemperatureThread> map = new HashMap<String, TemperatureThread>();
+    private ExecutorService pool;
 
-    private static void printInfo(String msg) {
+    private void printInfo(String msg) {
         System.out.println("[TemperatureWebSocket]" + msg);
     }
 
@@ -30,27 +29,19 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
 
     private static synchronized void addOnlineCount() {
         TemperatureWebSocketHandler.onlineCount++;
-        printInfo("用户连接，在线用户:" + getOnlineCount());
     }
 
     private static synchronized void subOnlineCount() {
         TemperatureWebSocketHandler.onlineCount--;
-        printInfo("用户断开，在线用户:" + getOnlineCount());
-    }
-
-    private void stopThread(WebSocketSession session) {
-        TemperatureThread thread = map.get(session.getId());
-        if (thread!=null) {
-            thread.interrupt();
-            map.remove(session.getId(), thread);
-        }
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         users.add(session);
+        pool = Executors.newFixedThreadPool(1);
 
         addOnlineCount();
+        printInfo("用户连接，在线用户:" + getOnlineCount());
     }
 
     @Override
@@ -63,9 +54,7 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         }
 
         long id = Long.parseLong(msg);
-        TemperatureThread thread = new TemperatureThread(id, session);
-        thread.start();
-        map.put(session.getId(), thread);
+        pool.submit(new TemperatureThreadRunner(id, session));
     }
 
     @Override
@@ -73,9 +62,7 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         if (session.isOpen()) {
             session.close();
         }
-        /* Stop thread */
-        stopThread(session);
-
+        pool.shutdownNow();
         users.remove(session);
 
         subOnlineCount();
@@ -84,10 +71,11 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        stopThread(session);
         users.remove(session);
+        pool.shutdownNow();
 
         subOnlineCount();
+        printInfo("用户断开，在线用户:" + getOnlineCount());
     }
 
     @Override

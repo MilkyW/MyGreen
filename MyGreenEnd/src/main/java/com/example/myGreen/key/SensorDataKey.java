@@ -12,7 +12,7 @@ public class SensorDataKey implements Serializable  {
     private Timestamp time;
 
     @Column(name = "ID")
-    private long id;
+    private String id;
 
     public Timestamp getTime() {
         return time;
@@ -22,11 +22,11 @@ public class SensorDataKey implements Serializable  {
         this.time = time;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

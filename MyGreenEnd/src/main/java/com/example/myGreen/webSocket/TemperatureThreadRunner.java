@@ -23,6 +23,7 @@ public class TemperatureThreadRunner implements Runnable{
         this.session.sendMessage(new TextMessage(msg));
     }
 
+
     @Override
     public void run() {
         TemperatureSensorDataRepository temperatureSensorDataRepository = SpringUtil.getBean(TemperatureSensorDataRepository.class);
