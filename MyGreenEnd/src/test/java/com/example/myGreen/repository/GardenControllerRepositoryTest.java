@@ -28,7 +28,7 @@ public class GardenControllerRepositoryTest {
     @Test
     public void findByName() {
         List<GardenController> gardenControllerList = repository.findByName("c1");
-        for(GardenController gardenController : gardenControllerList) {
+        for (GardenController gardenController : gardenControllerList) {
             Assert.assertEquals(gardenController.getName(), "c1");
         }
     }
@@ -36,6 +36,6 @@ public class GardenControllerRepositoryTest {
     @Test
     public void updateValidById() {
         repository.updateValidById(1, false);
-        repository.updateValidById(1,true);
+        repository.updateValidById(1, true);
     }
 }

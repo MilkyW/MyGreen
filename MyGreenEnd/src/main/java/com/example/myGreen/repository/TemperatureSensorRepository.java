@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 
@@ -25,6 +24,6 @@ public interface TemperatureSensorRepository extends JpaRepository<TemperatureSe
 
     @Transactional
     @Modifying
-    @Query(value = "update temperatureSensor set valid = :valid where id = :id",nativeQuery = true)
+    @Query(value = "update temperatureSensor set valid = :valid where id = :id", nativeQuery = true)
     public void updateValidById(@Param("id") long id, @Param("valid") boolean valid);
 }

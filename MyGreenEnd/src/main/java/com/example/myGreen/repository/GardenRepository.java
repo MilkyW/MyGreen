@@ -1,13 +1,11 @@
 package com.example.myGreen.repository;
 
+import com.example.myGreen.entity.Garden;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
-
-import com.example.myGreen.entity.Garden;
-
 import java.util.List;
 
 @Repository

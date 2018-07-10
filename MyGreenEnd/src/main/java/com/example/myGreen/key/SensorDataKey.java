@@ -1,12 +1,12 @@
 package com.example.myGreen.key;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Embeddable
-public class SensorDataKey implements Serializable  {
+public class SensorDataKey implements Serializable {
 
     @Column(name = "time")
     private Timestamp time;

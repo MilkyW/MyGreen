@@ -34,8 +34,8 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
     }
 
     private void stopThread(WebSocketSession session) {
-        TemperatureThread thread = (TemperatureThread)session.getAttributes().get("thread");
-        if (thread!=null) {
+        TemperatureThread thread = (TemperatureThread) session.getAttributes().get("thread");
+        if (thread != null) {
             thread.interrupt();
         }
     }

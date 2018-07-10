@@ -1,6 +1,5 @@
 package com.example.myGreen.repository;
 
-import com.example.myGreen.entity.WetnessSensor;
 import com.example.myGreen.entity.WetnessSensorData;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;

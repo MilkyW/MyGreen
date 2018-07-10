@@ -22,19 +22,19 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findByPhone() throws Exception{
+    public void findByPhone() throws Exception {
         User user = userRepository.findByPhone("13000000000");
         Assert.assertEquals("13000000000", user.getPhone());
     }
 
     @Test
-    public void findByEmail() throws Exception{
+    public void findByEmail() throws Exception {
         User user = userRepository.findByEmail("123456@qq.com");
         Assert.assertEquals("123456@qq.com", user.getEmail());
     }
 
     @Test
-    public void findValidByAccount() throws Exception{
+    public void findValidByAccount() throws Exception {
         boolean valid = userRepository.findValidByAccount("dennis");
         Assert.assertEquals(true, valid);
     }

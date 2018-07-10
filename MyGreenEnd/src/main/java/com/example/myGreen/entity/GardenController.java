@@ -3,10 +3,10 @@ package com.example.myGreen.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="CONTROLLER")
+@Table(name = "CONTROLLER")
 public class GardenController {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private long gardenId;

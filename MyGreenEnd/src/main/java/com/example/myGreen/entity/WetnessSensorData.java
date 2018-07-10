@@ -1,11 +1,13 @@
 package com.example.myGreen.entity;
 
-import javax.persistence.*;
-
 import com.example.myGreen.key.SensorDataKey;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 @Entity
-@Table(name="WETNESSSENSORDATA")
+@Table(name = "WETNESSSENSORDATA")
 public class WetnessSensorData {
 
     @EmbeddedId

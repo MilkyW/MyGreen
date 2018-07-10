@@ -31,7 +31,7 @@ public class WetnessSensorDataRepositoryTest {
     public void findLatestDataById() {
         List<WetnessSensorData> list = repository.findBySensorId(1);
         Timestamp latestTime = repository.findLatestDataById(1).getId().getTime();
-        for (WetnessSensorData data:list) {
+        for (WetnessSensorData data : list) {
             Timestamp time = data.getId().getTime();
             Assert.assertTrue(latestTime.after(time) || latestTime.equals(time));
         }

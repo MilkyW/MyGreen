@@ -1,6 +1,11 @@
 package com.example.myGreen.controller;
 
 
+import com.example.myGreen.entity.*;
+import com.example.myGreen.service.ControllerService;
+import com.example.myGreen.service.GardenService;
+import com.example.myGreen.service.SensorService;
+import com.example.myGreen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -8,12 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import com.example.myGreen.entity.*;
-import com.example.myGreen.service.*;
-
 @Controller
 @RequestMapping("/")
 //@RequestMapping("/MySQL")
+@CrossOrigin
 @EnableAutoConfiguration
 public class MySQLController {
 
@@ -31,12 +34,6 @@ public class MySQLController {
     @ResponseBody
     public User getUserByAccount(String account) {
         return userService.getUserByAccount(account);
-    }
-
-    @PostMapping("saveUser")
-    @ResponseBody
-    public void saveUser(@RequestBody User user) {
-        userService.saveUser(user);
     }
 
     @RequestMapping("isPhoneExist")
@@ -63,6 +60,18 @@ public class MySQLController {
         return userService.login(account, password);
     }
 
+    @PostMapping("saveUser")
+    @ResponseBody
+    public void saveUser(@RequestBody User user) {
+        userService.saveUser(user);
+    }
+
+    @PostMapping("updateUser")
+    @ResponseBody
+    public void updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+    }
+
     /* Garden */
     @RequestMapping("getGardenByUserId")
     @ResponseBody
@@ -85,7 +94,7 @@ public class MySQLController {
 
     @PostMapping("saveTemperatureSensor")
     @ResponseBody
-    public void saveTemperatureSensor(TemperatureSensor sensor) {
+    public void saveTemperatureSensor(@RequestBody TemperatureSensor sensor) {
         sensorService.saveTemperatureSensor(sensor);
     }
 
@@ -98,7 +107,7 @@ public class MySQLController {
 
     @PostMapping("saveWetnessSensor")
     @ResponseBody
-    public void saveWetnessSensor(WetnessSensor sensor) {
+    public void saveWetnessSensor(@RequestBody WetnessSensor sensor) {
         sensorService.saveWetnessSensor(sensor);
     }
 
@@ -109,10 +118,10 @@ public class MySQLController {
         return controllerService.getControllerByGardenId(gardenId);
     }
 
-    @RequestMapping("updateControllerValidByControllerId")
+    @RequestMapping("updateControllerValidById")
     @ResponseBody
-    public void updateControllerValidByControllerId(long id,boolean valid) {
-        controllerService.updateControllerValidByControllerId(id, valid);
+    public void updateControllerValidById(long id, boolean valid) {
+        controllerService.updateControllerValidById(id, valid);
     }
 
     @PostMapping("saveController")

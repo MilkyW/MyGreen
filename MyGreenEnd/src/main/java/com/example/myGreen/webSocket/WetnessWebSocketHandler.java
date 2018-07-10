@@ -7,8 +7,6 @@ import org.springframework.web.socket.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class WetnessWebSocketHandler implements WebSocketHandler {
 
@@ -41,7 +39,7 @@ public class WetnessWebSocketHandler implements WebSocketHandler {
 
     private void stopThread(WebSocketSession session) {
         WetnessThread thread = map.get(session.getId());
-        if (thread!=null) {
+        if (thread != null) {
             thread.interrupt();
             map.remove(session.getId(), thread);
         }

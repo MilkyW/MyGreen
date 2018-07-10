@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 @Table(name = "USER")
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String account;
@@ -45,7 +45,7 @@ public class User {
         this.nickname = nickname;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 

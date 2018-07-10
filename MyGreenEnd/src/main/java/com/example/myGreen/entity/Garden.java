@@ -3,9 +3,10 @@ package com.example.myGreen.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="GARDEN")
+@Table(name = "GARDEN")
 public class Garden {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private long userId;

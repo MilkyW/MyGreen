@@ -17,7 +17,7 @@ public class ControllerService {
         return controllerRepository.findByGardenId(gardenId);
     }
 
-    public void updateControllerValidByControllerId(long id,boolean valid) {
+    public void updateControllerValidById(long id, boolean valid) {
         controllerRepository.updateValidById(id, valid);
     }
 
