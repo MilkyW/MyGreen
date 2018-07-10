@@ -1,28 +1,27 @@
 package com.example.myGreen.webSocket;
 
 import com.example.myGreen.SpringUtil;
-import com.example.myGreen.entity.TemperatureSensorData;
 import com.example.myGreen.entity.WetnessSensorData;
 import com.example.myGreen.repository.WetnessSensorDataRepository;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
-import javax.websocket.Session;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-public class WetnessThreadRunner implements Runnable {
+public class WetnessThread extends Thread {
     private long id;
-    private Session session;
-    private static int gap = 500;//ms
+    private WebSocketSession session;
+    private static int gap = 3000;//ms
 
-    public WetnessThreadRunner(long id, Session session) {
+    public WetnessThread(long id, WebSocketSession session) {
         this.id = id;
         this.session = session;
     }
 
     private void sendMessage(String msg) throws IOException {
-        this.session.getBasicRemote().sendText(msg);
+        this.session.sendMessage(new TextMessage(msg));
     }
-
 
     @Override
     public void run() {
@@ -31,6 +30,10 @@ public class WetnessThreadRunner implements Runnable {
         Timestamp latestTimestamp = new Timestamp(System.currentTimeMillis());
 
         while (true) {
+            if (this.isInterrupted()) {
+                return;
+            }
+
             /* Check if data update */
             if (wetnessSensorDataRepository == null) {
                 System.out.print("wetnessSensorDataRepository is null!");
@@ -57,7 +60,7 @@ public class WetnessThreadRunner implements Runnable {
             }
 
             try {
-                Thread.sleep(WetnessThreadRunner.gap);
+                Thread.sleep(WetnessThread.gap);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;

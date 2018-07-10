@@ -3,25 +3,25 @@ package com.example.myGreen.webSocket;
 import com.example.myGreen.SpringUtil;
 import com.example.myGreen.entity.TemperatureSensorData;
 import com.example.myGreen.repository.TemperatureSensorDataRepository;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
-import javax.websocket.Session;
 import java.io.IOException;
 import java.sql.Timestamp;
 
-public class TemperatureThreadRunner implements Runnable{
+public class TemperatureThread extends Thread {
     private long id;
-    private Session session;
-    private static int gap = 500;//ms
+    private WebSocketSession session;
+    private static int gap = 3000;//ms
 
-    public TemperatureThreadRunner(long id, Session session) {
+    public TemperatureThread(long id, WebSocketSession session) {
         this.id = id;
         this.session = session;
     }
 
     private void sendMessage(String msg) throws IOException {
-        this.session.getBasicRemote().sendText(msg);
+        this.session.sendMessage(new TextMessage(msg));
     }
-
 
     @Override
     public void run() {
@@ -30,6 +30,10 @@ public class TemperatureThreadRunner implements Runnable{
         Timestamp latestTimestamp = new Timestamp(System.currentTimeMillis());
 
         while (true) {
+            if (this.isInterrupted()) {
+                return;
+            }
+
             /* Check if data update */
             if (temperatureSensorDataRepository == null) {
                 System.out.print("temperatureSensorDataRepository is null!");
@@ -56,7 +60,7 @@ public class TemperatureThreadRunner implements Runnable{
             }
 
             try {
-                Thread.sleep(TemperatureThreadRunner.gap);
+                Thread.sleep(TemperatureThread.gap);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return;

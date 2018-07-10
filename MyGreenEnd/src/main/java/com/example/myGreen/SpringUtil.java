@@ -21,7 +21,6 @@ public class SpringUtil{
     //通过name获取 Bean.
     public static Object getBean(String name){
         return getApplicationContext().getBean(name);
-
     }
 
     //通过class获取Bean.

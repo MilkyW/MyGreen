@@ -1,21 +1,15 @@
 package com.example.myGreen.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Optional;
 
-import com.example.myGreen.repository.*;
 import com.example.myGreen.entity.*;
-import com.example.myGreen.tool.MD5;
+import com.example.myGreen.service.*;
 
 @Controller
 @RequestMapping("/")
@@ -24,188 +18,107 @@ import com.example.myGreen.tool.MD5;
 public class MySQLController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
-    private GardenControllerRepository gardenControllerRepository;
+    private GardenService gardenService;
     @Autowired
-    private GardenRepository gardenRepository;
+    private ControllerService controllerService;
     @Autowired
-    private TemperatureSensorRepository temperatureSensorRepository;
-    @Autowired
-    private WetnessSensorRepository wetnessSensorRepository;
-    @Autowired
-    private TemperatureSensorDataRepository temperatureSensorDataRepository;
-    @Autowired
-    private WetnessSensorDataRepository wetnessSensorDataRepository;
+    private SensorService sensorService;
 
     /* User */
-    @RequestMapping("getUserById")
-    @ResponseBody
-    public User getUserById(long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            return userOptional.get();
-        }
-        //else
-        return null;
-    }
-
     @RequestMapping("getUserByAccount")
     @ResponseBody
     public User getUserByAccount(String account) {
-        return userRepository.findByAccount(account);
-    }
-
-    @RequestMapping("getUserValidByAccount")
-    @ResponseBody
-    public boolean getUserValidByAccount(String account) {
-        return userRepository.findValidByAccount(account);
+        return userService.getUserByAccount(account);
     }
 
     @PostMapping("saveUser")
     @ResponseBody
     public void saveUser(@RequestBody User user) {
-        try {
-            user.setPassword(MD5.EncoderByMd5(user.getPassword()));
-        }catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        userRepository.save(user);
-        System.out.println("id:"+user.getId());
+        userService.saveUser(user);
     }
 
     @RequestMapping("isPhoneExist")
     @ResponseBody
     public boolean isPhoneExist(String phone) {
-        System.out.println(phone);
-        User user = userRepository.findByPhone(phone);
-        return user!=null;
+        return userService.isPhoneExist(phone);
     }
 
     @RequestMapping("isEmailExist")
     @ResponseBody
     public boolean isEmailExist(String email) {
-        System.out.println(email);
-        User user = userRepository.findByEmail(email);
-        return user!=null;
+        return userService.isEmailExist(email);
     }
 
     @RequestMapping("isAccountExist")
     @ResponseBody
     public boolean isAccountExist(String account) {
-        System.out.println(account);
-        User user = userRepository.findByAccount(account);
-        return user!=null;
+        return userService.isAccountExist(account);
     }
 
     @RequestMapping("login")
     @ResponseBody
     public boolean login(String account, String password) {
-        System.out.println(account);
-        System.out.println(password);
-        User user = userRepository.findByAccount(account);
-        if (user == null) {
-            System.out.println("user not found");
-            return false;
-        }
-        try {
-            System.out.println("password:"+password+",MD5:"+MD5.EncoderByMd5(password));
-            return MD5.checkPassword(password, user.getPassword());
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        return userService.login(account, password);
     }
 
     /* Garden */
     @RequestMapping("getGardenByUserId")
     @ResponseBody
     public List<Garden> getGardenByUserId(long userId) {
-        return gardenRepository.findByUserId(userId);
-    }
-
-    @RequestMapping("getAllGarden")
-    @ResponseBody
-    public List<Garden> getAllGarden() {
-        return gardenRepository.findAll();
+        return gardenService.getGardenByUserId(userId);
     }
 
     @PostMapping("saveGarden")
     @ResponseBody
     public void saveGarden(@RequestBody Garden garden) {
-        gardenRepository.save(garden);
+        gardenService.saveGarden(garden);
     }
 
     /* TemperatureSensor */
     @RequestMapping("getTemperatureSensorByGardenId")
     @ResponseBody
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
-        return temperatureSensorRepository.findByGardenId(gardenId);
-    }
-
-    @RequestMapping("getLatestTemperatureByGardenId")
-    @ResponseBody
-    public String getLatestTemperatureByGardenId(long gardenId) {
-        return "";
+        return sensorService.getTemperatureSensorByGardenId(gardenId);
     }
 
     @PostMapping("saveTemperatureSensor")
     @ResponseBody
     public void saveTemperatureSensor(TemperatureSensor sensor) {
-        temperatureSensorRepository.save(sensor);
-    }
-
-    @RequestMapping("getLatestTemperatureById")
-    @ResponseBody
-    public float getLatestTemperatureById(long id) {
-        return 0;
+        sensorService.saveTemperatureSensor(sensor);
     }
 
     /* WetnessSensor */
     @RequestMapping("getWetnessSensorByGardenId")
     @ResponseBody
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
-        return wetnessSensorRepository.findByGardenId(gardenId);
-    }
-
-    @RequestMapping("getLatestWetnessByGardenId")
-    @ResponseBody
-    public String getLatestWetnessByGardenId(long gardenId) {
-        return "";
+        return sensorService.getWetnessSensorByGardenId(gardenId);
     }
 
     @PostMapping("saveWetnessSensor")
     @ResponseBody
     public void saveWetnessSensor(WetnessSensor sensor) {
-        wetnessSensorRepository.save(sensor);
-    }
-
-    @RequestMapping("getLatestWetnessById")
-    @ResponseBody
-    public float getLatestWetnessById(long id) {
-        return 0;
+        sensorService.saveWetnessSensor(sensor);
     }
 
     /* Controller */
     @RequestMapping("getControllerByGardenId")
     @ResponseBody
     public List<GardenController> getControllerByGardenId(long gardenId) {
-        return gardenControllerRepository.findByGardenId(gardenId);
+        return controllerService.getControllerByGardenId(gardenId);
     }
 
     @RequestMapping("updateControllerValidByControllerId")
     @ResponseBody
     public void updateControllerValidByControllerId(long id,boolean valid) {
-        gardenControllerRepository.updateValidById(id, valid);
+        controllerService.updateControllerValidByControllerId(id, valid);
     }
 
     @PostMapping("saveController")
     @ResponseBody
     public void saveController(@RequestBody GardenController controller) {
-        gardenControllerRepository.save(controller);
+        controllerService.saveController(controller);
     }
 
     /* TemperatureSensorData */
