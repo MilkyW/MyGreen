@@ -1,4 +1,4 @@
-package com.example.myGreen.Interceptor;
+package com.example.myGreen.interceptor;
 
 
 import org.springframework.context.annotation.Configuration;

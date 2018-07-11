@@ -113,7 +113,7 @@ public class MySQLControllerTest {
         map.put("password", "654321");
         map.put("nickname", "dawu");
         map.put("gender", "false");
-        map.put("email", "654321@qq.com");
+        map.put("email", "1276704961@qq.com");
         map.put("phone", "15000000000");
         map.put("valid", "false");
         map.put("firstname", "lianyi");

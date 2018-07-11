@@ -1,6 +1,7 @@
 package com.example.myGreen.service;
 
 import com.example.myGreen.entity.User;
+import com.example.myGreen.mail.MailService;
 import com.example.myGreen.repository.UserRepository;
 import com.example.myGreen.tool.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MailService mailService;
 
     public User getUserByAccount(String account) {
         return userRepository.findByAccount(account);
@@ -66,6 +70,9 @@ public class UserService {
         user.setValid(false);
 
         userRepository.save(user);
+
+        /* Send email */
+        mailService.sendValidateEmail(user);
     }
 
     public void updateUser(User newUser) {

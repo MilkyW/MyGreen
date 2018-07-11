@@ -1,4 +1,4 @@
-package com.example.myGreen.key;
+package com.example.myGreen.entity.key;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

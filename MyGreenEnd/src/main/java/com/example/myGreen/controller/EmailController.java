@@ -1,7 +1,7 @@
 package com.example.myGreen.controller;
 
 import com.example.myGreen.dto.NormalDto;
-import com.example.myGreen.mail.BackendService;
+import com.example.myGreen.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,17 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EmailController {
     @Autowired
-    private BackendService backendService;
+    private MailService mailService;
 
     @RequestMapping(value = "/validate", method = RequestMethod.GET)
-    public @ResponseBody
-    NormalDto validate(String token) {
-        return backendService.validate(token);
-    }
-
-    /* test mapping function(unfinished) */
-    @RequestMapping(value = "/testmail", method = RequestMethod.GET)
-    public @ResponseBody NormalDto testmail(){
-        return backendService.testmail();
+    public NormalDto validate(String token) {
+        return mailService.validate(token);
     }
 }

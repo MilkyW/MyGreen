@@ -1,6 +1,6 @@
 package com.example.myGreen.entity;
 
-import com.example.myGreen.key.SensorDataKey;
+import com.example.myGreen.entity.key.SensorDataKey;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

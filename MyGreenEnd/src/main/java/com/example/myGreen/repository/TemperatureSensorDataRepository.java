@@ -1,7 +1,7 @@
 package com.example.myGreen.repository;
 
 import com.example.myGreen.entity.TemperatureSensorData;
-import com.example.myGreen.key.SensorDataKey;
+import com.example.myGreen.entity.key.SensorDataKey;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

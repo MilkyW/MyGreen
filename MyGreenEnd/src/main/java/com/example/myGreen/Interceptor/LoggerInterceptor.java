@@ -1,4 +1,4 @@
-package com.example.myGreen.Interceptor;
+package com.example.myGreen.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
