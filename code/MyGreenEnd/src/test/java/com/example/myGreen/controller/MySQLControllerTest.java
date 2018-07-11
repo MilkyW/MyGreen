@@ -2,12 +2,15 @@ package com.example.myGreen.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-
+import com.example.myGreen.Application;
+import com.example.myGreen.entity.Garden;
+import com.example.myGreen.entity.GardenController;
+import com.example.myGreen.entity.TemperatureSensor;
+import com.example.myGreen.entity.WetnessSensor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -25,12 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.example.myGreen.Application;
-import com.example.myGreen.entity.Garden;
-import com.example.myGreen.entity.GardenController;
-import com.example.myGreen.entity.TemperatureSensor;
-import com.example.myGreen.entity.WetnessSensor;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -54,7 +51,7 @@ public class MySQLControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.account").value("dennis"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("dennis"));
     }
 
     @Test
@@ -88,34 +85,17 @@ public class MySQLControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get(route + "login")
-                .param("account", "dennis").param("password", "123456")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.content().string("true"));
-
-        mvc.perform(MockMvcRequestBuilders.get(route + "login")
-                .param("account", "dennis").param("password", "12345")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.content().string("false"));
-    }
-
-    @Test
     @Transactional
     public void saveUser() throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("id", "");
-        map.put("account", "wly");
+        map.put("username", "wly");
         map.put("password", "654321");
         map.put("nickname", "dawu");
         map.put("gender", "false");
         map.put("email", "1276704961@qq.com");
         map.put("phone", "15000000000");
-        map.put("valid", "false");
+        map.put("enabled", "false");
         map.put("firstname", "lianyi");
         map.put("lastname", "wu");
 
@@ -131,13 +111,13 @@ public class MySQLControllerTest {
     public void updateUser() throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("id", "1");
-        map.put("account", "dennis");
+        map.put("username", "dennis");
         map.put("password", "asdf");
         map.put("nickname", "DENNIS");
         map.put("gender", "false");
         map.put("email", "654321@qq.com");
         map.put("phone", "15000000000");
-        map.put("valid", "true");
+        map.put("enabled", "true");
         map.put("firstname", "dongxian");
         map.put("lastname", "ye");
 
@@ -148,7 +128,7 @@ public class MySQLControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         mvc.perform(MockMvcRequestBuilders.get(route + "getUserByAccount")
-                .param("account","dennis")
+                .param("account", "dennis")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -156,15 +136,15 @@ public class MySQLControllerTest {
     }
 
     @Test
-    public void getGardenByUserId() throws Exception{
+    public void getGardenByUserId() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getGardenByUserId")
-                .param("userId","1")
+                .param("userId", "1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        ArrayList<Garden> gardenList=new ArrayList<>();
+        ArrayList<Garden> gardenList = new ArrayList<>();
         JSONArray jsonList = JSON.parseArray(result.getResponse().getContentAsString());
         for (Object jsonObject : jsonList) {
             Garden garden = JSON.parseObject(jsonObject.toString(), Garden.class);
@@ -192,7 +172,7 @@ public class MySQLControllerTest {
     }
 
     @Test
-    public void getTemperatureSensorByGardenId() throws Exception{
+    public void getTemperatureSensorByGardenId() throws Exception {
         long gardenId = 1;
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getTemperatureSensorByGardenId")
@@ -203,14 +183,14 @@ public class MySQLControllerTest {
                 .andReturn();
 
         List<TemperatureSensor> list = JSON.parseArray(result.getResponse().getContentAsString(), TemperatureSensor.class);
-        for (TemperatureSensor sensor:list) {
+        for (TemperatureSensor sensor : list) {
             Assert.assertEquals(sensor.getGardenId(), gardenId);
         }
     }
 
     @Test
     @Transactional
-    public void saveTemperatureSensor() throws Exception{
+    public void saveTemperatureSensor() throws Exception {
         TemperatureSensor sensor = new TemperatureSensor();
         sensor.setGardenId(1);
         sensor.setName("test temperature");
@@ -238,14 +218,14 @@ public class MySQLControllerTest {
                 .andReturn();
 
         List<WetnessSensor> list = JSON.parseArray(result.getResponse().getContentAsString(), WetnessSensor.class);
-        for (WetnessSensor sensor:list) {
+        for (WetnessSensor sensor : list) {
             Assert.assertEquals(sensor.getGardenId(), gardenId);
         }
     }
 
     @Test
     @Transactional
-    public void saveWetnessSensor() throws Exception{
+    public void saveWetnessSensor() throws Exception {
         WetnessSensor sensor = new WetnessSensor();
         sensor.setGardenId(1);
         sensor.setName("test wetness");
@@ -262,7 +242,7 @@ public class MySQLControllerTest {
     }
 
     @Test
-    public void getControllerByGardenId() throws Exception{
+    public void getControllerByGardenId() throws Exception {
         long gardenId = 1;
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getControllerByGardenId")
@@ -273,14 +253,14 @@ public class MySQLControllerTest {
                 .andReturn();
 
         List<GardenController> list = JSON.parseArray(result.getResponse().getContentAsString(), GardenController.class);
-        for (GardenController controller:list) {
+        for (GardenController controller : list) {
             Assert.assertEquals(controller.getGardenId(), gardenId);
         }
     }
 
     @Test
     @Transactional
-    public void updateControllerValidById() throws Exception{
+    public void updateControllerValidById() throws Exception {
         long id = 1;
 
         mvc.perform(MockMvcRequestBuilders.get(route + "updateControllerValidById")
@@ -293,7 +273,7 @@ public class MySQLControllerTest {
 
     @Test
     @Transactional
-    public void saveController() throws Exception{
+    public void saveController() throws Exception {
         GardenController controller = new GardenController();
         controller.setGardenId(1);
         controller.setName("test controller");

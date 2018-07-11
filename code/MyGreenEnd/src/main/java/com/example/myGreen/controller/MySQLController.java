@@ -54,16 +54,11 @@ public class MySQLController {
         return userService.isAccountExist(account);
     }
 
-    @RequestMapping("login")
-    @ResponseBody
-    public boolean login(String account, String password) {
-        return userService.login(account, password);
-    }
-
     @PostMapping("saveUser")
     @ResponseBody
-    public void saveUser(@RequestBody User user) {
+    public long saveUser(@RequestBody User user) {
         userService.saveUser(user);
+        return user.getId();
     }
 
     @PostMapping("updateUser")
@@ -81,8 +76,9 @@ public class MySQLController {
 
     @PostMapping("saveGarden")
     @ResponseBody
-    public void saveGarden(@RequestBody Garden garden) {
+    public long saveGarden(@RequestBody Garden garden) {
         gardenService.saveGarden(garden);
+        return garden.getId();
     }
 
     /* TemperatureSensor */

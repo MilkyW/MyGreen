@@ -16,9 +16,9 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void findByAccount() throws Exception {
-        User user = userRepository.findByAccount("dennis");
-        Assert.assertEquals("dennis", user.getAccount());
+    public void findByUsername() throws Exception {
+        User user = userRepository.findByUsername("dennis");
+        Assert.assertEquals("dennis", user.getUsername());
     }
 
     @Test
@@ -34,8 +34,8 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void findValidByAccount() throws Exception {
-        boolean valid = userRepository.findValidByAccount("dennis");
+    public void findEnabledByUsername() throws Exception {
+        boolean valid = userRepository.findEnabledByUsername("dennis");
         Assert.assertEquals(true, valid);
     }
 }

@@ -3,14 +3,13 @@ package com.example.myGreen.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "REG")
-
+@Table(name = "REGISTER")
 public class Register {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String account;
+    private String username;
     private String token;
     private long time;
 
@@ -19,15 +18,15 @@ public class Register {
     }
 
     public void setRid(long rid) {
-        this.id = rid;
+        this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUsername(String account) {
+        this.username = username;
     }
 
     public String getToken() {

@@ -5,25 +5,19 @@ import com.example.myGreen.entity.Register;
 import com.example.myGreen.entity.User;
 import com.example.myGreen.repository.RegRepository;
 import com.example.myGreen.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 @Service
 public class MailService {
 
-    private final String uri = "http://localhost:8081";
+    private final String uri = "http://localhost:8080";
 
     @Autowired
     private RegRepository regRepository;
@@ -57,17 +51,17 @@ public class MailService {
             return normalDto;
         }
 
-        User user = userRepository.findByAccount(reg.getAccount());
-        user.setValid(true);
+        User user = userRepository.findByUsername(reg.getUsername());
+        user.setEnabled(true);
 
         normalDto.setCode(0);
         normalDto.setResult("success,please close the window");
         return normalDto;
     }
 
-    public void sendValidateEmail(User user){
+    public void sendValidateEmail(User user) {
         String token = tokenManagement.getTokenOfSignUp(user);
-        System.out.println("用户注册，准备发送邮件：User:" + user.getAccount() + ", Token: " + token);
+        System.out.println("用户注册，准备发送邮件：User:" + user.getUsername() + ", Token: " + token);
         userValidate(user, token);
     }
 
@@ -89,7 +83,7 @@ public class MailService {
             helper.setText(message, true);
             mailSender.send(mailMessage);
         } catch (Exception e) {
-            System.out.println("发送邮件失败：User:" + user.getAccount() + ", Token: " + token);
+            System.out.println("发送邮件失败：User:" + user.getUsername() + ", Token: " + token);
             e.printStackTrace();
         }
         System.out.println("发送成功");

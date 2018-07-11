@@ -17,12 +17,12 @@ public class UserService {
     private MailService mailService;
 
     public User getUserByAccount(String account) {
-        return userRepository.findByAccount(account);
+        return userRepository.findByUsername(account);
     }
 
     public boolean isAccountExist(String account) {
         System.out.println(account);
-        User user = userRepository.findByAccount(account);
+        User user = userRepository.findByUsername(account);
         return user != null;
     }
 
@@ -41,7 +41,7 @@ public class UserService {
     public boolean login(String account, String password) {
         System.out.println(account);
         System.out.println(password);
-        User user = userRepository.findByAccount(account);
+        User user = userRepository.findByUsername(account);
         if (user == null) {
             System.out.println("user not found");
             return false;
@@ -58,6 +58,28 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        /* Check username, phone and email */
+        if (isAccountExist(user.getUsername())) {
+            user.setId(0);
+            return;
+        }
+        if (!user.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+            user.setId(0);
+            return;
+        }
+        if (isEmailExist(user.getEmail())) {
+            user.setId(0);
+            return;
+        }
+        if (!user.getPhone().matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))[0-9]{8}$")) {
+            user.setId(0);
+            return;
+        }
+        if (isPhoneExist(user.getPhone())) {
+            user.setId(0);
+            return;
+        }
+
         /* Encode password */
         try {
             user.setPassword(MD5.EncoderByMd5(user.getPassword()));
@@ -67,7 +89,7 @@ public class UserService {
         }
 
         /* Set unvalid */
-        user.setValid(false);
+        user.setEnabled(false);
 
         userRepository.save(user);
 
@@ -76,7 +98,7 @@ public class UserService {
     }
 
     public void updateUser(User newUser) {
-        User user = userRepository.findByAccount(newUser.getAccount());
+        User user = userRepository.findByUsername(newUser.getUsername());
         if (user == null) {
             return;
         }

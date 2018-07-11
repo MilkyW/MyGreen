@@ -14,22 +14,14 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
     private Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String sessionId = request.getRequestedSessionId();
         String uri = request.getRequestURI();
         String param = JSON.toJSONString(request.getParameterMap());
         String method = request.getMethod();
         String ip = getIPAddress(request);
 
-        BufferedReader reader;
-        reader = request.getReader();
-        StringBuffer buf = new StringBuffer();
-        String tmp;
-        while ((tmp = reader.readLine())!=null) {
-            buf.append(tmp);
-        }
-
-        logger.info("{} {} {} {} {}", ip, method, uri, param, buf.toString());
+        logger.info("{} {} {}", ip, method, uri);
 
         return true;
     }

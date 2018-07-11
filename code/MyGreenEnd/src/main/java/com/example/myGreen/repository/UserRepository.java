@@ -14,12 +14,12 @@ import javax.persistence.Table;
 @Qualifier("userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public User findByAccount(String account);
+    public User findByUsername(String username);
 
     public User findByPhone(String phone);
 
     public User findByEmail(String email);
 
-    @Query("select valid from User t where t.account=:account")
-    public boolean findValidByAccount(@Param("account") String account);
+    @Query("select enabled from User t where t.username=:username")
+    public boolean findEnabledByUsername(@Param("username") String username);
 }
