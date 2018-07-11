@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ShowMyName : MonoBehaviour {
 
     Text m_Text;
-    string name = "My name";
+    private string name = "My name";
 
 	// Use this for initialization
 	void Start () {
