@@ -114,7 +114,6 @@ public class sensor_b : MonoBehaviour {
         {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/sensor_box").SetActive(false);
-            function.Clear(sensorbox_required, warning);
         }
     }
 

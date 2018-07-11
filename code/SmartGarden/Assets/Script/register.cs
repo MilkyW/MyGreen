@@ -201,14 +201,6 @@ public class register : MonoBehaviour {
                         Debug.Log("Successfully save!");
                         GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                         GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
-                        data.m_user.setUsername(username.text);
-                        data.m_user.setNickname(nickname.text);
-                        data.m_user.setPassword(password.text);
-                        data.m_user.setFirstname(firstname.text);
-                        data.m_user.setLastname(lastname.text);
-                        data.m_user.setGender(male.isOn);
-                        data.m_user.setPhone(phone.text);
-                        data.m_user.setEmail(email.text);
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);
