@@ -132,6 +132,7 @@ public class function {
 
     public static List<controller> GetControllers(long gardenId)
     {
+        bool done = false;
         List<controller> controllers = new List<controller>();
         HTTPRequest request_getController = new HTTPRequest(new Uri(data.IP + "/getControllerByGardenId?gardenId=" + gardenId), HTTPMethods.Get, (req_controller, res_controller) => {
             Debug.Log(res_controller.DataAsText);
@@ -146,8 +147,10 @@ public class function {
                 temp.setState(true);
                 controllers.Add(temp);
             }
+            done = true;
         }).Send();
-        while (request_getController.State != HTTPRequestStates.Finished) ;
+        while (!done) { Debug.Log(done); };
+        Debug.Log(done);
         return controllers;
     }
 
