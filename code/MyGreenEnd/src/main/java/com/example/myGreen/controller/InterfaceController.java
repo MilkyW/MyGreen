@@ -15,10 +15,9 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-//@RequestMapping("/MySQL")
 @CrossOrigin
 @EnableAutoConfiguration
-public class MySQLController {
+public class InterfaceController {
 
     @Autowired
     private UserService userService;
@@ -127,6 +126,15 @@ public class MySQLController {
     }
 
     /* TemperatureSensorData */
+    /*
+     * getLatestTemperatureByGardenId
+     * return:{"id":long, "temperature":float }
+     */
+    @RequestMapping("getLatestTemperatureByGardenId")
+    @ResponseBody
+    public String getLatestTemperatureByGardenId(long gardenId) {
+        return sensorService.getLatestTemperatureByGardenId(gardenId);
+    }
 
     /* WetnessSensorData */
 }

@@ -1,4 +1,4 @@
-package com.example.myGreen.mail;
+package com.example.myGreen.service.mail;
 
 import com.example.myGreen.dto.NormalDto;
 import com.example.myGreen.entity.Register;

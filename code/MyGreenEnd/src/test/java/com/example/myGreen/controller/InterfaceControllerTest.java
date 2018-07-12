@@ -31,7 +31,7 @@ import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class MySQLControllerTest {
+public class InterfaceControllerTest {
 
     @Autowired
     private WebApplicationContext context;

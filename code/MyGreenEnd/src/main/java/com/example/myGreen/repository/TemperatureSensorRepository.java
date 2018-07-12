@@ -17,6 +17,8 @@ import java.util.List;
 @Table(name = "TEMPERATURESENSOR")
 @Qualifier("TemperatureSensorRepository")
 public interface TemperatureSensorRepository extends JpaRepository<TemperatureSensor, Long> {
+    @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
+    public List<Long> findSensorIdByGardenId(@Param("gardenId") long gardenId);
 
     public List<TemperatureSensor> findByGardenId(long gardenId);
 

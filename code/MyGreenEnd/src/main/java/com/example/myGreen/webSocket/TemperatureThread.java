@@ -14,7 +14,7 @@ public class TemperatureThread extends Thread {
     private WebSocketSession session;
     private static int gap = 3000;//ms
 
-    public TemperatureThread(long id, WebSocketSession session) {
+    TemperatureThread(long id, WebSocketSession session) {
         this.id = id;
         this.session = session;
     }

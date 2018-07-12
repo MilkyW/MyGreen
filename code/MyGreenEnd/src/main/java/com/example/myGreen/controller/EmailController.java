@@ -1,7 +1,7 @@
 package com.example.myGreen.controller;
 
 import com.example.myGreen.dto.NormalDto;
-import com.example.myGreen.mail.MailService;
+import com.example.myGreen.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
