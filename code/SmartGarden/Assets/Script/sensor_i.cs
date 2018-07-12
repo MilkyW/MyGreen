@@ -12,11 +12,13 @@ public class sensor_i : MonoBehaviour {
     public Button delete;
     public Text name_pass;
     public Button save;
+    public List<Text> pass;
 
 	// Use this for initialization
 	void Start () {
         warning.Add(name_existed);
         required.Add(sensor_name);
+        pass.Add(name_pass);
         delete.onClick.AddListener(DeleteOnClick);
         save.onClick.AddListener(SaveOnClick);
         foreach (InputField e in required)
@@ -45,7 +47,7 @@ public class sensor_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        function.Clear(required, warning);
+        function.Clear(required, warning, pass);
     }
 
     void SaveOnClick()
@@ -59,7 +61,7 @@ public class sensor_i : MonoBehaviour {
         {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/sensor_info").SetActive(false);
-            function.Clear(required, warning);
+            function.Clear(required, warning, pass);
             function.SaveSensor();
         }
     }

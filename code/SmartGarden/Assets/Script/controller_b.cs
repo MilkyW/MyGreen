@@ -22,11 +22,12 @@ public class controller_b : MonoBehaviour {
     public Text name_pass;
     public Text xy_pass;
     public m_garden selected;
+    public List<Text> pass;
 
 
     // Use this for initialization
     void Start () {
-        selected = data.m_user.getGardens()[garden.gardens.value];
+        selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
         warning.Add(name_existed);
         warning.Add(xy_existed);
         warning.Add(x_illegal);
@@ -34,8 +35,10 @@ public class controller_b : MonoBehaviour {
         required.Add(controller_name);
         required.Add(location_x);
         required.Add(location_y);
+        pass.Add(name_pass);
+        pass.Add(xy_pass);
         submit.onClick.AddListener(CreateControllerOnClick);
-        cancel.onClick.AddListener(delegate { function.Clear(required, warning); });
+        cancel.onClick.AddListener(delegate { function.Clear(required, warning, pass); });
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         location_x.onEndEdit.AddListener(delegate { XCheck(); });

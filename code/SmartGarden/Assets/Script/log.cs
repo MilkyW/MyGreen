@@ -43,7 +43,8 @@ public class log : MonoBehaviour
             function.RequiredInputOnEndEdit(e);
         if (function.InputFieldRequired(required))
         {
-            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/login?account=" + username.text + "&password=" + function.EncryptWithMD5(password.text)), HTTPMethods.Get, (req, res) => {
+            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/login?account=" + username.text + "&password=" + password.text), HTTPMethods.Post, (req, res) => {
+                Debug.Log(res.DataAsText);
                 if (res.DataAsText == "true")
                 {
                     HTTPRequest request_getUser = new HTTPRequest(new Uri(data.IP + "/getUserByAccount?account=" + username.text), HTTPMethods.Get, (req_user, res_user) =>
@@ -51,7 +52,7 @@ public class log : MonoBehaviour
                         JsonData json = JsonMapper.ToObject(res_user.DataAsText);
                         Debug.Log(res_user.DataAsText);
                         data.m_user.setId((long)json["id"]);
-                        data.m_user.setUsername((string)json["account"]);
+                        data.m_user.setUsername((string)json["username"]);
                         data.m_user.setNickname((string)json["nickname"]);
                         data.m_user.setPassword((string)json["password"]);
                         data.m_user.setFirstname((string)json["firstname"]);
@@ -59,7 +60,7 @@ public class log : MonoBehaviour
                         data.m_user.setPhone((string)json["phone"]);
                         data.m_user.setGender((bool)json["gender"]);
                         data.m_user.setEmail((string)json["email"]);
-                        if ((bool)json["valid"] == true)
+                        if ((bool)json["enabled"] == true)
                         {
                             HTTPRequest request_getGarden = new HTTPRequest(new Uri(data.IP + "/getGardenByUserId?userId=" + data.m_user.getId()), HTTPMethods.Get, (req_garden, res_garden) => {
                                 Debug.Log(res_garden.DataAsText);

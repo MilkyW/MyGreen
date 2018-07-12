@@ -21,6 +21,7 @@ public class sensor_b : MonoBehaviour {
     public Text y_illegal;
     public Text name_pass;
     public Text xy_pass;
+    public List<Text> pass;
 
 
     // Use this for initialization
@@ -32,10 +33,12 @@ public class sensor_b : MonoBehaviour {
         warning.Add(xy_existed);
         warning.Add(x_illegal);
         warning.Add(y_illegal);
+        pass.Add(name_pass);
+        pass.Add(xy_pass);
         temperature_c.onValueChanged.AddListener(delegate { TemperatureOnValueChanged(); });
         humidty_c.onValueChanged.AddListener(delegate { HumidtyOnValueChanged(); });
         sensorbox_submit.onClick.AddListener(CreateSensorOnClick);
-        sensorbox_cancel.onClick.AddListener(delegate { function.Clear(sensorbox_required, warning); });
+        sensorbox_cancel.onClick.AddListener(delegate { function.Clear(sensorbox_required, warning, pass); });
         foreach (InputField e in sensorbox_required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         sensor_name_c.onEndEdit.AddListener(delegate { NameCheck(); });

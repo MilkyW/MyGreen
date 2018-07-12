@@ -13,6 +13,7 @@ public class user {
     private bool gender;
     private string phone;
     private string email;
+    private bool enabled;
     private List<m_garden> m_Gardens;
 
     public user()

@@ -17,6 +17,7 @@ public class garden_b : MonoBehaviour {
     public InputField humidty;
     public List<InputField> required;
     public List<Text> warning;
+    public List<Text> pass;
     public Text name_pass;
     public Text name_existed;
 
@@ -28,11 +29,12 @@ public class garden_b : MonoBehaviour {
         required.Add(temperature);
         required.Add(humidty);
         warning.Add(name_existed);
+        pass.Add(name_existed);
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         garden_name.onEndEdit.AddListener(delegate { NameCheck(); });
         submit.onClick.AddListener(SubmitOnClick);
-        cancel.onClick.AddListener(delegate { function.Clear(required, warning); });
+        cancel.onClick.AddListener(delegate { function.Clear(required, warning, pass); });
 	}
 	
 	// Update is called once per frame
@@ -63,13 +65,11 @@ public class garden_b : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/garden_box").SetActive(false);
             HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/saveGarden"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)
                 {
                     case HTTPRequestStates.Finished:
-                        Debug.Log("Successfully save!");
+                        Debug.Log(res.DataAsText);
                         GameObject.Find("Canvas/cover").SetActive(false);
                         GameObject.Find("Canvas/garden_box").SetActive(false);
                         m_garden temp = new m_garden();

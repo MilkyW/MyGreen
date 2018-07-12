@@ -47,7 +47,7 @@ public class function {
         return true;
     }
 
-    public static void Clear(List<InputField> input,List<Text> warning)
+    public static void Clear(List<InputField> input,List<Text> warning,List<Text> pass)
     {
         foreach (InputField e in input)
         {
@@ -56,6 +56,10 @@ public class function {
             e.placeholder.color = Color.gray;
         }
         foreach (Text e in warning)
+        {
+            e.gameObject.SetActive(false);
+        }
+        foreach(Text e in pass)
         {
             e.gameObject.SetActive(false);
         }
@@ -82,6 +86,11 @@ public class function {
     }
 
     public static void SaveSensor()
+    {
+
+    }
+
+    public static void SaveController()
     {
 
     }
@@ -150,8 +159,7 @@ public class function {
         StringBuilder strbul = new StringBuilder(40);
         for (int i = 0; i < result.Length; i++)
         {
-            strbul.Append(result[i].ToString("x2"));//加密结果"x2"结果为32位,"x3"结果为48位,"x4"结果为64位
-
+            strbul.Append(result[i].ToString("x2"));
         }
         return strbul.ToString();
     }
