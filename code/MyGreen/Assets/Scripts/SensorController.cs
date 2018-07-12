@@ -29,6 +29,16 @@ public class SensorController : MonoBehaviour {
 		
 	}
 
+    public void destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    public long getID()
+    {
+        return id;
+    }
+
     public void setID(long i)
     {
         id = i;

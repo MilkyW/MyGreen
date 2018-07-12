@@ -7,7 +7,7 @@ public class MapBG : MonoBehaviour
     public enum SensorControllerType
     {
         Temperature,
-        Moisture,
+        Humidity,
         Irrigation
     }
 
@@ -21,6 +21,15 @@ public class MapBG : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void clearAll()
+    {
+        // 0 is the map image, sensors and controllers starts from 1
+        for (int i = 1; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
     }
 
     public void letUsDraw()
@@ -40,8 +49,8 @@ public class MapBG : MonoBehaviour
                 sensorcontrollerPreb = Resources.Load("Sensors/TemperatureSensor", typeof(GameObject));
                 break;
 
-            case SensorControllerType.Moisture:
-                sensorcontrollerPreb = Resources.Load("Sensors/MoistureSensor", typeof(GameObject));
+            case SensorControllerType.Humidity:
+                sensorcontrollerPreb = Resources.Load("Sensors/HumiditySensor", typeof(GameObject));
                 break;
 
             case SensorControllerType.Irrigation:
