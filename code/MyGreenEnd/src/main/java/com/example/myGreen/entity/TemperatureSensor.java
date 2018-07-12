@@ -15,6 +15,15 @@ public class TemperatureSensor {
     private String name;
     private boolean valid;
 
+    public TemperatureSensor() {
+
+    }
+
+    public TemperatureSensor(long id, long gardenId) {
+        this.id = id;
+        this.gardenId = gardenId;
+    }
+
     public long getId() {
         return id;
     }

@@ -28,4 +28,7 @@ public interface WetnessSensorRepository extends JpaRepository<WetnessSensor, Lo
 
     @Query("select id from WetnessSensor t where t.gardenId=:gardenId")
     public List<Long> findIdByGardenId(@Param("gardenId") long gardenId);
+
+    @Query("select id from WetnessSensor t")
+    public List<Long> findAllId();
 }

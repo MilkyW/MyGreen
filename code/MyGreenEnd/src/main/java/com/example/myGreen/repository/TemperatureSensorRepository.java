@@ -1,5 +1,6 @@
 package com.example.myGreen.repository;
 
+import com.example.myGreen.dto.SensorInfo;
 import com.example.myGreen.entity.TemperatureSensor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,4 +32,10 @@ public interface TemperatureSensorRepository extends JpaRepository<TemperatureSe
 
     @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
     public List<Long> findIdByGardenId(@Param("gardenId") long gardenId);
+
+    @Query("select id from TemperatureSensor t")
+    public List<Long> findAllId();
+
+    @Query("select new TemperatureSensor (id, gardenId) from TemperatureSensor t")
+    public List<TemperatureSensor> findSensorInfo();
 }

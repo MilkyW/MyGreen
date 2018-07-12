@@ -6,6 +6,8 @@ import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemperatureWebSocketHandler implements WebSocketHandler {
 
@@ -13,7 +15,9 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
 
     private static Logger log = LoggerFactory.getLogger(TemperatureWebSocketHandler.class);
 
-    private static final ArrayList<WebSocketSession> users = new ArrayList<WebSocketSession>();
+    private static final ArrayList<WebSocketSession> users = new ArrayList<>();
+
+    private static final Map<Long, WebSocketSession> map = new HashMap<>();
 
     private static void printInfo(String msg) {
         log.info(msg);
@@ -33,13 +37,13 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         printInfo("用户断开，在线用户:" + getOnlineCount());
     }
 
-    private void stopThread(WebSocketSession session) {
-        TemperatureThread thread = (TemperatureThread) session.getAttributes().get("thread");
-        if (thread != null) {
-            thread.interrupt();
-        }
+    public static WebSocketSession getWebSocketByGardenId(long gardenId) {
+        return map.get(gardenId);
     }
 
+    /*
+     * WebSocket
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         users.add(session);
@@ -56,10 +60,12 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
             return;
         }
 
+        /* Register */
         long id = Long.parseLong(msg);
-        TemperatureThread thread = new TemperatureThread(id, session);
-        thread.start();
-        session.getAttributes().put("thread", thread);
+        session.getAttributes().put("gardenId", id);
+        if (!map.containsKey(id)) {
+            map.put(id, session);
+        }
     }
 
     @Override
@@ -67,18 +73,16 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         if (session.isOpen()) {
             session.close();
         }
-        /* Stop thread */
-        stopThread(session);
 
+        map.remove(session.getAttributes().get("gardenId"));
         users.remove(session);
 
-        subOnlineCount();
         printInfo("handleTransportError" + exception.getMessage());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        stopThread(session);
+        map.remove(session.getAttributes().get("gardenId"));
         users.remove(session);
 
         subOnlineCount();

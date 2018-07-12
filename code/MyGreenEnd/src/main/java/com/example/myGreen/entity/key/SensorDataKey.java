@@ -14,11 +14,6 @@ public class SensorDataKey implements Serializable {
     @Column(name = "ID")
     private long id;
 
-    SensorDataKey(Timestamp time, long id) {
-        this.time = time;
-        this.id = id;
-    }
-
     public Timestamp getTime() {
         return time;
     }

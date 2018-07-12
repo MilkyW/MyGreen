@@ -47,7 +47,7 @@ public class SensorService {
         ArrayList<String> list = new ArrayList<>();
 
         List<Long> sensorIdList = tsRepo.findSensorIdByGardenId(gardenId);
-        for (long sensorId:sensorIdList) {
+        for (long sensorId : sensorIdList) {
             Float temperature = tsDataRepo.findLatestTemperatureById(sensorId);
             if (temperature == null) {
                 continue;
