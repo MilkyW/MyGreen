@@ -28,4 +28,7 @@ public interface TemperatureSensorRepository extends JpaRepository<TemperatureSe
     @Modifying
     @Query(value = "update temperatureSensor set valid = :valid where id = :id", nativeQuery = true)
     public void updateValidById(@Param("id") long id, @Param("valid") boolean valid);
+
+    @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
+    public List<Long> findIdByGardenId(@Param("gardenId") long gardenId);
 }
