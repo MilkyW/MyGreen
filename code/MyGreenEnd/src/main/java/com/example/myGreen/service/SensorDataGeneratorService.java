@@ -2,16 +2,20 @@ package com.example.myGreen.service;
 
 import com.alibaba.fastjson.JSON;
 import com.example.myGreen.dto.NormalDto;
-import com.example.myGreen.dto.SensorInfo;
 import com.example.myGreen.entity.TemperatureSensor;
 import com.example.myGreen.entity.TemperatureSensorData;
+import com.example.myGreen.entity.WetnessSensor;
 import com.example.myGreen.entity.WetnessSensorData;
 import com.example.myGreen.entity.key.SensorDataKey;
 import com.example.myGreen.repository.TemperatureSensorDataRepository;
 import com.example.myGreen.repository.TemperatureSensorRepository;
 import com.example.myGreen.repository.WetnessSensorDataRepository;
 import com.example.myGreen.repository.WetnessSensorRepository;
+import com.example.myGreen.webSocket.SingleTemperatureHandler;
 import com.example.myGreen.webSocket.TemperatureWebSocketHandler;
+import com.example.myGreen.webSocket.WetnessWebSocketHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -20,10 +24,14 @@ import org.springframework.web.socket.WebSocketSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SensorDataGeneratorService {
+
+    private static Logger log = LoggerFactory.getLogger(SensorDataGeneratorService.class);
 
     @Autowired
     private TemperatureSensorRepository temperatureSensorRepository;
@@ -41,18 +49,23 @@ public class SensorDataGeneratorService {
     public NormalDto generate() {
         NormalDto normalDto = new NormalDto();
 
+        /* Map to wrap data */
+        Map<String, String> heatmapMap= new HashMap<>();
+        Map<String, String> linechartMap= new HashMap<>();
+
         /* Get sensors' ID and gardenId */
         List<TemperatureSensor> temperatureSensorList = temperatureSensorRepository.findSensorInfo();
-        //List<Long> wetnessSensorIdList = wetnessSensorRepository.findAllId();
+        List<WetnessSensor> wetnessSensorIdList = wetnessSensorRepository.findSensorInfo();
 
         // run every 3 seconds
         final long timeInterval = 3000;//ms
         int i = 0;
         while (i < 1000) {
+            log.info("Generate round {}", i);
             // ------- code for task to run
             java.util.Random r = new java.util.Random();
 
-            for (TemperatureSensor sensor: temperatureSensorList) {
+            for (TemperatureSensor sensor : temperatureSensorList) {
                 long id = sensor.getId();
                 SensorDataKey sensorDataKey = new SensorDataKey();
                 sensorDataKey.setId(id);
@@ -69,21 +82,40 @@ public class SensorDataGeneratorService {
                 temperatureSensorData.setTemperature(22 + x * 10);
                 temperatureSensorDataRepository.save(temperatureSensorData);
 
-                /* Inform client */
+                /* Inform heat map client */
                 WebSocketSession session = TemperatureWebSocketHandler.getWebSocketByGardenId(sensor.getGardenId());
                 if (session != null) {
+                    /* Wrap data */
+                    heatmapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
+                    heatmapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+
+                    String jsonString = JSON.toJSONString(heatmapMap);
                     try {
-                        /* Turn data into json string */
+                        /* @Format: {"id":long, "temperature":float} */
+                        session.sendMessage(new TextMessage(jsonString));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                /* Inform line chart client */
+                session = SingleTemperatureHandler.getWebSocketById(sensor.getId());
+                if (session != null) {
+                    /* Wrap data */
+                    linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+                    linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
+                    try {
+                        /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" } */
                         session.sendMessage(new TextMessage(JSON.toJSONString(temperatureSensorData)));
-                    }catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
 
-//            for (long id : wetnessSensorIdList) {
+//            for (WetnessSensor sensor : wetnessSensorIdList) {
 //                SensorDataKey sensorDataKey = new SensorDataKey();
-//                sensorDataKey.setId(id);
+//                sensorDataKey.setId(sensor.getId());
 //
 //                Date date = new Date();//获得系统时间.
 //                String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
@@ -98,6 +130,15 @@ public class SensorDataGeneratorService {
 //                wetnessSensorDataRepository.save(wetnessSensorData);
 //
 //                /* Inform client */
+//                WebSocketSession session = WetnessWebSocketHandler.getWebSocketByGardenId(sensor.getGardenId());
+//                if (session != null) {
+//                    try {
+//                        /* Turn data into json string */
+//                        session.sendMessage(new TextMessage(JSON.toJSONString(wetnessSensorData)));
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 //            }
 
             i++;

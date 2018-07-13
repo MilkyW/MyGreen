@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WetnessWebSocketHandler implements WebSocketHandler {
-
+public class SingleTemperatureHandler implements WebSocketHandler {
     private static int onlineCount = 0;
 
-    private static Logger log = LoggerFactory.getLogger(WetnessWebSocketHandler.class);
+    private static Logger log = LoggerFactory.getLogger(SingleTemperatureHandler.class);
 
-    private static final ArrayList<WebSocketSession> users = new ArrayList<WebSocketSession>();
+    private static final ArrayList<WebSocketSession> users = new ArrayList<>();
 
     private static final Map<Long, WebSocketSession> map = new HashMap<>();
 
@@ -24,23 +23,26 @@ public class WetnessWebSocketHandler implements WebSocketHandler {
     }
 
     private static synchronized int getOnlineCount() {
-        return WetnessWebSocketHandler.onlineCount;
+        return SingleTemperatureHandler.onlineCount;
     }
 
     private static synchronized void addOnlineCount() {
-        WetnessWebSocketHandler.onlineCount++;
+        SingleTemperatureHandler.onlineCount++;
         printInfo("用户连接，在线用户:" + getOnlineCount());
     }
 
     private static synchronized void subOnlineCount() {
-        WetnessWebSocketHandler.onlineCount--;
+        SingleTemperatureHandler.onlineCount--;
         printInfo("用户断开，在线用户:" + getOnlineCount());
     }
 
-    public static WebSocketSession getWebSocketByGardenId(long gardenId) {
-        return map.get(gardenId);
+    public static WebSocketSession getWebSocketById(long id) {
+        return map.get(id);
     }
 
+    /*
+     * WebSocket
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         users.add(session);
@@ -59,7 +61,7 @@ public class WetnessWebSocketHandler implements WebSocketHandler {
 
         /* Register */
         long id = Long.parseLong(msg);
-        session.getAttributes().put("gardenId", id);
+        session.getAttributes().put("id", id);
         if (!map.containsKey(id)) {
             map.put(id, session);
         }

@@ -89,8 +89,9 @@ public class InterfaceController {
 
     @PostMapping("saveTemperatureSensor")
     @ResponseBody
-    public void saveTemperatureSensor(@RequestBody TemperatureSensor sensor) {
+    public long saveTemperatureSensor(@RequestBody TemperatureSensor sensor) {
         sensorService.saveTemperatureSensor(sensor);
+        return sensor.getId();
     }
 
     /* WetnessSensor */
@@ -102,8 +103,9 @@ public class InterfaceController {
 
     @PostMapping("saveWetnessSensor")
     @ResponseBody
-    public void saveWetnessSensor(@RequestBody WetnessSensor sensor) {
+    public long saveWetnessSensor(@RequestBody WetnessSensor sensor) {
         sensorService.saveWetnessSensor(sensor);
+        return sensor.getId();
     }
 
     /* Controller */
@@ -121,19 +123,29 @@ public class InterfaceController {
 
     @PostMapping("saveController")
     @ResponseBody
-    public void saveController(@RequestBody GardenController controller) {
+    public long saveController(@RequestBody GardenController controller) {
         controllerService.saveController(controller);
+        return controller.getId();
     }
 
     /* TemperatureSensorData */
-    /*
-     * getLatestTemperatureByGardenId
-     * return:{"id":long, "temperature":float }
+
+    /* @Name: getLatestTemperatureByGardenId
+     * @Return: {"id":long, "temperature":float }
      */
     @RequestMapping("getLatestTemperatureByGardenId")
     @ResponseBody
     public String getLatestTemperatureByGardenId(long gardenId) {
         return sensorService.getLatestTemperatureByGardenId(gardenId);
+    }
+
+    /* @Name: getLatestTemperatureByGardenId
+     * @Return: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
+     */
+    @RequestMapping("getRecentTemperatureDataById")
+    @ResponseBody
+    public String getRecentTemperatureDataById(long id, int num) {
+        return sensorService.getRecentTemperatureDataById(id, num);
     }
 
     /* WetnessSensorData */

@@ -1,6 +1,5 @@
 package com.example.myGreen.repository;
 
-import com.example.myGreen.dto.SensorInfo;
 import com.example.myGreen.entity.TemperatureSensor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;

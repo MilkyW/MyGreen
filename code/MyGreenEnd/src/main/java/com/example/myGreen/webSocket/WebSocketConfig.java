@@ -1,5 +1,7 @@
 package com.example.myGreen.webSocket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -15,10 +17,11 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestTemperature");
-        registry.addHandler(wetnessWebSocketHandler(), "/checkLatestWetness");
-        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestTemperature/sockjs").setAllowedOrigins("*").withSockJS();
-        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestWetness/sockjs").setAllowedOrigins("*").withSockJS();
+        registry.addHandler(temperatureWebSocketHandler(), "/getAllLatestTemperature");
+        registry.addHandler(singleTemperatureHandler(), "/getSingleLatestTemperature");
+//        registry.addHandler(wetnessWebSocketHandler(), "/checkLatestWetness");
+//        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestTemperature/sockjs").setAllowedOrigins("*").withSockJS();
+//        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestWetness/sockjs").setAllowedOrigins("*").withSockJS();
     }
 
     @Bean
@@ -29,5 +32,10 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
     @Bean
     public WebSocketHandler wetnessWebSocketHandler() {
         return new WetnessWebSocketHandler();
+    }
+
+    @Bean
+    public WebSocketHandler singleTemperatureHandler() {
+        return new SingleTemperatureHandler();
     }
 }

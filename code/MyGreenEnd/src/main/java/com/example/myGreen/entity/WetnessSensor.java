@@ -15,6 +15,14 @@ public class WetnessSensor {
     private String name;
     private boolean valid;
 
+    public WetnessSensor() {
+    }
+
+    public WetnessSensor(long id, long gardenId) {
+        this.id = id;
+        this.gardenId = gardenId;
+    }
+
     public long getId() {
         return id;
     }
