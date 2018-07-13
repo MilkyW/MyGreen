@@ -24,4 +24,4 @@ code/MyGreenEnd/target/
 /nbdist/
 /.nb-gradle/
 
-.log
+/code/MyGreenEnd/log
