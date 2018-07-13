@@ -53,7 +53,7 @@ public class controller_b : MonoBehaviour {
 
     void NameCheck()
     {
-        if (function.ControllerNameCheck(controller_name.text))
+        if (function.ControllerNameCheck(selected, controller_name.text))
         {
             name_existed.gameObject.SetActive(true);
             name_pass.gameObject.SetActive(false);
@@ -81,7 +81,7 @@ public class controller_b : MonoBehaviour {
             return;
         }
         x_illegal.gameObject.SetActive(false);
-        if (function.XyCheck(location_x.text, location_y.text))
+        if (function.XyCheck(selected, int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
             xy_existed.gameObject.SetActive(false);
@@ -103,7 +103,7 @@ public class controller_b : MonoBehaviour {
             return;
         }
         y_illegal.gameObject.SetActive(false);
-        if (function.XyCheck(location_x.text, location_y.text))
+        if (function.XyCheck(selected, int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
             xy_existed.gameObject.SetActive(false);
@@ -113,24 +113,20 @@ public class controller_b : MonoBehaviour {
     {
         foreach (InputField e in required)
             function.RequiredInputOnEndEdit(e);
+        foreach (Text e in warning)
+            if (e.IsActive())
+                return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/controller_box").SetActive(false);
             HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/saveController"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)
                 {
                     case HTTPRequestStates.Finished:
                         Debug.Log("Successfully save!");
                         GameObject.Find("Canvas/cover").SetActive(false);
-                        GameObject.Find("Canvas/garden_box").SetActive(false);
-                        controller temp = new controller();
-                        temp.setId(long.Parse(res.DataAsText));
-                        temp.setX(int.Parse(location_x.text));
-                        temp.setY(int.Parse(location_y.text));
-                        temp.setState(true);
-                        temp.setName(controller_name.text);
-                        selected.addController(temp);
+                        GameObject.Find("Canvas/controller_box").SetActive(false);
+                        function.Clear(required, warning, pass);
+                        function.FreshGarden(selected);
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);

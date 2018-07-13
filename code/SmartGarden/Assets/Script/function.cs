@@ -1,4 +1,5 @@
 ﻿using BestHTTP;
+using LitJson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -21,6 +22,7 @@ public class function {
         data.m_user.setPhone("");
         data.m_user.setEmail("");
         data.m_user.setGender(false);
+        data.m_user.getGardens().Clear();
     }
 
     public static void RequiredInputOnEndEdit(InputField input)
@@ -65,24 +67,39 @@ public class function {
         }
     }
 
-    public static bool SensorNameCheck(string name)
+    public static bool SensorNameCheck(m_garden garden, string name)
     {
-        return true;
+        foreach (sensor e in garden.getSensors())
+            if (e.getName() == name)
+                return true;
+        return false;
     }
 
-    public static bool ControllerNameCheck(string name)
+    public static bool ControllerNameCheck(m_garden garden, string name)
     {
-        return true;
+        foreach (controller e in garden.getControllers())
+            if (e.getName() == name)
+                return true;
+        return false;
     }
 
     public static bool GardenNameCheck(string name)
     {
+        foreach (m_garden e in data.m_user.getGardens())
+            if (e.getName() == name)
+                return true;
         return false;
     }
 
-    public static bool XyCheck(string x,string y)
+    public static bool XyCheck(m_garden garden, int x, int y)
     {
-        return true;
+        foreach (sensor e in garden.getSensors())
+            if (e.getX() == x && e.getY() == y)
+                return true;
+        foreach (controller e in garden.getControllers())
+            if (e.getX() == x && e.getY() == y)
+                return true;
+        return false;
     }
 
     public static void SaveSensor()
@@ -95,10 +112,20 @@ public class function {
 
     }
 
-    public static List<sensor> GetSensors(long gardenId)
+    public static void FreshGarden(m_garden garden)
+    {
+        MapBG.clearAll();
+        garden.cleanSensor();
+        garden.cleanController();
+        function.GetSensors(garden);
+        function.GetControllers(garden);
+        return;
+    }
+
+    public static void GetSensors(m_garden garden)
     {
         List<sensor> sensors = new List<sensor>();
-        HTTPRequest request_getSensor1 = new HTTPRequest(new Uri(data.IP + "/getTemperatureSensorByGardenId?gardenId=" + gardenId), HTTPMethods.Get, (req_sensor1, res_sensor1) => {
+        HTTPRequest request_getSensor1 = new HTTPRequest(new Uri(data.IP + "/getTemperatureSensorByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_sensor1, res_sensor1) => {
             Debug.Log(res_sensor1.DataAsText);
             JArray array = JArray.Parse(res_sensor1.DataAsText);
             foreach (var e in array)
@@ -110,9 +137,11 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setType(true);
                 sensors.Add(temp);
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Temperature, true);
             }
+            garden.addSensor(sensors);
         }).Send();
-        HTTPRequest request_getSensor2 = new HTTPRequest(new Uri(data.IP + "/getWetnessSensorByGardenId?gardenId=" + gardenId), HTTPMethods.Get, (req_sensor2, res_sensor2) => {
+        HTTPRequest request_getSensor2 = new HTTPRequest(new Uri(data.IP + "/getWetnessSensorByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_sensor2, res_sensor2) => {
             Debug.Log(res_sensor2.DataAsText);
             JArray array = JArray.Parse(res_sensor2.DataAsText);
             foreach (var e in array)
@@ -124,17 +153,17 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setType(false);
                 sensors.Add(temp);
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Moisture, true);
             }
+            garden.addSensor(sensors);
         }).Send();
-        while (request_getSensor1.State != HTTPRequestStates.Finished || request_getSensor2.State != HTTPRequestStates.Finished) ;
-        return sensors;
+        return;
     }
 
-    public static List<controller> GetControllers(long gardenId)
+    public static void GetControllers(m_garden garden)
     {
-        bool done = false;
         List<controller> controllers = new List<controller>();
-        HTTPRequest request_getController = new HTTPRequest(new Uri(data.IP + "/getControllerByGardenId?gardenId=" + gardenId), HTTPMethods.Get, (req_controller, res_controller) => {
+        HTTPRequest request_getController = new HTTPRequest(new Uri(data.IP + "/getControllerByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_controller, res_controller) => {
             Debug.Log(res_controller.DataAsText);
             JArray array = JArray.Parse(res_controller.DataAsText);
             foreach (var e in array)
@@ -146,12 +175,11 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setState(true);
                 controllers.Add(temp);
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, true);
             }
-            done = true;
+            garden.addController(controllers);
         }).Send();
-        while (!done) { Debug.Log(done); };
-        Debug.Log(done);
-        return controllers;
+        return;
     }
 
     public static string EncryptWithMD5(string source)

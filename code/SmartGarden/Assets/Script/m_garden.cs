@@ -42,10 +42,12 @@ public class m_garden {
         foreach (sensor e in sensors_)
             sensors.Add(e);
     }
+    public void cleanSensor() { sensors.Clear(); }
     public void addController(controller controller_) { controllers.Add(controller_); }
     public void addController(List<controller> controllers_)
     {
-        foreach (controller e in controllers)
+        foreach (controller e in controllers_)
             controllers.Add(e);
     }
+    public void cleanController() { controllers.Clear(); }
 }

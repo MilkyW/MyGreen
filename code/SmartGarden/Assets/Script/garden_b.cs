@@ -85,6 +85,7 @@ public class garden_b : MonoBehaviour {
                         List<Dropdown.OptionData> newOptions = new List<Dropdown.OptionData>();
                         newOptions.Add(newOption);
                         GameObject.Find("Canvas/garden").GetComponent<Dropdown>().AddOptions(newOptions);
+                        GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value = GameObject.Find("Canvas/garden").GetComponent<Dropdown>().options.Count - 1;
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);

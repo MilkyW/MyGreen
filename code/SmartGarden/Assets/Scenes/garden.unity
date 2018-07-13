@@ -359,14 +359,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c594af6263591f408bc86b4b79f5185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperature_c: {fileID: 493952399}
-  humidty_c: {fileID: 334426152}
-  sensor_name_c: {fileID: 509799226}
-  sensor_x_c: {fileID: 1493225859}
-  sensor_y_c: {fileID: 738501996}
-  sensorbox_required: []
-  sensorbox_submit: {fileID: 916491194}
-  sensorbox_cancel: {fileID: 561237003}
+  temperature: {fileID: 493952399}
+  humidty: {fileID: 334426152}
+  sensor_name: {fileID: 509799226}
+  location_x: {fileID: 1493225859}
+  location_y: {fileID: 738501996}
+  required: []
+  submit: {fileID: 916491194}
+  cancel: {fileID: 561237003}
   warning: []
   name_existed: {fileID: 1824757755}
   xy_existed: {fileID: 805174178}
@@ -815,6 +815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77920aa107935bf4eb647aa27dca5962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location_x: {fileID: 167012355}
+  location_y: {fileID: 753532874}
+  temperature: {fileID: 2052462450}
+  humidty: {fileID: 1762235051}
   sensor_name: {fileID: 2034909082}
   required: []
   warning: []
@@ -977,7 +981,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &154614403
 GameObject:
   m_ObjectHideFlags: 0
@@ -4092,7 +4096,7 @@ GameObject:
   - component: {fileID: 561237004}
   - component: {fileID: 561237003}
   m_Layer: 5
-  m_Name: cancel_s
+  m_Name: cancel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5037,17 +5041,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 753309190}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.002378677, w: 0.9999972}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1591678826}
   m_Father: {fileID: 558130833}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.273}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: -0.00010681152}
   m_SizeDelta: {x: 0.000030518, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &753309192
@@ -5702,29 +5706,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 830963185}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1992893732}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1990220992}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &830963185
@@ -6577,7 +6559,7 @@ GameObject:
   - component: {fileID: 916491195}
   - component: {fileID: 916491194}
   m_Layer: 5
-  m_Name: submit_s
+  m_Name: submit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7886,7 +7868,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -113.65, y: 108}
+  m_AnchoredPosition: {x: -128, y: 108}
   m_SizeDelta: {x: 98.7, y: 22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062146025
@@ -10343,12 +10325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336f9e04a41c920498e943bc18db054f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller_name: {fileID: 0}
-  location_x: {fileID: 0}
-  location_y: {fileID: 0}
+  controller_name: {fileID: 1742398161}
+  location_x: {fileID: 1394440595}
+  location_y: {fileID: 883748182}
   required: []
-  submit: {fileID: 0}
-  cancel: {fileID: 0}
+  submit: {fileID: 946131409}
+  cancel: {fileID: 1311374198}
   warning: []
   xy_existed: {fileID: 378853504}
   name_existed: {fileID: 441939142}
@@ -10550,7 +10532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -139.31, y: 118}
+  m_AnchoredPosition: {x: -140, y: 118}
   m_SizeDelta: {x: 98.7, y: 22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1383585974
@@ -12143,8 +12125,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -31.800003, y: 29.5}
-  m_SizeDelta: {x: 60.6, y: 351}
+  m_AnchoredPosition: {x: -33.1, y: 36.5}
+  m_SizeDelta: {x: 65.79999, y: 358}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1591678827
 MonoBehaviour:
@@ -12154,7 +12136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1591678825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaba0fd6921063f48a8584374dd6d07a, type: 3}
+  m_Script: {fileID: 11500000, guid: 731a9deb6e3280d46b3667ade1da288f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1593832212
@@ -12624,7 +12606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: 108}
+  m_AnchoredPosition: {x: -32, y: 108}
   m_SizeDelta: {x: 97.4, y: 22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1712615361
@@ -14240,7 +14222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.35905457, y: 0}
+  m_AnchoredPosition: {x: -0.000000059605, y: 3.5}
   m_SizeDelta: {x: 497.6, y: 351}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1915652055
@@ -14707,6 +14689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f48a37eb7d539a145a5e63919ed7499b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  location_x: {fileID: 83079041}
+  location_y: {fileID: 244435792}
   controller_name: {fileID: 1214934227}
   required: []
   warning: []
@@ -14715,6 +14699,7 @@ MonoBehaviour:
   name_pass: {fileID: 1593832214}
   save: {fileID: 830963184}
   pass: []
+  on: {fileID: 148445330}
 --- !u!1 &1992893732
 GameObject:
   m_ObjectHideFlags: 0

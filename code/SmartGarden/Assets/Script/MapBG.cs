@@ -34,23 +34,6 @@ public class MapBG : MonoBehaviour
             Destroy(GameObject.Find("Canvas/painting/Scroll View/map").transform.GetChild(i).gameObject);
     }
 
-    public static void drawGarden(m_garden garden)
-    {
-        Debug.Log(garden.getName());
-        Debug.Log(garden.getControllers().Count);
-        Debug.Log(garden.getSensors().Count);
-        foreach (controller e in garden.getControllers())
-            drawOne(e.getId(), e.getName(), e.getX(), e.getY(), SensorControllerType.Irrigation, true);
-        foreach (sensor e in garden.getSensors())
-        {
-            Debug.Log(e.getName());
-            if (e.getType())
-                drawOne(e.getId(), e.getName(), e.getX(), e.getY(), SensorControllerType.Temperature, true);
-            else
-                drawOne(e.getId(), e.getName(), e.getX(), e.getY(), SensorControllerType.Moisture, true);
-        }
-    }
-
     public static void drawOne(long id, string name, int x, int y, SensorControllerType type, bool valid)
     {
         Object sensorcontrollerPreb = null;
@@ -83,9 +66,10 @@ public class MapBG : MonoBehaviour
         sc.setID(id);
         sc.setName(name);
         sc.setValid(valid);
+        sc.setType(type);
         sc.transform.SetParent(container.transform);
         RectTransform rt = sensorcontroller.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);
-        rt.localScale = new Vector3(1, 1, 1);
+        rt.localScale = new Vector3((float)0.5, (float)0.5, 1);
     }
 }

@@ -43,7 +43,7 @@ public class log : MonoBehaviour
             function.RequiredInputOnEndEdit(e);
         if (function.InputFieldRequired(required))
         {
-            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/login?account=" + username.text + "&password=" + password.text), HTTPMethods.Post, (req, res) => {
+            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/login?account=" + username.text + "&password=" + function.EncryptWithMD5(password.text)), HTTPMethods.Post, (req, res) => {
                 Debug.Log(res.DataAsText);
                 if (res.DataAsText == "true")
                 {
