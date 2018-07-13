@@ -68,6 +68,7 @@ public class MapBG : MonoBehaviour
         sc.setID(id);
         sc.setName(name);
         sc.setValid(valid);
+        sc.setType(type);
         sc.transform.SetParent(container.transform);
         RectTransform rt = sensorcontroller.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class SensorController : MonoBehaviour {
 
     private bool showName;
+    private MapBG.SensorControllerType type;
     private long id;
     private string name;
     private bool valid;
@@ -34,11 +35,6 @@ public class SensorController : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public long getID()
-    {
-        return id;
-    }
-
     public void setID(long i)
     {
         id = i;
@@ -55,6 +51,17 @@ public class SensorController : MonoBehaviour {
     {
         valid = v;
         return;
+    }
+
+    public void setType(MapBG.SensorControllerType tp)
+    {
+        type = tp;
+        return;
+    }
+
+    public void onClick()
+    {
+
     }
 
     public void selected()
