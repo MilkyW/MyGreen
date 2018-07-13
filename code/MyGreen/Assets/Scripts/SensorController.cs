@@ -50,6 +50,15 @@ public class SensorController : MonoBehaviour {
     public void setValid(bool v)
     {
         valid = v;
+        Button but = GetComponent<Button>();
+        if (valid == true)
+        {
+            but.interactable = true;
+        }
+        else
+        {
+            but.interactable = false;
+        }
         return;
     }
 
