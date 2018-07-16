@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using BestHTTP;
+using LitJson;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class sensor_i : MonoBehaviour {
 
-    public static long id;
+    public static sensor show;
     public Text location_x;
     public Text location_y;
     public Toggle temperature;
@@ -18,11 +21,12 @@ public class sensor_i : MonoBehaviour {
     public Text name_pass;
     public Button save;
     public List<Text> pass;
-    public m_garden selected;
+    public static m_garden selected;
+    public Button information;
+    public Button chart;
 
-	// Use this for initialization
-	void Start () {
-        selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
+    // Use this for initialization
+    void Start () {
         warning.Add(name_existed);
         required.Add(sensor_name);
         pass.Add(name_pass);
@@ -31,17 +35,6 @@ public class sensor_i : MonoBehaviour {
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         sensor_name.onEndEdit.AddListener(delegate { NameCheck(); });
-        foreach (sensor e in selected.getSensors())
-            if (e.getId() == id)
-            {
-                sensor_name.text = e.getName();
-                location_x.text = "x:   " + e.getX();
-                location_y.text = "y:   " + e.getY();
-                if (e.getType())
-                    temperature.isOn = true;
-                else
-                    humidty.isOn = true;
-            }
 	}
 	
 	// Update is called once per frame
@@ -80,7 +73,41 @@ public class sensor_i : MonoBehaviour {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/sensor_info").SetActive(false);
             function.Clear(required, warning, pass);
-            function.SaveSensor();
+            function.FreshGarden(selected);
+            temperature.isOn = false;
+            humidty.isOn = false;
+            /*if (sensor_name.text != show.getName())
+            {
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateSensor"), HTTPMethods.Post, (req, res) =>
+                {
+                    switch (req.State)
+                    {
+                        case HTTPRequestStates.Finished:
+                            Debug.Log(res.DataAsText);
+                            GameObject.Find("Canvas/cover").SetActive(false);
+                            GameObject.Find("Canvas/sensor_info").SetActive(false);
+                            function.Clear(required, warning, pass);
+                            function.FreshGarden(selected);
+                            temperature.isOn = false;
+                            humidty.isOn = false;
+                            break;
+                        default:
+                            Debug.Log("Error!Status code:" + res.StatusCode);
+                            break;
+                    }
+                });
+                request.AddHeader("Content-Type", "application/json");
+
+                JsonData newSensor = new JsonData();
+                newSensor["gardenId"] = selected.getId();
+                newSensor["x"] = show.getX();
+                newSensor["y"] = show.getY();
+                newSensor["name"] = sensor_name.text;
+                newSensor["valid"] = true;
+                request.RawData = System.Text.Encoding.UTF8.GetBytes(newSensor.ToJson());
+
+                request.Send();
+            }*/
         }
     }
 }

@@ -12,12 +12,9 @@ public class garden : MonoBehaviour {
     public Text nickname;
     public Dropdown view;
     public Dropdown gardens;
-    public Button information;
-    public Button chart;
     public List<InputField> sensorinfo_required;
     public List<InputField> controllerinfo_required;
-    public Button sensor;
-    public Button controller;
+    public Button control;
 
 
     // Use this for initialization
@@ -27,8 +24,6 @@ public class garden : MonoBehaviour {
         map.onClick.AddListener(MapOnClick);
         view.onValueChanged.AddListener(delegate { ViewChange(); });
         gardens.onValueChanged.AddListener(delegate { function.FreshGarden(data.m_user.getGardens()[gardens.value]); });
-        sensor.onClick.AddListener(SensorOnClick);
-        controller.onClick.AddListener(ControllerOnClick);
         List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
         foreach (m_garden e in data.m_user.getGardens())
         {
@@ -43,39 +38,25 @@ public class garden : MonoBehaviour {
             function.GetSensors(data.m_user.getGardens()[0]);
             function.GetControllers(data.m_user.getGardens()[0]);
         }
+        control.onClick.AddListener(ControlOnClick);
+        garden_i.selected = data.m_user.getGardens()[gardens.value];
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (information.enabled)
-        {
-            information.GetComponent<Image>().color = Color.gray;
-            chart.GetComponent<Image>().color = Color.white;
-        }
-        else
-        {
-            information.GetComponent<Image>().color = Color.white;
-            chart.GetComponent<Image>().color = Color.gray;
-        }
+
     }
 
-    void SensorOnClick()
+    void ControlOnClick()
     {
-        if (gardens.options.Count == 0)
-        {
-            GameObject.Find("Canvas/sensor_box").SetActive(false);
-            GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
-        }
-    }
-
-    void ControllerOnClick()
-    {
-        if (gardens.options.Count == 0)
-        {
-            GameObject.Find("Canvas/controller_box").SetActive(false);
-            GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
-        }
+        GameObject.Find("Canvas").transform.Find("garden_info").gameObject.SetActive(true);
+        GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
+        GameObject.Find("Canvas/garden_info/input_name").GetComponent<InputField>().text = garden_i.selected.getName();
+        GameObject.Find("Canvas/garden_info/input_length").GetComponent<InputField>().text = garden_i.selected.getLength().ToString();
+        GameObject.Find("Canvas/garden_info/input_width").GetComponent<InputField>().text = garden_i.selected.getWidth().ToString();
+        GameObject.Find("Canvas/garden_info/input_temperature").GetComponent<InputField>().text = garden_i.selected.getIdealTemperature().ToString();
+        GameObject.Find("Canvas/garden_info/input_humidty").GetComponent<InputField>().text = garden_i.selected.getIdealHumidty().ToString();
     }
 
     void ViewChange()

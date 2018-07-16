@@ -117,8 +117,9 @@ public class function {
         MapBG.clearAll();
         garden.cleanSensor();
         garden.cleanController();
-        function.GetSensors(garden);
-        function.GetControllers(garden);
+        GetSensors(garden);
+        GetControllers(garden);
+        garden_i.selected = garden;
         return;
     }
 
@@ -173,9 +174,9 @@ public class function {
                 temp.setName((string)e["name"]);
                 temp.setX((int)e["x"]);
                 temp.setY((int)e["y"]);
-                temp.setState(true);
+                temp.setState((bool)e["valid"]);
                 controllers.Add(temp);
-                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, true);
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, temp.getState());
             }
             garden.addController(controllers);
         }).Send();

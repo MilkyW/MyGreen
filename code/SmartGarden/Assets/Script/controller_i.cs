@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using BestHTTP;
+using LitJson;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class controller_i : MonoBehaviour {
 
-    public static long id;
+    public static controller show;
     public Text location_x;
     public Text location_y;
     public InputField controller_name;
@@ -16,13 +19,12 @@ public class controller_i : MonoBehaviour {
     public Text name_pass;
     public Button save;
     public List<Text> pass;
-    public m_garden selected;
+    public static m_garden selected;
     public Toggle on;
 
     // Use this for initialization
     void Start()
     {
-        selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
         warning.Add(name_existed);
         required.Add(controller_name);
         pass.Add(name_pass);
@@ -32,19 +34,6 @@ public class controller_i : MonoBehaviour {
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         controller_name.onEndEdit.AddListener(delegate { NameCheck(); });
         Debug.Log(selected.getControllers().Count);
-        foreach (controller e in selected.getControllers())
-        {
-            Debug.Log(e.getId());
-            if (e.getId() == id)
-            {
-                Debug.Log(e.getName());
-                controller_name.text = e.getName();
-                location_x.text = "x:   " + e.getX();
-                location_y.text = "y:   " + e.getY();
-                on.isOn = e.getState();
-                break;
-            }
-        }
     }
 
     // Update is called once per frame
@@ -81,10 +70,57 @@ public class controller_i : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/controller_info").SetActive(false);
-            function.Clear(required, warning, pass);
-            function.SaveController();
+            /*if (show.getName() != controller_name.text)
+            {
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateController"), HTTPMethods.Post, (req, res) => {
+                    switch (req.State)
+                    {
+                        case HTTPRequestStates.Finished:
+                            Debug.Log("Successfully save!");
+                            GameObject.Find("Canvas/cover").SetActive(false);
+                            GameObject.Find("Canvas/controller_info").SetActive(false);
+                            function.Clear(required, warning, pass);
+                            function.FreshGarden(selected);
+                            on.isOn = false;
+                            break;
+                        default:
+                            Debug.Log("Error!Status code:" + res.StatusCode);
+                            break;
+                    }
+                });
+                request.AddHeader("Content-Type", "application/json");
+
+                JsonData newController = new JsonData();
+                newController["gardenId"] = selected.getId();
+                newController["x"] = show.getX();
+                newController["y"] = show.getY();
+                newController["name"] = controller_name.text;
+                newController["valid"] = show.getState();
+                request.RawData = System.Text.Encoding.UTF8.GetBytes(newController.ToJson());
+
+                request.Send();
+            }*/
+            if (show.getState() != on.isOn)
+            {
+                Debug.Log("my state:" + on.isOn);
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateControllerValidById?id=" + show.getId() + "&valid=" + on.isOn), HTTPMethods.Get, (req, res) =>
+                {
+                    switch (req.State)
+                    {
+                        case HTTPRequestStates.Finished:
+                            Debug.Log("Successfully save!");
+                            GameObject.Find("Canvas/cover").SetActive(false);
+                            GameObject.Find("Canvas/controller_info").SetActive(false);
+                            function.Clear(required, warning, pass);
+                            function.FreshGarden(selected);
+                            on.isOn = false;
+                            break;
+                        default:
+                            Debug.Log("Error!Status code:" + res.StatusCode);
+                            break;
+                    }
+                }).Send();
+            }
         }
     }
 }
