@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
-public class SensorController : MonoBehaviour {
+[RequireComponent(typeof(Text), typeof(Button), typeof(Image))]
+public class SensorController : MonoBehaviour
+{
 
     private bool showName;
     private MapBG.SensorControllerType type;
@@ -13,9 +14,12 @@ public class SensorController : MonoBehaviour {
     private bool valid;
     private GameObject textObj;
     private Text text;
+    private float current;
+    private bool normal;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         showName = false;
         if (name == null)
             name = "My Name";
@@ -23,12 +27,14 @@ public class SensorController : MonoBehaviour {
         textObj.SetActive(false);
         text = textObj.GetComponent<Text>();
         text.text = name;
+        normal = true;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void destroy()
     {
@@ -65,6 +71,79 @@ public class SensorController : MonoBehaviour {
     public void setType(MapBG.SensorControllerType tp)
     {
         type = tp;
+        return;
+    }
+
+    public void trySet()
+    {
+        setCurrent(1.0f, 2.8f, 3.4f);
+        return;
+    }
+
+    public void setCurrent(float now, float max, float min)
+    {
+        bool next;
+        current = now;
+        if (now > max || now < min)
+        {
+            next = false;
+            if (normal != next)
+            {
+                normal = next;
+                GameObject nextButObj = null;
+                Image image = GetComponentInChildren<Image>();
+                Button button = GetComponent<Button>();
+                switch (type)
+                {
+                    case MapBG.SensorControllerType.Temperature:
+                        nextButObj = GameObject.Find("Temperature-error");
+                        break;
+
+                    case MapBG.SensorControllerType.Humidity:
+                        nextButObj = GameObject.Find("Humidity-error");
+                        break;
+
+                    case MapBG.SensorControllerType.Irrigation:
+                        nextButObj = GameObject.Find("Irrigation-error");
+                        break;
+
+                    default:
+                        break;
+                }
+                image.sprite = nextButObj.GetComponent<Image>().sprite;
+                button.spriteState = nextButObj.GetComponent<Button>().spriteState;
+            }
+        }
+        else
+        {
+            next = true;
+            if (normal != next)
+            {
+                normal = next;
+                GameObject nextButObj = null;
+                Image image = GetComponentInChildren<Image>();
+                Button button = GetComponent<Button>();
+                switch (type)
+                {
+                    case MapBG.SensorControllerType.Temperature:
+                        nextButObj = GameObject.Find("Temperature-normal");
+                        break;
+
+                    case MapBG.SensorControllerType.Humidity:
+                        nextButObj = GameObject.Find("Humidity-normal");
+                        break;
+
+                    case MapBG.SensorControllerType.Irrigation:
+                        nextButObj = GameObject.Find("Irrigation-normal");
+                        break;
+
+                    default:
+                        break;
+                }
+                image.sprite = nextButObj.GetComponent<Image>().sprite;
+                button.spriteState = nextButObj.GetComponent<Button>().spriteState;
+            }
+        }
         return;
     }
 
