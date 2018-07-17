@@ -1,32 +1,33 @@
 package com.example.myGreen.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "REGISTER")
 public class Register {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String username;
     private String token;
     private long time;
 
-    public long getRid() {
+    public Register() {
+    }
+
+    public Register(long id, String token, long time) {
+        this.id = id;
+        this.token = token;
+        this.time = time;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setRid(long rid) {
+    public void setId(long rid) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String account) {
-        this.username = username;
     }
 
     public String getToken() {

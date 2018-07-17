@@ -12,7 +12,6 @@ import com.example.myGreen.repository.WetnessSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +58,7 @@ public class SensorService {
         return list.toString();
     }
 
-    public String getRecentTemperatureDataById(long id,int num) {
+    public String getRecentTemperatureDataById(long id, int num) {
         ArrayList<String> list = new ArrayList<>();
 
         List<TemperatureSensorData> dataList = tsDataRepo.findRecentDataById(id, num);
@@ -74,6 +73,11 @@ public class SensorService {
         return list.toString();
     }
 
+    public boolean deleteTemperatureSensorById(long id) {
+        tsRepo.deleteById(id);
+        return true;
+    }
+
     /* Wetness */
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
         return wsRepo.findByGardenId(gardenId);
@@ -85,5 +89,10 @@ public class SensorService {
 
     public List<WetnessSensorData> getRecentWetnessDataById(long id, int num) {
         return wsDataRepo.findRecentDataById(id, num);
+    }
+
+    public boolean deleteWetnessSensorById(long id) {
+        wsRepo.deleteById(id);
+        return true;
     }
 }

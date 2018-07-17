@@ -1,5 +1,6 @@
 package com.example.myGreen;
 
+import com.example.myGreen.tool.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

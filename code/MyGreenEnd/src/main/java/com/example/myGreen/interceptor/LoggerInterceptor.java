@@ -9,6 +9,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/* @Name: LoggerInterceptor
+ * @Desc: 拦截HTTP请求，以日志形式输出ip地址、请求方法和请求链接
+ */
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);

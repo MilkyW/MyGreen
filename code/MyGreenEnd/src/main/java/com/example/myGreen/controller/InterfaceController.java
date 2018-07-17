@@ -1,6 +1,5 @@
 package com.example.myGreen.controller;
 
-
 import com.example.myGreen.entity.*;
 import com.example.myGreen.service.ControllerService;
 import com.example.myGreen.service.GardenService;
@@ -8,12 +7,14 @@ import com.example.myGreen.service.SensorService;
 import com.example.myGreen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+/* @Name: InterfaceController
+ * @Desc: 提供接口给前端，对用户、花园、传感器和控制器进行操作
+ */
+@RestController
 @RequestMapping("/")
 @CrossOrigin
 @EnableAutoConfiguration
@@ -29,103 +30,108 @@ public class InterfaceController {
     private SensorService sensorService;
 
     /* User */
-    @RequestMapping("getUserByAccount")
-    @ResponseBody
+    @GetMapping("getUserByAccount")
     public User getUserByAccount(String account) {
         return userService.getUserByAccount(account);
     }
 
-    @RequestMapping("isPhoneExist")
-    @ResponseBody
+    @GetMapping("isPhoneExist")
     public boolean isPhoneExist(String phone) {
         return userService.isPhoneExist(phone);
     }
 
-    @RequestMapping("isEmailExist")
-    @ResponseBody
+    @GetMapping("isEmailExist")
     public boolean isEmailExist(String email) {
         return userService.isEmailExist(email);
     }
 
-    @RequestMapping("isAccountExist")
-    @ResponseBody
+    @GetMapping("isAccountExist")
     public boolean isAccountExist(String account) {
         return userService.isAccountExist(account);
     }
 
     @PostMapping("saveUser")
-    @ResponseBody
     public long saveUser(@RequestBody User user) {
         userService.saveUser(user);
         return user.getId();
     }
 
     @PostMapping("updateUser")
-    @ResponseBody
     public void updateUser(@RequestBody User user) {
         userService.updateUser(user);
     }
 
     /* Garden */
-    @RequestMapping("getGardenByUserId")
-    @ResponseBody
+    @GetMapping("getGardenByUserId")
     public List<Garden> getGardenByUserId(long userId) {
         return gardenService.getGardenByUserId(userId);
     }
 
     @PostMapping("saveGarden")
-    @ResponseBody
     public long saveGarden(@RequestBody Garden garden) {
         gardenService.saveGarden(garden);
         return garden.getId();
     }
 
+    @GetMapping("deleteGardenById")
+    public boolean deleteGardenById(long id) {
+        return gardenService.deleteGardenById(id);
+    }
+
     /* TemperatureSensor */
-    @RequestMapping("getTemperatureSensorByGardenId")
-    @ResponseBody
+    @GetMapping("getTemperatureSensorByGardenId")
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
         return sensorService.getTemperatureSensorByGardenId(gardenId);
     }
 
     @PostMapping("saveTemperatureSensor")
-    @ResponseBody
     public long saveTemperatureSensor(@RequestBody TemperatureSensor sensor) {
         sensorService.saveTemperatureSensor(sensor);
         return sensor.getId();
     }
 
+    @GetMapping("deleteTemperatureSensorById")
+    public boolean deleteTemperatureSensorById(long id) {
+        return sensorService.deleteTemperatureSensorById(id);
+    }
+
     /* WetnessSensor */
-    @RequestMapping("getWetnessSensorByGardenId")
-    @ResponseBody
+    @GetMapping("getWetnessSensorByGardenId")
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
         return sensorService.getWetnessSensorByGardenId(gardenId);
     }
 
     @PostMapping("saveWetnessSensor")
-    @ResponseBody
     public long saveWetnessSensor(@RequestBody WetnessSensor sensor) {
         sensorService.saveWetnessSensor(sensor);
         return sensor.getId();
     }
 
+    @GetMapping("deleteWetnessSensorById")
+    public boolean deleteWetnessSensorById(long id) {
+        return sensorService.deleteWetnessSensorById(id);
+    }
+
     /* Controller */
-    @RequestMapping("getControllerByGardenId")
-    @ResponseBody
+    @GetMapping("getControllerByGardenId")
     public List<GardenController> getControllerByGardenId(long gardenId) {
         return controllerService.getControllerByGardenId(gardenId);
     }
 
-    @RequestMapping("updateControllerValidById")
-    @ResponseBody
+    @GetMapping("updateControllerValidById")
     public void updateControllerValidById(long id, boolean valid) {
         controllerService.updateControllerValidById(id, valid);
     }
 
     @PostMapping("saveController")
-    @ResponseBody
     public long saveController(@RequestBody GardenController controller) {
         controllerService.saveController(controller);
         return controller.getId();
+    }
+
+    @GetMapping("deleteControllerById")
+    public boolean deleteControllerById(long id) {
+        return controllerService.deleteControllerById(id);
     }
 
     /* TemperatureSensorData */
@@ -133,8 +139,7 @@ public class InterfaceController {
     /* @Name: getLatestTemperatureByGardenId
      * @Return: {"id":long, "temperature":float }
      */
-    @RequestMapping("getLatestTemperatureByGardenId")
-    @ResponseBody
+    @GetMapping("getLatestTemperatureByGardenId")
     public String getLatestTemperatureByGardenId(long gardenId) {
         return sensorService.getLatestTemperatureByGardenId(gardenId);
     }
@@ -142,8 +147,7 @@ public class InterfaceController {
     /* @Name: getLatestTemperatureByGardenId
      * @Return: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
      */
-    @RequestMapping("getRecentTemperatureDataById")
-    @ResponseBody
+    @GetMapping("getRecentTemperatureDataById")
     public String getRecentTemperatureDataById(long id, int num) {
         return sensorService.getRecentTemperatureDataById(id, num);
     }

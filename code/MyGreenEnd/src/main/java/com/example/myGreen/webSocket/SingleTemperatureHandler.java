@@ -73,7 +73,7 @@ public class SingleTemperatureHandler implements WebSocketHandler {
             session.close();
         }
 
-        map.remove(session.getAttributes().get("gardenId"));
+        map.remove(session.getAttributes().get("id"));
         users.remove(session);
 
         printInfo("handleTransportError" + exception.getMessage());
@@ -81,7 +81,7 @@ public class SingleTemperatureHandler implements WebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        map.remove(session.getAttributes().get("gardenId"));
+        map.remove(session.getAttributes().get("id"));
         users.remove(session);
 
         subOnlineCount();

@@ -25,6 +25,6 @@ public interface TemperatureSensorDataRepository extends JpaRepository<Temperatu
     @Query(value = "select temperature from TemperatureSensorData where id=:id and time=(select max(time) from TemperatureSensorData where id=:id)", nativeQuery = true)
     public Float findLatestTemperatureById(@Param("id") long id);
 
-    @Query(value="select * from TemperatureSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
-    public List<TemperatureSensorData>  findRecentDataById(@Param("id") long id, @Param("num") int num);
+    @Query(value = "select * from TemperatureSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
+    public List<TemperatureSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
 }

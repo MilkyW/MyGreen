@@ -1,7 +1,10 @@
-package com.example.myGreen;
+package com.example.myGreen.tool;
 
 import org.springframework.context.ApplicationContext;
 
+/* @Name: SpringUtil
+ * @Desc:获取Springboot管理下Bean的工具类，无法自动注入时使用
+ */
 public class SpringUtil {
 
     private static ApplicationContext applicationContext = null;
@@ -13,22 +16,22 @@ public class SpringUtil {
 
     }
 
-    //获取applicationContext
+    /* 获取applicationContext */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
-    //通过name获取 Bean.
+    /* 通过name获取 Bean */
     public static Object getBean(String name) {
         return getApplicationContext().getBean(name);
     }
 
-    //通过class获取Bean.
+    /* 通过class获取Bean */
     public static <T> T getBean(Class<T> clazz) {
         return getApplicationContext().getBean(clazz);
     }
 
-    //通过name,以及Clazz返回指定的Bean
+    /* 通过name,以及Clazz返回指定的Bean */
     public static <T> T getBean(String name, Class<T> clazz) {
         return getApplicationContext().getBean(name, clazz);
     }

@@ -20,4 +20,9 @@ public class GardenService {
     public void saveGarden(Garden garden) {
         gardenRepository.save(garden);
     }
+
+    public boolean deleteGardenById(long id) {
+        gardenRepository.deleteById(id);
+        return true;
+    }
 }

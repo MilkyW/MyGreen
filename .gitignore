@@ -1,4 +1,5 @@
 code/MyGreenEnd/target/
+code/MyGreenEnd/log/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -23,5 +24,4 @@ code/MyGreenEnd/target/
 /dist/
 /nbdist/
 /.nb-gradle/
-
-/code/MyGreenEnd/log
+*.log

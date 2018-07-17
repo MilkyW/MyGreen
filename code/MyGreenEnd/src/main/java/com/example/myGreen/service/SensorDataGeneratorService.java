@@ -5,7 +5,6 @@ import com.example.myGreen.dto.NormalDto;
 import com.example.myGreen.entity.TemperatureSensor;
 import com.example.myGreen.entity.TemperatureSensorData;
 import com.example.myGreen.entity.WetnessSensor;
-import com.example.myGreen.entity.WetnessSensorData;
 import com.example.myGreen.entity.key.SensorDataKey;
 import com.example.myGreen.repository.TemperatureSensorDataRepository;
 import com.example.myGreen.repository.TemperatureSensorRepository;
@@ -13,7 +12,6 @@ import com.example.myGreen.repository.WetnessSensorDataRepository;
 import com.example.myGreen.repository.WetnessSensorRepository;
 import com.example.myGreen.webSocket.SingleTemperatureHandler;
 import com.example.myGreen.webSocket.TemperatureWebSocketHandler;
-import com.example.myGreen.webSocket.WetnessWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +48,8 @@ public class SensorDataGeneratorService {
         NormalDto normalDto = new NormalDto();
 
         /* Map to wrap data */
-        Map<String, String> heatmapMap= new HashMap<>();
-        Map<String, String> linechartMap= new HashMap<>();
+        Map<String, String> heatmapMap = new HashMap<>();
+        Map<String, String> linechartMap = new HashMap<>();
 
         /* Get sensors' ID and gardenId */
         List<TemperatureSensor> temperatureSensorList = temperatureSensorRepository.findSensorInfo();
@@ -105,8 +103,8 @@ public class SensorDataGeneratorService {
                     linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
                     linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
                     try {
-                        /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" } */
-                        session.sendMessage(new TextMessage(JSON.toJSONString(temperatureSensorData)));
+                        /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
+                        session.sendMessage(new TextMessage(JSON.toJSONString(linechartMap)));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -18,10 +18,16 @@ public class ControllerService {
     }
 
     public void updateControllerValidById(long id, boolean valid) {
+        System.out.println("valid:" + valid);
         controllerRepository.updateValidById(id, valid);
     }
 
     public void saveController(GardenController controller) {
         controllerRepository.save(controller);
+    }
+
+    public boolean deleteControllerById(long id) {
+        controllerRepository.deleteById(id);
+        return true;
     }
 }

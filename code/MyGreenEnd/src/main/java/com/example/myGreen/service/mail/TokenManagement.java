@@ -1,8 +1,7 @@
 package com.example.myGreen.service.mail;
 
 import com.example.myGreen.entity.Register;
-import com.example.myGreen.entity.User;
-import com.example.myGreen.repository.RegRepository;
+import com.example.myGreen.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +12,15 @@ import java.util.UUID;
 public class TokenManagement {
 
     @Autowired
-    private RegRepository regRepository;
+    private RegisterRepository registerRepository;
 
-    public String getTokenOfSignUp(User user) {
-
+    public String getTokenOfSignUp(long id) {
         String token = UUID.randomUUID().toString();
-        String value = user.getUsername();
-        Long date = new Date().getTime();
+        Long time = new Date().getTime();
 
-        Register reg = new Register();
-        reg.setUsername(value);
-        reg.setToken(token);
-        reg.setTime(date);
-        regRepository.save(reg);
+        Register reg = new Register(id, token, time);
+        registerRepository.save(reg);
 
         return token;
-
     }
-
-
 }

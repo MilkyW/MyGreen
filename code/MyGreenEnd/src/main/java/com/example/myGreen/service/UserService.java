@@ -1,10 +1,8 @@
 package com.example.myGreen.service;
 
-import com.alibaba.fastjson.JSON;
 import com.example.myGreen.entity.User;
 import com.example.myGreen.repository.UserRepository;
 import com.example.myGreen.service.mail.MailService;
-import com.example.myGreen.tool.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,31 +36,31 @@ public class UserService {
 
     public void saveUser(User user) {
         /* Check username, phone and email */
-        if (isAccountExist(user.getUsername())) {
-            user.setId(0);
-            return;
-        }
-        if (!user.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
-            user.setId(0);
-            return;
-        }
-        if (isEmailExist(user.getEmail())) {
-            user.setId(0);
-            return;
-        }
-        if (!user.getPhone().matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))[0-9]{8}$")) {
-            user.setId(0);
-            return;
-        }
-        if (isPhoneExist(user.getPhone())) {
-            user.setId(0);
-            return;
-        }
-
-        if (user.getPassword().length() != 32) {
-            user.setId(0);
-            return;
-        }
+//        if (isAccountExist(user.getUsername())) {
+//            user.setId(0);
+//            return;
+//        }
+//        if (!user.getEmail().matches("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")) {
+//            user.setId(0);
+//            return;
+//        }
+//        if (isEmailExist(user.getEmail())) {
+//            user.setId(0);
+//            return;
+//        }
+//        if (!user.getPhone().matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))[0-9]{8}$")) {
+//            user.setId(0);
+//            return;
+//        }
+//        if (isPhoneExist(user.getPhone())) {
+//            user.setId(0);
+//            return;
+//        }
+//
+//        if (user.getPassword().length() != 32) {
+//            user.setId(0);
+//            return;
+//        }
 
         /* Set unvalid */
         user.setEnabled(false);
@@ -70,7 +68,7 @@ public class UserService {
         userRepository.save(user);
 
         /* Send email */
-        mailService.sendValidateEmail(user);
+        mailService.sendValidateEmail(user.getId());
     }
 
     public void updateUser(User newUser) {

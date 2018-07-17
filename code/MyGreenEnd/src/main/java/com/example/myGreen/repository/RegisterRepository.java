@@ -10,8 +10,7 @@ import javax.persistence.Table;
 @Repository
 @Table(name = "REGISTER")
 @Qualifier("regRepository")
-public interface RegRepository extends JpaRepository<Register, Long> {
-    public Register findByUsername(String username);
+public interface RegisterRepository extends JpaRepository<Register, Long> {
 
     public Register findByToken(String token);
 }

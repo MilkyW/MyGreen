@@ -3,8 +3,10 @@ package com.example.myGreen.service.mail;
 import com.example.myGreen.dto.NormalDto;
 import com.example.myGreen.entity.Register;
 import com.example.myGreen.entity.User;
-import com.example.myGreen.repository.RegRepository;
+import com.example.myGreen.repository.RegisterRepository;
 import com.example.myGreen.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,14 +15,20 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 public class MailService {
 
     private final String uri = "http://localhost:8080";
 
+    private static Logger log = LoggerFactory.getLogger(MailService.class);
+
+    private static ExecutorService executor = Executors.newCachedThreadPool();
+
     @Autowired
-    private RegRepository regRepository;
+    private RegisterRepository registerRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -33,9 +41,12 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
+    /* @Name: validate
+     * @Desc: 通过UUID验证用户，若超时则删除记录
+     */
     public NormalDto validate(String token) {
         NormalDto normalDto = new NormalDto();
-        Register reg = regRepository.findByToken(token);
+        Register reg = registerRepository.findByToken(token);
 
         if (reg == null) {
             normalDto.setCode(1);
@@ -44,14 +55,18 @@ public class MailService {
         }
 
         /*检测是否超时（unfinished）*/
-        Long date = new Date().getTime();
-        if ((date - reg.getTime()) > 86400000) {
+        Long now = new Date().getTime();
+        if (isTimeout(now, reg.getTime(), 86400000)) {
+            /* 删除用户和token信息 */
+            registerRepository.deleteById(reg.getId());
+            userRepository.deleteById(reg.getId());
+
             normalDto.setCode(1);
             normalDto.setResult("the url has been overtime");
             return normalDto;
         }
 
-        User user = userRepository.findByUsername(reg.getUsername());
+        User user = userRepository.findById(reg.getId()).get();
         user.setEnabled(true);
 
         normalDto.setCode(0);
@@ -59,33 +74,72 @@ public class MailService {
         return normalDto;
     }
 
-    public void sendValidateEmail(User user) {
-        String token = tokenManagement.getTokenOfSignUp(user);
-        System.out.println("用户注册，准备发送邮件：User:" + user.getUsername() + ", Token: " + token);
-        userValidate(user, token);
+    public void sendValidateEmail(long id) {
+        if (!userRepository.existsById(id)) {
+            return;
+        }
+        User user = userRepository.findById(id).get();
+
+        if (!registerRepository.existsById(id)) {
+            /* 刚注册的用户，直接发送验证邮件 */
+            String token = tokenManagement.getTokenOfSignUp(user.getId());
+            log.info("用户注册，开始发送邮件 User:{} Email:{} Token:{}", user.getUsername(), user.getEmail(), token);
+            executor.execute(new EmailThread(user, token));
+        } else {
+            Register reg = registerRepository.findById(id).get();
+            /* 已注册用户，重新发送验证邮件 */
+            /* 超时检测 */
+            long now = new Date().getTime();
+            if (isTimeout(now, reg.getTime(), 86400000)) {
+                /* 删除用户和token信息 */
+                log.info("用户验证超时，已删除 User:{}", user.getUsername());
+                registerRepository.deleteById(reg.getId());
+                userRepository.deleteById(reg.getId());
+            } else {
+                executor.execute(new EmailThread(user, reg.getToken()));
+            }
+        }
     }
 
-    /* 发送邮件需要传入2个参数 user 和 token，
-     * user即为用户注册信息，token是一个随机的UUID
-     */
-    private void userValidate(User user, String token) {
-        MimeMessage mailMessage = mailSender.createMimeMessage();
-        try {
-            String title = "[验证邮件]";
-            String content = "[邮件内容]";
+    private boolean isTimeout(long now, long past, long gap) { //单位:ms
+        return (now - past) > gap;
+    }
 
-            MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true, "GBK");
-            helper.setFrom(from);
-            helper.setTo(user.getEmail());
-            helper.setSubject(title);
-            String link = uri + "/validate?token=" + token;
-            String message = content + link;
-            helper.setText(message, true);
-            mailSender.send(mailMessage);
-        } catch (Exception e) {
-            System.out.println("发送邮件失败：User:" + user.getUsername() + ", Token: " + token);
-            e.printStackTrace();
+    /* @Name: EmailThread
+     * @Param: User user, String token
+     * @Desc: 发送邮件需要传入2个参数 user 和 token，user即为用户注册信息，token是一个随机的UUID
+     */
+    private class EmailThread implements Runnable {
+
+        private User user;
+        private String token;
+
+        public EmailThread(User user, String token) {
+            this.user = user;
+            this.token = token;
         }
-        System.out.println("发送成功");
+
+        @Override
+        public void run() {
+            MimeMessage mailMessage = mailSender.createMimeMessage();
+            try {
+                String title = "[MyGreen验证邮件]";
+                String content = "[邮件内容]";
+
+                MimeMessageHelper helper = new MimeMessageHelper(mailMessage, true, "GBK");
+                helper.setFrom(from);
+                helper.setTo(user.getEmail());
+                helper.setSubject(title);
+
+                String link = uri + "/validate?token=" + token;
+                String message = content + link;
+                helper.setText(message, true);
+                mailSender.send(mailMessage);
+            } catch (Exception e) {
+                log.info("发送邮件失败：User:{} Token:{}", user.getUsername(), token);
+                e.printStackTrace();
+            }
+            log.info("发送成功");
+        }
     }
 }
