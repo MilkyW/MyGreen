@@ -7,12 +7,14 @@ namespace SpringMesh
     public class HeatMap : MonoBehaviour
     {
         private float[,] temperatures = null;
+        private float[,] points = null;
         private int horizontal = 0;
         private int vertical = 0;
         private MeshFilter meshFilter = null;
         //private Vector3 size;
         private Rect size;
         public int bottom = 0;
+        public int radius = 20;
         public int ratio = 10;
 
         private void Awake()
@@ -23,17 +25,11 @@ namespace SpringMesh
             ratio = 10;
             this.horizontal = (int)size.width / ratio;
             this.vertical = (int)size.height / ratio;
+            points = InitPoints();
+
+            //Inject();
+            test();
         }
-
-        //public int getVertical()
-        //{
-        //    return vertical;
-        //}
-
-        //public int getHorizontal()
-        //{
-        //    return horizontal;
-        //}
 
         private float[,] InitTemperatures()
         {
@@ -43,6 +39,24 @@ namespace SpringMesh
                     temperature[j, i] = bottom;
             return temperature;
         }
+
+        private float[,] InitPoints()
+        {
+            float[,] points = new float[vertical, horizontal];
+            for (int j = 0; j < vertical; j++)
+                for (int i = 0; i < horizontal; i++)
+                    points[j, i] = bottom;
+            return points;
+        }
+
+        //private float[,] InitPoints()
+        //{
+        //    float[,] points = new float[vertical / ratio + 1, horizontal / ratio + 1];
+        //    for (int j = 0; j < vertical / ratio; j++)
+        //        for (int i = 0; i < horizontal / ratio; i++)
+        //            points[j, i] = bottom;
+        //    return points;
+        //}
 
         private Mesh DrawHeatMap()
         {
@@ -179,7 +193,8 @@ namespace SpringMesh
             this.temperatures = InitTemperatures();
             //this.horizontal = temperature.GetLength(1);
             //this.vertical = temperature.GetLength(0);
-            RandomTeamperature(99, 50, 0, 20, ref this.temperatures);
+            injectOne(88, 39, 99);
+            //RandomTeamperature(99, 50, 0, 20, ref this.temperatures);
             //RandomTeamperature(89, 50, 0, 25, ref this.temperatures);
             //RandomTeamperature(79, 50, 0, 30, ref this.temperatures);
             //RandomTeamperature(69, 50, 0, 33, ref this.temperatures);
@@ -189,28 +204,66 @@ namespace SpringMesh
             AddVertexColor();
         }
 
-        private void RandomTeamperature(float from, float to, int minD, int maxD, ref float[,] temperatures)
+        public void test()
         {
-            int randomX = 886;
-            int randomY = 393;
+            updateOnePoint(886, 393, 50);
+        }
 
-            randomX = (int)randomX / ratio;
-            randomY = (int)randomY / ratio;
+        public void updateOnePoint(int x, int y, float temperature)
+        {
+            this.temperatures = InitTemperatures();
+            //injectOne(88, 39, 99);
+            editOnePoint(x, y, temperature);
+            Rerender();
+        }
+
+        public void Rerender()
+        {
+            for (int j = 0; j < (int)vertical; j++)
+            {
+                for (int i = 0; i < (int)horizontal; i++)
+                {
+                    if (points[j, i] != 0)
+                    {
+                        injectOne(i, j, points[j, i]);
+                    }
+                }
+            }
+            meshFilter.mesh = DrawHeatMap();
+            AddVertexColor();
+        }
+
+        private void editOnePoint(int x, int y, float temperature)
+        {
+            x = (int)x / ratio;
+            y = (int)y / ratio;
+            points[y, x] = temperature;
+        }
+
+        private void injectOne(int x, int y, float temperature)
+        {
+            RandomTeamperature(x, y, temperature, bottom, 0, radius, ref this.temperatures);
+        }
+
+        private void RandomTeamperature(int x, int y, float from, float to, int minD, int maxD, ref float[,] temperatures)
+        {
+            //x = (int)x / ratio;
+            //y = (int)y / ratio;
 
             //int randomX = Random.Range(3, horizontal);
             //int randomY = Random.Range(3, vertical);
 
             float maxTweenDis = maxD - minD;
             float offset = to - from;
-            for (int i = randomX - maxD; i < randomX + maxD; i++)
+            for (int i = x - maxD; i < x + maxD; i++)
             {
-                for (int j = randomY + maxD; j > randomY - maxD; j--)
+                for (int j = y + maxD; j > y - maxD; j--)
                 {
                     if (i < 0 || i >= horizontal)
                         continue;
                     if (j < 0 || j >= vertical)
                         continue;
-                    float distance = Mathf.Sqrt(Mathf.Pow(randomX - i, 2) + Mathf.Pow(randomY - j, 2));
+                    float distance = Mathf.Sqrt(Mathf.Pow(x - i, 2) + Mathf.Pow(y - j, 2));
                     if (distance <= maxD && distance >= minD)
                     {
                         float offsetDis = distance - minD;

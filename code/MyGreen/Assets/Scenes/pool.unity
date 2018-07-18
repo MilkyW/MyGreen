@@ -1155,7 +1155,6 @@ GameObject:
   - component: {fileID: 1527716356}
   - component: {fileID: 1527716355}
   - component: {fileID: 1527716354}
-  - component: {fileID: 1527716353}
   m_Layer: 0
   m_Name: HeatMap
   m_TagString: Untagged
@@ -1171,7 +1170,7 @@ RectTransform:
   m_GameObject: {fileID: 1527716351}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1457189}
   m_RootOrder: 0
@@ -1179,23 +1178,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 1160, y: 740}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1527716353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114140487634857380, guid: 911e9ec3fd113314e938928fc41d3431,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1527716351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0dbc51983f5caf44981de2af4a686e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  horizontal: 100
-  vertical: 100
-  Heatmap: {fileID: 1527716354}
 --- !u!114 &1527716354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,6 +1192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca4f83a642d0794b81f3c2e3cba3505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bottom: 0
+  radius: 20
+  ratio: 0
 --- !u!23 &1527716355
 MeshRenderer:
   m_ObjectHideFlags: 0
