@@ -16,9 +16,9 @@ public class HeatMapExample : MonoBehaviour
     private float[,] InitTemperatures()  
     {
         float[,] temperature = new float[vertical , horizontal];
-        for (int i = 0; i < vertical ; i++)
-            for ( int j = 0 ; j < horizontal ; j++ )
-                temperature[i , j] = 50;
+        for (int j = 0; j < vertical ; j++)
+            for ( int i = 0 ; i < horizontal ; i++)
+                temperature[j , i] = 50;
         return temperature;
     }
 }

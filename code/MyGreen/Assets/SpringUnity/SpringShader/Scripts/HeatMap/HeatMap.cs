@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SpringMesh
 {
-    //[ExecuteInEditMode()]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HeatMap : MonoBehaviour
     {
@@ -147,7 +146,6 @@ namespace SpringMesh
 
         public void Inject( float[,] temperature )
         {
-            this.Awake();
             this.temperature = temperature;
             this.horizontal = temperature.GetLength(1);
             this.vertical = temperature.GetLength(0);
@@ -182,8 +180,8 @@ namespace SpringMesh
                         float offsetDis = distance - minD;
                         float ratio = offsetDis / maxTweenDis;
                         float temp = from + ratio * offset;
-                        if ( temp > temperatures[i , j] )
-                            temperatures[i , j] = temp;
+                        if ( temp > temperatures[j , i] )
+                            temperatures[j , i] = temp;
                     }
                 }
             }
