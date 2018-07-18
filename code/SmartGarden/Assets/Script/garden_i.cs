@@ -31,6 +31,7 @@ public class garden_i : MonoBehaviour {
         pass.Add(name_pass);
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
+        save.onClick.AddListener(SaveOnClick);
 	}
 	
 	// Update is called once per frame
@@ -69,7 +70,7 @@ public class garden_i : MonoBehaviour {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/garden_info").SetActive(false);
             function.Clear(required, warning, pass);
-            function.FreshGarden(selected);
+            //function.FreshGarden(selected);
         }
     }
 }

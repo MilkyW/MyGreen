@@ -102,16 +102,6 @@ public class function {
         return false;
     }
 
-    public static void SaveSensor()
-    {
-
-    }
-
-    public static void SaveController()
-    {
-
-    }
-
     public static void FreshGarden(m_garden garden)
     {
         MapBG.clearAll();
@@ -138,7 +128,6 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setType(true);
                 sensors.Add(temp);
-                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Temperature, true);
             }
             garden.addSensor(sensors);
         }).Send();
@@ -154,10 +143,29 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setType(false);
                 sensors.Add(temp);
-                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Moisture, true);
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Humidity, true, 0, 0, 0);
             }
             garden.addSensor(sensors);
         }).Send();
+        HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestTemperatureByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_data1, res_data1) => {
+            Debug.Log(res_data1.DataAsText);
+            JArray array = JArray.Parse(res_data1.DataAsText);
+            foreach (var e in array)
+                foreach (sensor n in garden.getSensors())
+                    if (n.getId() == (long)e["id"] && n.getType())
+                    {
+                        n.setData((float)e["temperature"]);
+                        MapBG.drawOne(n.getId(), n.getName(), n.getX(), n.getY(), MapBG.SensorControllerType.Temperature, true, n.getData(), garden.getIdealTemperature() * (float)1.2, garden.getIdealTemperature() * (float)0.8);
+                    }
+        }).Send();
+        /*HTTPRequest request_getSensorData2 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_data2, res_data2) => {
+            Debug.Log(res_data2.DataAsText);
+            JArray array = JArray.Parse(res_data2.DataAsText);
+            foreach (var e in array)
+                foreach (sensor n in garden.getSensors())
+                    if (n.getId() == (long)e["id"])
+                        n.setData((float)e["wetness"]);
+        }).Send();*/
         return;
     }
 
@@ -176,7 +184,7 @@ public class function {
                 temp.setY((int)e["y"]);
                 temp.setState((bool)e["valid"]);
                 controllers.Add(temp);
-                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, temp.getState());
+                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, temp.getState(), 0, 0, 0);
             }
             garden.addController(controllers);
         }).Send();

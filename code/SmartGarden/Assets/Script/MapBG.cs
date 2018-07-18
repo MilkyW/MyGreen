@@ -7,7 +7,7 @@ public class MapBG : MonoBehaviour
     public enum SensorControllerType
     {
         Temperature,
-        Moisture,
+        Humidity,
         Irrigation
     }
 
@@ -23,18 +23,13 @@ public class MapBG : MonoBehaviour
 
     }
 
-    public void letUsDraw()
-    {
-        drawOne(12345, "ME", 111, 112, SensorControllerType.Temperature, true);
-    }
-
     public static void clearAll()
     {
         for (int i = 1; i < GameObject.Find("Canvas/painting/Scroll View/map").transform.childCount; i++)
             Destroy(GameObject.Find("Canvas/painting/Scroll View/map").transform.GetChild(i).gameObject);
     }
 
-    public static void drawOne(long id, string name, int x, int y, SensorControllerType type, bool valid)
+    public static void drawOne(long id, string name, int x, int y, SensorControllerType type, bool valid, float now, float max, float min)
     {
         Object sensorcontrollerPreb = null;
         Debug.Log(name);
@@ -47,8 +42,8 @@ public class MapBG : MonoBehaviour
                 sensorcontrollerPreb = Resources.Load("Sensors/TemperatureSensor", typeof(GameObject));
                 break;
 
-            case SensorControllerType.Moisture:
-                sensorcontrollerPreb = Resources.Load("Sensors/MoistureSensor", typeof(GameObject));
+            case SensorControllerType.Humidity:
+                sensorcontrollerPreb = Resources.Load("Sensors/HumiditySensor", typeof(GameObject));
                 break;
 
             case SensorControllerType.Irrigation:
@@ -67,6 +62,7 @@ public class MapBG : MonoBehaviour
         sc.setName(name);
         sc.setValid(valid);
         sc.setType(type);
+        sc.setCurrent(now, max, min);
         sc.transform.SetParent(container.transform);
         RectTransform rt = sensorcontroller.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);

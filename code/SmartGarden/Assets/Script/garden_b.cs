@@ -104,7 +104,6 @@ public class garden_b : MonoBehaviour {
             request.RawData = System.Text.Encoding.UTF8.GetBytes(newGarden.ToJson());
 
             request.Send();
-
         }
     }
 }
