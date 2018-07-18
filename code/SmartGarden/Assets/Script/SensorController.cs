@@ -182,6 +182,7 @@ public class SensorController : MonoBehaviour
                         GameObject.Find("Canvas/sensor_info/info/humidty").GetComponent<Toggle>().isOn = true;
                         GameObject.Find("Canvas/sensor_info/info/temperature").GetComponent<Toggle>().isOn = false;
                     }
+                    //GameObject.Find("Canvas/sensor_info/chart").GetComponent<CGTest>().drawLineChart();
                 }
         }
     }
