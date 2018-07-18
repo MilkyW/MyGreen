@@ -6,16 +6,42 @@ namespace SpringMesh
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HeatMap : MonoBehaviour
     {
-        private float[,] temperature = null;
+        private float[,] temperatures = null;
         private int horizontal = 0;
         private int vertical = 0;
         private MeshFilter meshFilter = null;
-        private Vector3 size;
+        //private Vector3 size;
+        private Rect size;
+        public int bottom = 0;
+        public int ratio = 10;
 
         private void Awake()
         {
             meshFilter = this.GetComponent<MeshFilter>();
-            size = this.transform.localScale;
+            size = this.GetComponent<RectTransform>().rect;
+            //size = this.transform.localScale;
+            ratio = 10;
+            this.horizontal = (int)size.width / ratio;
+            this.vertical = (int)size.height / ratio;
+        }
+
+        //public int getVertical()
+        //{
+        //    return vertical;
+        //}
+
+        //public int getHorizontal()
+        //{
+        //    return horizontal;
+        //}
+
+        private float[,] InitTemperatures()
+        {
+            float[,] temperature = new float[vertical, horizontal];
+            for (int j = 0; j < vertical; j++)
+                for (int i = 0; i < horizontal; i++)
+                    temperature[j, i] = bottom;
+            return temperature;
         }
 
         private Mesh DrawHeatMap()
@@ -26,38 +52,42 @@ namespace SpringMesh
             Vector3[] vertices = new Vector3[horizontal * vertical];
             Color[] colors = new Color[vertices.Length];
             Vector2[] uvs = new Vector2[vertices.Length];
-            int[] triangles = new int[( horizontal - 1 ) * ( vertical - 1 ) * 6];
+            int[] triangles = new int[(horizontal - 1) * (vertical - 1) * 6];
 
-            Vector3 origin = new Vector3(-size.x / 2.0f , -size.y / 2.0f , 0); 
-            float perWidth = size.x / horizontal;
-            float perHeight = size.y / vertical;
-            
+            Vector3 origin = new Vector3(-size.width / 2.0f, -size.height / 2.0f, 0);
+            float perWidth = size.width / horizontal;
+            float perHeight = size.height / vertical;
+
+            //Vector3 origin = new Vector3(-size.x / 2.0f , -size.y / 2.0f , 0); 
+            //float perWidth = size.x / horizontal;
+            //float perHeight = size.y / vertical;
+
             // vertices
             // uvs 
             // colors
-            for ( int j = 0; j < vertical; j++)
+            for (int j = 0; j < vertical; j++)
             {
                 for (int i = 0; i < horizontal; i++)
                 {
                     Vector3 vertex = origin + new Vector3(i * perWidth, j * perHeight, 0);
                     vertices[horizontal * j + i] = vertex;
-                    uvs[horizontal * j + i] = new Vector2(0 , 1) + new Vector2(1 / horizontal * i , 1 / vertical * j);
-                    //colors[horizontal * j + i] = CalcColor(this.temperature[j , i]);
+                    uvs[horizontal * j + i] = new Vector2(0, 1) + new Vector2(1 / horizontal * i, 1 / vertical * j);
+                    //colors[horizontal * j + i] = CalcColor(this.temperatures[j , i]);
                 }
             }
 
             // triangles
             int count = 0;
-            for ( int i = 0 ; i < vertical - 1; i++ )
+            for (int i = 0; i < vertical - 1; i++)
             {
-                for ( int j = 0 ; j < horizontal -1 ; j++ )
+                for (int j = 0; j < horizontal - 1; j++)
                 {
                     triangles[count] = i * horizontal + j;
-                    triangles[count + 1] = ( i + 1 ) * horizontal + j;
+                    triangles[count + 1] = (i + 1) * horizontal + j;
                     triangles[count + 2] = i * horizontal + j + 1;
                     triangles[count + 3] = i * horizontal + j + 1;
-                    triangles[count + 4] = ( i + 1 ) * horizontal + j;
-                    triangles[count + 5] = ( i + 1 ) * horizontal + j + 1;
+                    triangles[count + 4] = (i + 1) * horizontal + j;
+                    triangles[count + 5] = (i + 1) * horizontal + j + 1;
                     count += 6;
                 }
             }
@@ -70,21 +100,21 @@ namespace SpringMesh
             return mesh;
         }
 
-        private void AddVertexColor( )
+        private void AddVertexColor()
         {
             Color[] colors = new Color[meshFilter.mesh.colors.Length];
-            for ( int j = 0 ; j < vertical ; j++ )
+            for (int j = 0; j < vertical; j++)
             {
-                for ( int i = 0 ; i < horizontal ; i++ )
-                    colors[horizontal * j + i] = CalcColor(this.temperature[j , i]);
+                for (int i = 0; i < horizontal; i++)
+                    colors[horizontal * j + i] = CalcColor(this.temperatures[j, i]);
             }
             meshFilter.mesh.colors = colors;
         }
 
-        private Color CalcColor( float temperature )  
+        private Color CalcColor(float temperature)
         {
             int count = (int)temperature / 10;
-            float temp = ( temperature % 10 ) / 10;
+            float temp = (temperature % 10) / 10;
             Color[] colors = GetColors(count);
             Color from = colors[0];
             Color to = colors[1];
@@ -93,10 +123,10 @@ namespace SpringMesh
         }
 
         // set color by your need
-        private Color[] GetColors( int index )
+        private Color[] GetColors(int index)
         {
             Color startColor = Color.blue, endColor = Color.blue;
-            switch ( index )
+            switch (index)
             {
                 // 10~20 color
                 case 1:
@@ -141,60 +171,66 @@ namespace SpringMesh
                     endColor = Color.magenta;
                     break;
             }
-            return new Color[] { startColor , endColor };
+            return new Color[] { startColor, endColor };
         }
 
-        public void Inject( float[,] temperature )
+        public void Inject()
         {
-            this.temperature = temperature;
-            this.horizontal = temperature.GetLength(1);
-            this.vertical = temperature.GetLength(0);
-            RandomTeamperature(99 , 50 , 0 , 45 , ref this.temperature);
-            RandomTeamperature(89 , 50 , 0 , 25 , ref this.temperature);
-            RandomTeamperature(79 , 50 , 0 , 30 , ref this.temperature);
-            RandomTeamperature(69 , 50 , 0 , 33 , ref this.temperature);
-            RandomTeamperature(89 , 50 , 0 , 50 , ref this.temperature);
-            RandomTeamperature(79 , 50 , 0 , 22 , ref this.temperature);
+            this.temperatures = InitTemperatures();
+            //this.horizontal = temperature.GetLength(1);
+            //this.vertical = temperature.GetLength(0);
+            RandomTeamperature(99, 50, 0, 20, ref this.temperatures);
+            //RandomTeamperature(89, 50, 0, 25, ref this.temperatures);
+            //RandomTeamperature(79, 50, 0, 30, ref this.temperatures);
+            //RandomTeamperature(69, 50, 0, 33, ref this.temperatures);
+            //RandomTeamperature(89, 50, 0, 50, ref this.temperatures);
+            //RandomTeamperature(79, 50, 0, 22, ref this.temperatures);
             meshFilter.mesh = DrawHeatMap();
             AddVertexColor();
         }
 
-        private void RandomTeamperature( float from , float to, int minD , int maxD , ref float[,] temperatures ) 
+        private void RandomTeamperature(float from, float to, int minD, int maxD, ref float[,] temperatures)
         {
-            int randomX = Random.Range(3 , horizontal);
-            int randomY = Random.Range(3 , vertical);
+            int randomX = 886;
+            int randomY = 393;
+
+            randomX = (int)randomX / ratio;
+            randomY = (int)randomY / ratio;
+
+            //int randomX = Random.Range(3, horizontal);
+            //int randomY = Random.Range(3, vertical);
 
             float maxTweenDis = maxD - minD;
             float offset = to - from;
-            for ( int i = randomX - maxD ; i < randomX + maxD ; i++ )
+            for (int i = randomX - maxD; i < randomX + maxD; i++)
             {
-                for ( int j = randomY + maxD ; j > randomY - maxD ; j-- )
+                for (int j = randomY + maxD; j > randomY - maxD; j--)
                 {
-                    if ( i < 0 || i >= horizontal )
+                    if (i < 0 || i >= horizontal)
                         continue;
-                    if ( j < 0 || j >= vertical )
-                        continue;  
-                    float distance = Mathf.Sqrt(Mathf.Pow(randomX - i , 2) + Mathf.Pow(randomY - j , 2));
-                    if ( distance <= maxD && distance >= minD )
+                    if (j < 0 || j >= vertical)
+                        continue;
+                    float distance = Mathf.Sqrt(Mathf.Pow(randomX - i, 2) + Mathf.Pow(randomY - j, 2));
+                    if (distance <= maxD && distance >= minD)
                     {
                         float offsetDis = distance - minD;
                         float ratio = offsetDis / maxTweenDis;
                         float temp = from + ratio * offset;
-                        if ( temp > temperatures[j , i] )
-                            temperatures[j , i] = temp;
+                        if (temp > temperatures[j, i])
+                            temperatures[j, i] = temp;
                     }
                 }
             }
         }
 
-        private void TemperatureToString( )
+        private void TemperatureToString()
         {
-            for ( int y = 0 ; y < vertical ; y++ )
+            for (int y = 0; y < vertical; y++)
             {
                 string input = "";
-                for ( int x = 0 ; x < horizontal ; x++ )
+                for (int x = 0; x < horizontal; x++)
                 {
-                    input += this.temperature[y , x].ToString("F2") + ",";
+                    input += this.temperatures[y, x].ToString("F2") + ",";
                 }
                 Debug.Log(input);
             }
