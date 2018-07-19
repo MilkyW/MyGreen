@@ -29,6 +29,11 @@ namespace SpringMesh
             test();
         }
 
+        public void sswitch()
+        {
+            this.points = InitPoints();
+        }
+
         private float[,] InitTemperatures()
         {
             float[,] temperature = new float[vertical, horizontal];
@@ -235,6 +240,10 @@ namespace SpringMesh
         {
             x = (int)x / positionFX;
             y = (int)y / positionFX;
+            if (x >= horizontal || x < 0 || y >= vertical || y < 0)
+            {
+                return;
+            }
             points[y, x] = temperature;
         }
 

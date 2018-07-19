@@ -5,11 +5,33 @@ Shader "HeatMap/HeatMap Transparent"
     Properties
     {
         _Alpha("Alpha",Range(0,1)) = 0.8
+
+		//MASK SUPPORT ADD
+		_StencilComp("Stencil Comparison", Float) = 8
+		_Stencil("Stencil ID", Float) = 0
+		_StencilOp("Stencil Operation", Float) = 0
+		_StencilWriteMask("Stencil Write Mask", Float) = 255
+		_StencilReadMask("Stencil Read Mask", Float) = 255
+		_ColorMask("Color Mask", Float) = 15
+		//MASK SUPPORT END
     }
 
 	SubShader 
     {
 		Tags { "RenderType"="Transparent" "Opaque"="Transparent" "Queue"="Overlay"}
+
+		//MASK SUPPORT ADD
+		Stencil
+	{
+		Ref[_Stencil]
+		Comp[_StencilComp]
+		Pass[_StencilOp]
+		ReadMask[_StencilReadMask]
+		WriteMask[_StencilWriteMask]
+	}
+		ColorMask[_ColorMask]
+		//MASK SUPPORT END
+
 		LOD 200
 		
         Pass

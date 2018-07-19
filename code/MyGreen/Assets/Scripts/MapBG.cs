@@ -30,6 +30,8 @@ public class MapBG : MonoBehaviour
         {
             Destroy(transform.GetChild(i).gameObject);
         }
+        GameObject containerT = GameObject.Find("HeatMap");
+        GameObject containerH = GameObject.Find("HeatMap");
     }
 
     public void letUsDraw()
