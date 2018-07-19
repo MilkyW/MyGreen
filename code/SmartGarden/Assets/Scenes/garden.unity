@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   temperature: {fileID: 493952399}
-  humidty: {fileID: 334426152}
+  humidity: {fileID: 334426152}
   sensor_name: {fileID: 509799226}
   location_x: {fileID: 1493225859}
   location_y: {fileID: 738501996}
@@ -2459,7 +2459,7 @@ MonoBehaviour:
   location_x: {fileID: 167012355}
   location_y: {fileID: 753532874}
   temperature: {fileID: 2052462450}
-  humidty: {fileID: 1762235051}
+  humidity: {fileID: 1762235051}
   sensor_name: {fileID: 2034909082}
   required: []
   warning: []
@@ -4345,7 +4345,7 @@ GameObject:
   - component: {fileID: 248761418}
   - component: {fileID: 248761417}
   m_Layer: 5
-  m_Name: garden
+  m_Name: gardens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5927,7 +5927,7 @@ GameObject:
   - component: {fileID: 334426151}
   - component: {fileID: 334426152}
   m_Layer: 5
-  m_Name: Humidty
+  m_Name: humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7183,7 +7183,7 @@ GameObject:
   - component: {fileID: 414802172}
   - component: {fileID: 414802171}
   m_Layer: 5
-  m_Name: input_humidty
+  m_Name: input_humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9305,7 +9305,7 @@ GameObject:
   - component: {fileID: 493952398}
   - component: {fileID: 493952399}
   m_Layer: 5
-  m_Name: Temperature
+  m_Name: temperature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21834,7 +21834,7 @@ MonoBehaviour:
   length: {fileID: 1696894950}
   width: {fileID: 406281965}
   temperature: {fileID: 464752159}
-  humidty: {fileID: 414802171}
+  humidity: {fileID: 414802171}
   save: {fileID: 1402589915}
   delete: {fileID: 1460260889}
   name_existed: {fileID: 1377965869}
@@ -23097,7 +23097,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1591678826}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
@@ -23112,7 +23112,7 @@ Prefab:
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3744.0002
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
@@ -23127,7 +23127,7 @@ Prefab:
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.00009821518
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
@@ -23137,17 +23137,17 @@ Prefab:
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -0.018249512
+      value: 0.0003033848
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 79.24811
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
@@ -23246,26 +23246,21 @@ Prefab:
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_LocalScale.x
-      value: 41.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_LocalScale.y
-      value: 41.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
         type: 2}
       propertyPath: m_LocalScale.z
-      value: 41.600002
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 61a74104c89af4241a7d6a73407a569c, type: 2}
   m_IsPrefabParent: 0
---- !u!224 &1184950846 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224099814024781426, guid: 61a74104c89af4241a7d6a73407a569c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1184950845}
 --- !u!1 &1187446939
 GameObject:
   m_ObjectHideFlags: 27
@@ -31689,13 +31684,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1915652054}
-  - {fileID: 1184950846}
   m_Father: {fileID: 753309191}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -33.09999, y: 36.5}
+  m_AnchoredPosition: {x: -33.100006, y: 36.5}
   m_SizeDelta: {x: 65.79999, y: 358}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1591678827
@@ -32235,7 +32229,7 @@ GameObject:
   - component: {fileID: 1618859495}
   - component: {fileID: 1618859494}
   m_Layer: 5
-  m_Name: label_humidty
+  m_Name: label_humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34603,7 +34597,7 @@ GameObject:
   - component: {fileID: 1762235050}
   - component: {fileID: 1762235051}
   m_Layer: 5
-  m_Name: humidty
+  m_Name: humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34771,7 +34765,7 @@ MonoBehaviour:
   length: {fileID: 94791131}
   width: {fileID: 1327416900}
   temperature: {fileID: 1544868413}
-  humidty: {fileID: 1874461902}
+  humidity: {fileID: 1874461902}
   required: []
   warning: []
   pass: []
@@ -36193,7 +36187,7 @@ GameObject:
   - component: {fileID: 1874461903}
   - component: {fileID: 1874461902}
   m_Layer: 5
-  m_Name: input_humidty
+  m_Name: input_humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39325,7 +39319,7 @@ GameObject:
   - component: {fileID: 2082398473}
   - component: {fileID: 2082398472}
   m_Layer: 5
-  m_Name: label_humidty
+  m_Name: label_humidity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

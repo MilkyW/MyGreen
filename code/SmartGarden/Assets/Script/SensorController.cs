@@ -150,39 +150,30 @@ public class SensorController : MonoBehaviour
             foreach (controller e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getControllers())
                 if (e.getId() == id)
                 {
-                    controller_i.selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
+                    //controller_i.selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
                     controller_i.show = e;
                     GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                     GameObject.Find("Canvas").transform.Find("controller_info").gameObject.SetActive(true);
-                    GameObject.Find("Canvas/controller_info/info/input_name").GetComponent<InputField>().text = e.getName();
-                    GameObject.Find("Canvas/controller_info/info/label_x").GetComponent<Text>().text = "x:   " + e.getX();
-                    GameObject.Find("Canvas/controller_info/info/label_y").GetComponent<Text>().text = "y:   " + e.getY();
-                    GameObject.Find("Canvas/controller_info/info/switch").GetComponent<Toggle>().isOn = e.getState();
                 }
         }
-        else if (type == MapBG.SensorControllerType.Humidity || type == MapBG.SensorControllerType.Temperature)
+        else if (type == MapBG.SensorControllerType.Temperature)
         {
             foreach (sensor e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getSensors())
-                if (e.getId() == id)
+                if (e.getId() == id && e.getType())
                 {
-                    sensor_i.selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
                     sensor_i.show = e;
                     GameObject.Find("Canvas").transform.Find("sensor_info").gameObject.SetActive(true);
                     GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
-                    GameObject.Find("Canvas/sensor_info/info/input_name").GetComponent<InputField>().text = e.getName();
-                    GameObject.Find("Canvas/sensor_info/info/label_x").GetComponent<Text>().text = "x:   " + e.getX();
-                    GameObject.Find("Canvas/sensor_info/info/label_y").GetComponent<Text>().text = "y:   " + e.getY();
-                    if (type == MapBG.SensorControllerType.Temperature)
-                    {
-                        GameObject.Find("Canvas/sensor_info/info/temperature").GetComponent<Toggle>().isOn = true;
-                        GameObject.Find("Canvas/sensor_info/info/humidty").GetComponent<Toggle>().isOn = false;
-                    }
-                    else
-                    {
-                        GameObject.Find("Canvas/sensor_info/info/humidty").GetComponent<Toggle>().isOn = true;
-                        GameObject.Find("Canvas/sensor_info/info/temperature").GetComponent<Toggle>().isOn = false;
-                    }
-                    //GameObject.Find("Canvas/sensor_info/chart").GetComponent<CGTest>().drawLineChart();
+                }
+        }
+        else
+        {
+            foreach (sensor e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getSensors())
+                if (e.getId() == id && !e.getType())
+                {
+                    sensor_i.show = e;
+                    GameObject.Find("Canvas").transform.Find("sensor_info").gameObject.SetActive(true);
+                    GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                 }
         }
     }

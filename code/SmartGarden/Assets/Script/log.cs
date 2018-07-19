@@ -73,7 +73,7 @@ public class log : MonoBehaviour
                                     newGarden.setLength((int)e["length"]);
                                     newGarden.setWidth((int)e["width"]);
                                     newGarden.setIdealTemperature((float)e["idealTemperature"]);
-                                    newGarden.setIdealHumidty((float)e["idealWetness"]);
+                                    newGarden.setIdealHumidity((float)e["idealWetness"]);
                                     Debug.Log(newGarden.getName());
                                     data.m_user.addGardens(newGarden);
                                 }

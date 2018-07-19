@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class sensor_b : MonoBehaviour {
 
     public Toggle temperature;
-    public Toggle humidty;
+    public Toggle humidity;
     public InputField sensor_name;
     public InputField location_x;
     public InputField location_y;
@@ -29,8 +29,7 @@ public class sensor_b : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
-        selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
+    void Start () {    
         required.Add(sensor_name);
         required.Add(location_x);
         required.Add(location_y);
@@ -41,7 +40,7 @@ public class sensor_b : MonoBehaviour {
         pass.Add(name_pass);
         pass.Add(xy_pass);
         temperature.onValueChanged.AddListener(delegate { TemperatureOnValueChanged(); });
-        humidty.onValueChanged.AddListener(delegate { HumidtyOnValueChanged(); });
+        humidity.onValueChanged.AddListener(delegate { HumidityOnValueChanged(); });
         submit.onClick.AddListener(CreateSensorOnClick);
         cancel.onClick.AddListener(delegate { function.Clear(required, warning, pass); });
         foreach (InputField e in required)
@@ -49,6 +48,11 @@ public class sensor_b : MonoBehaviour {
         sensor_name.onEndEdit.AddListener(delegate { NameCheck(); });
         location_x.onEndEdit.AddListener(delegate { XCheck(); });
         location_y.onEndEdit.AddListener(delegate { YCheck(); });
+    }
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
     }
 
     // Update is called once per frame
@@ -159,23 +163,23 @@ public class sensor_b : MonoBehaviour {
 
     void TemperatureOnValueChanged()
     {
-        if (!temperature.isOn && !humidty.isOn)
+        if (!temperature.isOn && !humidity.isOn)
         {
             temperature.isOn = !temperature.isOn;
         }
-        if (temperature.isOn && humidty.isOn)
+        if (temperature.isOn && humidity.isOn)
         {
-            humidty.isOn = false;
+            humidity.isOn = false;
         }
     }
 
-    void HumidtyOnValueChanged()
+    void HumidityOnValueChanged()
     {
-        if (!temperature.isOn && !humidty.isOn)
+        if (!temperature.isOn && !humidity.isOn)
         {
-            humidty.isOn = !humidty.isOn;
+            humidity.isOn = !humidity.isOn;
         }
-        if (temperature.isOn && humidty.isOn)
+        if (temperature.isOn && humidity.isOn)
         {
             temperature.isOn = false;
         }

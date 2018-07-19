@@ -27,7 +27,6 @@ public class controller_b : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
         warning.Add(name_existed);
         warning.Add(xy_existed);
         warning.Add(x_illegal);
@@ -44,6 +43,11 @@ public class controller_b : MonoBehaviour {
         location_x.onEndEdit.AddListener(delegate { XCheck(); });
         location_y.onEndEdit.AddListener(delegate { YCheck(); });
         controller_name.onEndEdit.AddListener(delegate { NameCheck(); });
+    }
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
     }
 
     // Update is called once per frame

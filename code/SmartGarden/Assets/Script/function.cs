@@ -104,12 +104,12 @@ public class function {
 
     public static void FreshGarden(m_garden garden)
     {
+        Debug.Log(garden.getName());
         MapBG.clearAll();
         garden.cleanSensor();
         garden.cleanController();
         GetSensors(garden);
         GetControllers(garden);
-        garden_i.selected = garden;
         return;
     }
 
@@ -202,5 +202,10 @@ public class function {
             strbul.Append(result[i].ToString("x2"));
         }
         return strbul.ToString();
+    }
+
+    public static m_garden FindSelected()
+    {
+        return data.m_user.getGardens()[GameObject.Find("Canvas/gardens").GetComponent<Dropdown>().value];
     }
 }

@@ -12,7 +12,7 @@ public class sensor_i : MonoBehaviour {
     public Text location_x;
     public Text location_y;
     public Toggle temperature;
-    public Toggle humidty;
+    public Toggle humidity;
     public InputField sensor_name;
     public List<InputField> required;
     public List<Text> warning;
@@ -21,7 +21,7 @@ public class sensor_i : MonoBehaviour {
     public Text name_pass;
     public Button save;
     public List<Text> pass;
-    public static m_garden selected;
+    public m_garden selected;
     public Button information;
     public Button chart;
 
@@ -36,9 +36,29 @@ public class sensor_i : MonoBehaviour {
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         sensor_name.onEndEdit.AddListener(delegate { NameCheck(); });
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
+        sensor_name.text = show.getName();
+        location_x.text = "x:   " + show.getX();
+        location_y.text = "y:   " + show.getY();
+        if (show.getType())
+            temperature.isOn = true;
+        else
+            humidity.isOn = false;
+    }
+
+    void OnDisable()
+    {
+        function.Clear(required, warning, pass);
+        function.FreshGarden(selected);
+        temperature.isOn = false;
+        humidity.isOn = false;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -58,7 +78,7 @@ public class sensor_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        function.Clear(required, warning, pass);
+
     }
 
     void SaveOnClick()
@@ -72,10 +92,6 @@ public class sensor_i : MonoBehaviour {
         {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/sensor_info").SetActive(false);
-            function.Clear(required, warning, pass);
-            function.FreshGarden(selected);
-            temperature.isOn = false;
-            humidty.isOn = false;
             /*if (sensor_name.text != show.getName())
             {
                 HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateSensor"), HTTPMethods.Post, (req, res) =>

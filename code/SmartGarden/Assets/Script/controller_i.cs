@@ -19,7 +19,7 @@ public class controller_i : MonoBehaviour {
     public Text name_pass;
     public Button save;
     public List<Text> pass;
-    public static m_garden selected;
+    public m_garden selected;
     public Toggle on;
 
     // Use this for initialization
@@ -33,7 +33,22 @@ public class controller_i : MonoBehaviour {
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         controller_name.onEndEdit.AddListener(delegate { NameCheck(); });
-        Debug.Log(selected.getControllers().Count);
+    }
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
+        controller_name.text = show.getName();
+        location_x.text = "x:   " + show.getX();
+        location_y.text = "y:   " + show.getY();
+        on.isOn = show.getState();
+    }
+
+    void OnDisable()
+    {
+        function.Clear(required, warning, pass);
+        function.FreshGarden(selected);
+        on.isOn = false;
     }
 
     // Update is called once per frame
@@ -58,7 +73,7 @@ public class controller_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        function.Clear(required, warning, pass);
+        
     }
 
     void SaveOnClick()
@@ -70,6 +85,8 @@ public class controller_i : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
+            GameObject.Find("Canvas/cover").SetActive(false);
+            GameObject.Find("Canvas/controller_info").SetActive(false);
             /*if (show.getName() != controller_name.text)
             {
                 HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateController"), HTTPMethods.Post, (req, res) => {
@@ -79,9 +96,6 @@ public class controller_i : MonoBehaviour {
                             Debug.Log("Successfully save!");
                             GameObject.Find("Canvas/cover").SetActive(false);
                             GameObject.Find("Canvas/controller_info").SetActive(false);
-                            function.Clear(required, warning, pass);
-                            function.FreshGarden(selected);
-                            on.isOn = false;
                             break;
                         default:
                             Debug.Log("Error!Status code:" + res.StatusCode);

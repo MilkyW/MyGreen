@@ -39,7 +39,6 @@ public class garden : MonoBehaviour {
             function.GetControllers(data.m_user.getGardens()[0]);
         }
         control.onClick.AddListener(ControlOnClick);
-        garden_i.selected = data.m_user.getGardens()[gardens.value];
     }
 
     // Update is called once per frame
@@ -52,11 +51,6 @@ public class garden : MonoBehaviour {
     {
         GameObject.Find("Canvas").transform.Find("garden_info").gameObject.SetActive(true);
         GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
-        GameObject.Find("Canvas/garden_info/input_name").GetComponent<InputField>().text = garden_i.selected.getName();
-        GameObject.Find("Canvas/garden_info/input_length").GetComponent<InputField>().text = garden_i.selected.getLength().ToString();
-        GameObject.Find("Canvas/garden_info/input_width").GetComponent<InputField>().text = garden_i.selected.getWidth().ToString();
-        GameObject.Find("Canvas/garden_info/input_temperature").GetComponent<InputField>().text = garden_i.selected.getIdealTemperature().ToString();
-        GameObject.Find("Canvas/garden_info/input_humidty").GetComponent<InputField>().text = garden_i.selected.getIdealHumidty().ToString();
     }
 
     void ViewChange()

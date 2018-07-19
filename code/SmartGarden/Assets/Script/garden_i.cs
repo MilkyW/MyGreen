@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class garden_i : MonoBehaviour {
 
-    public static m_garden selected;
+    public m_garden selected;
     public InputField garden_name;
     public InputField length;
     public InputField width;
     public InputField temperature;
-    public InputField humidty;
+    public InputField humidity;
     public Button save;
     public Button delete;
     public Text name_existed;
@@ -26,16 +26,32 @@ public class garden_i : MonoBehaviour {
         required.Add(length);
         required.Add(width);
         required.Add(temperature);
-        required.Add(humidty);
+        required.Add(humidity);
         warning.Add(name_existed);
         pass.Add(name_pass);
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         save.onClick.AddListener(SaveOnClick);
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
+        garden_name.text = selected.getName();
+        length.text = selected.getLength().ToString();
+        width.text = selected.getWidth().ToString();
+        temperature.text = selected.getIdealTemperature().ToString();
+        humidity.text = selected.getIdealHumidity().ToString();
+    }
+
+    void OnDisable()
+    {
+        function.Clear(required, warning, pass);
+        function.FreshGarden(selected);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -55,7 +71,7 @@ public class garden_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        function.Clear(required, warning, pass);
+        
     }
 
     void SaveOnClick()
@@ -69,8 +85,6 @@ public class garden_i : MonoBehaviour {
         {
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/garden_info").SetActive(false);
-            function.Clear(required, warning, pass);
-            //function.FreshGarden(selected);
         }
     }
 }
