@@ -11,20 +11,18 @@ namespace SpringMesh
         private int horizontal = 0;
         private int vertical = 0;
         private MeshFilter meshFilter = null;
-        //private Vector3 size;
         private Rect size;
-        public int bottom = 0;
-        public int radius = 20;
-        public int ratio = 10;
+        public int bottom = 99;
+        public float radius = 0.8f;
+        public int positionFX = 10;
 
         private void Awake()
         {
             meshFilter = this.GetComponent<MeshFilter>();
             size = this.GetComponent<RectTransform>().rect;
-            //size = this.transform.localScale;
-            ratio = 10;
-            this.horizontal = (int)size.width / ratio;
-            this.vertical = (int)size.height / ratio;
+            positionFX = 10;
+            this.horizontal = (int)size.width / positionFX;
+            this.vertical = (int)size.height / positionFX;
             points = InitPoints();
 
             //Inject();
@@ -49,15 +47,6 @@ namespace SpringMesh
             return points;
         }
 
-        //private float[,] InitPoints()
-        //{
-        //    float[,] points = new float[vertical / ratio + 1, horizontal / ratio + 1];
-        //    for (int j = 0; j < vertical / ratio; j++)
-        //        for (int i = 0; i < horizontal / ratio; i++)
-        //            points[j, i] = bottom;
-        //    return points;
-        //}
-
         private Mesh DrawHeatMap()
         {
             Mesh mesh = new Mesh();
@@ -71,10 +60,6 @@ namespace SpringMesh
             Vector3 origin = new Vector3(-size.width / 2.0f, -size.height / 2.0f, 0);
             float perWidth = size.width / horizontal;
             float perHeight = size.height / vertical;
-
-            //Vector3 origin = new Vector3(-size.x / 2.0f , -size.y / 2.0f , 0); 
-            //float perWidth = size.x / horizontal;
-            //float perHeight = size.y / vertical;
 
             // vertices
             // uvs 
@@ -142,41 +127,54 @@ namespace SpringMesh
             Color startColor = Color.blue, endColor = Color.blue;
             switch (index)
             {
-                // 10~20 color
-                case 1:
-                    break;
-                // 20~30 color
-                case 2:
-                    break;
-                // 30~40 color
-                case 3:
-                    break;
-                // 40~50 color
-                case 4:
-                    break;
-                // 50~60 color
-                case 5:
+                // 0~10 color
+                case 0:
                     startColor = Color.blue;
                     endColor = Color.cyan;
                     break;
-                // 60~70 color
-                case 6:
+                // 10~20 color
+                case 1:
                     startColor = Color.cyan;
                     endColor = Color.green;
                     break;
-                // 70~80 color
-                case 7:
+                // 20~30 color
+                case 2:
                     startColor = Color.green;
                     endColor = Color.yellow;
                     break;
-                // 80~90 color
-                case 8:
+                // 30~40 color
+                case 3:
                     startColor = Color.yellow;
                     endColor = Color.red;
                     break;
+                // 40~50 color
+                case 4:
+                    startColor = Color.red;
+                    endColor = Color.magenta;
+                    break;
+                // 50~60 color
+                case 5:
+                    startColor = Color.magenta;
+                    endColor = Color.magenta;
+                    break;
+                // 60~70 color
+                case 6:
+                    startColor = Color.magenta;
+                    endColor = Color.magenta;
+                    break;
+                // 70~80 color
+                case 7:
+                    startColor = Color.magenta;
+                    endColor = Color.magenta;
+                    break;
+                // 80~90 color
+                case 8:
+                    startColor = Color.magenta;
+                    endColor = Color.magenta;
+                    break;
                 // 90~100 color
                 case 9:
-                    startColor = Color.red;
+                    startColor = Color.magenta;
                     endColor = Color.magenta;
                     break;
                 // over 100 color
@@ -206,13 +204,13 @@ namespace SpringMesh
 
         public void test()
         {
-            updateOnePoint(886, 393, 50);
+            updateOnePoint(886, 393, 20);
+            updateOnePoint(88, 39, 30);
         }
 
         public void updateOnePoint(int x, int y, float temperature)
         {
             this.temperatures = InitTemperatures();
-            //injectOne(88, 39, 99);
             editOnePoint(x, y, temperature);
             Rerender();
         }
@@ -235,8 +233,8 @@ namespace SpringMesh
 
         private void editOnePoint(int x, int y, float temperature)
         {
-            x = (int)x / ratio;
-            y = (int)y / ratio;
+            x = (int)x / positionFX;
+            y = (int)y / positionFX;
             points[y, x] = temperature;
         }
 
@@ -245,19 +243,14 @@ namespace SpringMesh
             RandomTeamperature(x, y, temperature, bottom, 0, radius, ref this.temperatures);
         }
 
-        private void RandomTeamperature(int x, int y, float from, float to, int minD, int maxD, ref float[,] temperatures)
+        private void RandomTeamperature(int x, int y, float from, float to, float minD, float maxD, ref float[,] temperatures)
         {
-            //x = (int)x / ratio;
-            //y = (int)y / ratio;
-
-            //int randomX = Random.Range(3, horizontal);
-            //int randomY = Random.Range(3, vertical);
-
-            float maxTweenDis = maxD - minD;
             float offset = to - from;
-            for (int i = x - maxD; i < x + maxD; i++)
+            maxD = (int)-offset * radius;
+            float maxTweenDis = maxD - minD;
+            for (int i = x - (int)maxD; i < x + maxD; i++)
             {
-                for (int j = y + maxD; j > y - maxD; j--)
+                for (int j = y + (int)maxD; j > y - maxD; j--)
                 {
                     if (i < 0 || i >= horizontal)
                         continue;

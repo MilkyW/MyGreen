@@ -1194,7 +1194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottom: 0
   radius: 20
-  ratio: 0
+  positionFX: 10
 --- !u!23 &1527716355
 MeshRenderer:
   m_ObjectHideFlags: 0
