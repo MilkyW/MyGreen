@@ -86,6 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("account").passwordParameter("password").permitAll()
                 .and().logout().logoutUrl("/logout").permitAll()
                 .and().csrf().disable();
+        /* 调试用 */
+//        http.authorizeRequests().antMatchers("/*").permitAll();
     }
 
     @Override

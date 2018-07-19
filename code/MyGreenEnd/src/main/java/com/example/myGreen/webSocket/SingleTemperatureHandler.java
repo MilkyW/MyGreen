@@ -6,21 +6,19 @@ import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SingleTemperatureHandler implements WebSocketHandler {
+
     private static int onlineCount = 0;
 
     private static Logger log = LoggerFactory.getLogger(SingleTemperatureHandler.class);
 
     private static final ArrayList<WebSocketSession> users = new ArrayList<>();
 
-    private static final Map<Long, WebSocketSession> map = new HashMap<>();
-
-    private static void printInfo(String msg) {
-        log.info(msg);
-    }
+    private static final Map<Long, List<WebSocketSession>> map = new ConcurrentHashMap<>();
 
     private static synchronized int getOnlineCount() {
         return SingleTemperatureHandler.onlineCount;
@@ -28,15 +26,25 @@ public class SingleTemperatureHandler implements WebSocketHandler {
 
     private static synchronized void addOnlineCount() {
         SingleTemperatureHandler.onlineCount++;
-        printInfo("用户连接，在线用户:" + getOnlineCount());
+        log.info("用户连接，在线用户:" + getOnlineCount());
     }
 
     private static synchronized void subOnlineCount() {
         SingleTemperatureHandler.onlineCount--;
-        printInfo("用户断开，在线用户:" + getOnlineCount());
+        log.info("用户断开，在线用户:" + getOnlineCount());
     }
 
-    public static WebSocketSession getWebSocketById(long id) {
+    private static void deleteSessionFromMap(WebSocketSession session) {
+        if (!session.getAttributes().containsKey("id")) {
+            return;
+        }
+        long id = (long)session.getAttributes().get("id");
+        if (map.containsKey(id)) {
+            map.get(id).remove(session);
+        }
+    }
+
+    public static List<WebSocketSession> getWebSocketById(long id) {
         return map.get(id);
     }
 
@@ -53,18 +61,19 @@ public class SingleTemperatureHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String msg = message.getPayload().toString();
-        printInfo("来自客户端的消息:" + msg);
-
+        log.info("来自客户端{}的消息: {}", session.getRemoteAddress().getHostString(), msg);
         if (message.getPayloadLength() == 0) {
             return;
         }
 
-        /* Register */
+        /* 注册消息推送 */
         long id = Long.parseLong(msg);
         session.getAttributes().put("id", id);
         if (!map.containsKey(id)) {
-            map.put(id, session);
+            map.putIfAbsent(id, new ArrayList<WebSocketSession>());
         }
+        List<WebSocketSession> list = map.get(id);
+        list.add(session);
     }
 
     @Override
@@ -73,15 +82,15 @@ public class SingleTemperatureHandler implements WebSocketHandler {
             session.close();
         }
 
-        map.remove(session.getAttributes().get("id"));
+        deleteSessionFromMap(session);
         users.remove(session);
 
-        printInfo("handleTransportError" + exception.getMessage());
+        log.info("handleTransportError" + exception.getMessage());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
-        map.remove(session.getAttributes().get("id"));
+        deleteSessionFromMap(session);
         users.remove(session);
 
         subOnlineCount();

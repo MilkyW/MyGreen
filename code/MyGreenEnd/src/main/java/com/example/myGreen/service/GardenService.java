@@ -25,4 +25,9 @@ public class GardenService {
         gardenRepository.deleteById(id);
         return true;
     }
+
+    public boolean updateNameById(long id, String name) {
+        gardenRepository.updateNameById(id, name);
+        return true;
+    }
 }

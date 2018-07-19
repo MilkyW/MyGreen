@@ -37,4 +37,9 @@ public interface TemperatureSensorRepository extends JpaRepository<TemperatureSe
 
     @Query("select new TemperatureSensor (id, gardenId) from TemperatureSensor t")
     public List<TemperatureSensor> findSensorInfo();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update temperatureSensor set name=:name where id=:id", nativeQuery = true)
+    void updateNameById(@Param("id") long id, @Param("name") String name);
 }

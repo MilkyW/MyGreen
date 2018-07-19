@@ -81,32 +81,41 @@ public class SensorDataGeneratorService {
                 temperatureSensorDataRepository.save(temperatureSensorData);
 
                 /* Inform heat map client */
-                WebSocketSession session = TemperatureWebSocketHandler.getWebSocketByGardenId(sensor.getGardenId());
-                if (session != null) {
-                    /* Wrap data */
-                    heatmapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
-                    heatmapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
-
-                    String jsonString = JSON.toJSONString(heatmapMap);
-                    try {
-                        /* @Format: {"id":long, "temperature":float} */
-                        session.sendMessage(new TextMessage(jsonString));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                List<WebSocketSession> list = TemperatureWebSocketHandler.getWebSocketById(sensor.getGardenId());
+                if (list == null || list.isEmpty()) {
+                    continue;
+                }
+                /* Wrap data */
+                heatmapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
+                heatmapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+                for (WebSocketSession session:list) {
+                    if (session != null) {
+                        String jsonString = JSON.toJSONString(heatmapMap);
+                        try {
+                            /* @Format: {"id":long, "temperature":float} */
+                            session.sendMessage(new TextMessage(jsonString));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
                 /* Inform line chart client */
-                session = SingleTemperatureHandler.getWebSocketById(sensor.getId());
-                if (session != null) {
-                    /* Wrap data */
-                    linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
-                    linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
-                    try {
-                        /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
-                        session.sendMessage(new TextMessage(JSON.toJSONString(linechartMap)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                list = SingleTemperatureHandler.getWebSocketById(id);
+                if (list == null || list.isEmpty()) {
+                    continue;
+                }
+                /* Wrap data */
+                linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+                linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
+                for (WebSocketSession session:list) {
+                    if (session != null) {
+                        try {
+                            /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
+                            session.sendMessage(new TextMessage(JSON.toJSONString(linechartMap)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

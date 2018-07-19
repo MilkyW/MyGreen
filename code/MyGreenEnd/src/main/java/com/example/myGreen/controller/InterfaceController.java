@@ -78,6 +78,11 @@ public class InterfaceController {
         return gardenService.deleteGardenById(id);
     }
 
+    @GetMapping("updateGardenNameById")
+    public boolean updateGardenNameById(long id, String name) {
+        return gardenService.updateNameById(id, name);
+    }
+
     /* TemperatureSensor */
     @GetMapping("getTemperatureSensorByGardenId")
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
