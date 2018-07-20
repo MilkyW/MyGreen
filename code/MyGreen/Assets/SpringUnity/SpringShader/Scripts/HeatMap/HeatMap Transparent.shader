@@ -2,78 +2,59 @@
 
 Shader "HeatMap/HeatMap Transparent"
 {
-    Properties
-    {
-        _Alpha("Alpha",Range(0,1)) = 0.8
-
-		//MASK SUPPORT ADD
-		_StencilComp("Stencil Comparison", Float) = 8
-		_Stencil("Stencil ID", Float) = 0
-		_StencilOp("Stencil Operation", Float) = 0
-		_StencilWriteMask("Stencil Write Mask", Float) = 255
-		_StencilReadMask("Stencil Read Mask", Float) = 255
-		_ColorMask("Color Mask", Float) = 15
-		//MASK SUPPORT END
-    }
-
-	SubShader 
-    {
-		Tags { "RenderType"="Transparent" "Opaque"="Transparent" "Queue"="Overlay"}
-
-		//MASK SUPPORT ADD
-		Stencil
+	Properties
 	{
-		Ref[_Stencil]
-		Comp[_StencilComp]
-		Pass[_StencilOp]
-		ReadMask[_StencilReadMask]
-		WriteMask[_StencilWriteMask]
+		_Alpha("Alpha",Range(0,1)) = 0.8
 	}
-		ColorMask[_ColorMask]
-		//MASK SUPPORT END
+
+		SubShader
+	{
+		Tags { "IGNOREPROJECTOR" = "true"  "RenderType" = "Transparent" "Opaque" = "Transparent" "Queue" = "Overlay"}
+
+		ZWrite Off
 
 		LOD 200
-		
-        Pass
-        {
-            Cull OFF
-            Blend SrcAlpha OneMinusSrcAlpha
-            ztest ON
-            CGPROGRAM
 
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
-            #include "UnityLightingCommon.cginc"
+		Pass
+		{
+			Cull OFF
+			Blend SrcAlpha OneMinusSrcAlpha
+			ztest ON
+			CGPROGRAM
 
-            struct a2v
-            {
-                float4 pos : POSITION;
-                fixed4 color : COLOR;
-            };
+			#pragma vertex vert
+			#pragma fragment frag
+			#include "UnityCG.cginc"
+			#include "UnityLightingCommon.cginc"
 
-            struct v2f
-            {
-                float4 vertex : SV_POSITION;
-                fixed4 color : COLOR;
-            };
+			struct a2v
+			{
+				float4 pos : POSITION;
+				fixed4 color : COLOR;
+			};
 
-            float _Alpha;
+			struct v2f
+			{
+				float4 vertex : SV_POSITION;
+				fixed4 color : COLOR;
+			};
 
-            v2f vert( a2v i )
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(i.pos);
-                o.color = i.color;
-                return o;
-            }
+			float _Alpha;
 
-            fixed4 frag( v2f i ) : COLOR
-            {
-                return fixed4(i.color.rgb,_Alpha);
-            }
+			v2f vert(a2v i)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(i.pos);
+				o.color = i.color;
+				return o;
+			}
 
-	        ENDCG
-        }
+			fixed4 frag(v2f i) : COLOR
+			{
+				return fixed4(i.color.rgb,_Alpha);
+			}
+
+			ENDCG
+		}
 	}
 }
