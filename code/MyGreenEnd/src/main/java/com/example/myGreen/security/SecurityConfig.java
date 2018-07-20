@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()//其他的路径都是登录后即可访问
                 .and().formLogin().loginPage("/loginPage").successHandler(new AuthenticationSuccessHandler() {
             @Override
-            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
+                    throws IOException, ServletException {
                 String ip = IP.getIPAddress(httpServletRequest);
                 log.info("{} 登陆成功", ip);
 
@@ -86,6 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("account").passwordParameter("password").permitAll()
                 .and().logout().logoutUrl("/logout").permitAll()
                 .and().csrf().disable();
+                /* 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面 */
+                //http.sessionManagement().maximumSessions(1).expiredUrl("/login");
         /* 调试用，可开放所有链接 */
 //        http.authorizeRequests().antMatchers("/*").permitAll();
     }

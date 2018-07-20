@@ -84,7 +84,7 @@ public class InterfaceController {
         return gardenService.updateNameById(id, name);
     }
 
-    /* TemperatureSensor */
+    /* Temperature Sensor */
     @GetMapping("getTemperatureSensorByGardenId")
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
         return sensorService.getTemperatureSensorByGardenId(gardenId);
@@ -101,7 +101,7 @@ public class InterfaceController {
         return sensorService.deleteTemperatureSensorById(id);
     }
 
-    /* WetnessSensor */
+    /* Wetness Sensor */
     @GetMapping("getWetnessSensorByGardenId")
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
         return sensorService.getWetnessSensorByGardenId(gardenId);
@@ -140,7 +140,7 @@ public class InterfaceController {
         return controllerService.deleteControllerById(id);
     }
 
-    /* TemperatureSensorData */
+    /* Temperature Sensor Data */
 
     /**
      * @return {"id":long, "temperature":float }
@@ -158,5 +158,5 @@ public class InterfaceController {
         return sensorService.getRecentTemperatureDataById(id, num);
     }
 
-    /* WetnessSensorData */
+    /* Wetness Sensor Data */
 }

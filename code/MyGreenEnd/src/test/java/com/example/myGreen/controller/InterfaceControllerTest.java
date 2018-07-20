@@ -44,6 +44,7 @@ public class InterfaceControllerTest {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
+    /* User */
     @Test
     public void getUserByAccount() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get(route + "getUserByAccount")
@@ -135,6 +136,7 @@ public class InterfaceControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("DENNIS"));
     }
 
+    /* Garden */
     @Test
     public void getGardenByUserId() throws Exception {
         MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getGardenByUserId")
@@ -172,6 +174,17 @@ public class InterfaceControllerTest {
     }
 
     @Test
+    @Transactional
+    public void deleteGardenById() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(route + "deleteGardenById")
+                .param("id", "1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /* Temperature Sensor */
+    @Test
     public void getTemperatureSensorByGardenId() throws Exception {
         long gardenId = 1;
 
@@ -207,6 +220,17 @@ public class InterfaceControllerTest {
     }
 
     @Test
+    @Transactional
+    public void deleteTemperatureSensorById() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(route + "deleteTemperatureSensorById")
+                .param("id", "1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /* Wetness Sensor */
+    @Test
     public void getWetnessSensorByGardenId() throws Exception {
         long gardenId = 1;
 
@@ -241,6 +265,17 @@ public class InterfaceControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @Test
+    @Transactional
+    public void deleteWetnessSensorById() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(route + "deleteWetnessSensorById")
+                .param("id", "1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /* Controller */
     @Test
     public void getControllerByGardenId() throws Exception {
         long gardenId = 1;
@@ -288,4 +323,19 @@ public class InterfaceControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
+
+    @Test
+    @Transactional
+    public void deleteControllerById() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(route + "deleteControllerById")
+                .param("id", "1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /* Temperature Sensor Data */
+
+    /* Wetness Sensor Data */
+
 }
