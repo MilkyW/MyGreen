@@ -1,7 +1,7 @@
-package com.example.myGreen.repository;
+package com.example.myGreen.database.repository;
 
-import com.example.myGreen.entity.TemperatureSensorData;
-import com.example.myGreen.entity.key.SensorDataKey;
+import com.example.myGreen.database.entity.TemperatureSensorData;
+import com.example.myGreen.database.entity.key.SensorDataKey;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,14 +17,14 @@ import java.util.List;
 public interface TemperatureSensorDataRepository extends JpaRepository<TemperatureSensorData, SensorDataKey> {
 
     @Query(value = "select * from TemperatureSensorData where id=:id", nativeQuery = true)
-    public List<TemperatureSensorData> findBySensorId(@Param("id") long id);
+    List<TemperatureSensorData> findBySensorId(@Param("id") long id);
 
     @Query(value = "select * from TemperatureSensorData where id=:id and time=(select max(time) from TemperatureSensorData where id=:id)", nativeQuery = true)
-    public TemperatureSensorData findLatestDataById(@Param("id") long id);
+    TemperatureSensorData findLatestDataById(@Param("id") long id);
 
     @Query(value = "select temperature from TemperatureSensorData where id=:id and time=(select max(time) from TemperatureSensorData where id=:id)", nativeQuery = true)
-    public Float findLatestTemperatureById(@Param("id") long id);
+    Float findLatestTemperatureById(@Param("id") long id);
 
     @Query(value = "select * from TemperatureSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
-    public List<TemperatureSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
+    List<TemperatureSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
 }

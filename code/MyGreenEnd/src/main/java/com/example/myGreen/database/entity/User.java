@@ -1,4 +1,4 @@
-package com.example.myGreen.entity;
+package com.example.myGreen.database.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,7 +1,7 @@
 package com.example.myGreen.service.mail;
 
-import com.example.myGreen.entity.Register;
-import com.example.myGreen.repository.RegisterRepository;
+import com.example.myGreen.database.entity.Register;
+import com.example.myGreen.database.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

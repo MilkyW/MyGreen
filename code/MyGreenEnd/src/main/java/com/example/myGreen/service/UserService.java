@@ -1,7 +1,7 @@
 package com.example.myGreen.service;
 
-import com.example.myGreen.entity.User;
-import com.example.myGreen.repository.UserRepository;
+import com.example.myGreen.database.entity.User;
+import com.example.myGreen.database.repository.UserRepository;
 import com.example.myGreen.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

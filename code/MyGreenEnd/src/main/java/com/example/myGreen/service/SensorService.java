@@ -1,14 +1,14 @@
 package com.example.myGreen.service;
 
 import com.alibaba.fastjson.JSON;
-import com.example.myGreen.entity.TemperatureSensor;
-import com.example.myGreen.entity.TemperatureSensorData;
-import com.example.myGreen.entity.WetnessSensor;
-import com.example.myGreen.entity.WetnessSensorData;
-import com.example.myGreen.repository.TemperatureSensorDataRepository;
-import com.example.myGreen.repository.TemperatureSensorRepository;
-import com.example.myGreen.repository.WetnessSensorDataRepository;
-import com.example.myGreen.repository.WetnessSensorRepository;
+import com.example.myGreen.database.entity.TemperatureSensor;
+import com.example.myGreen.database.entity.TemperatureSensorData;
+import com.example.myGreen.database.entity.WetnessSensor;
+import com.example.myGreen.database.entity.WetnessSensorData;
+import com.example.myGreen.database.repository.TemperatureSensorDataRepository;
+import com.example.myGreen.database.repository.TemperatureSensorRepository;
+import com.example.myGreen.database.repository.WetnessSensorDataRepository;
+import com.example.myGreen.database.repository.WetnessSensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

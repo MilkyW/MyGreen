@@ -38,7 +38,7 @@ public class SingleTemperatureHandler implements WebSocketHandler {
         if (!session.getAttributes().containsKey("id")) {
             return;
         }
-        long id = (long)session.getAttributes().get("id");
+        long id = (long) session.getAttributes().get("id");
         if (map.containsKey(id)) {
             map.get(id).remove(session);
         }

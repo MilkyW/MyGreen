@@ -1,6 +1,6 @@
-package com.example.myGreen.repository;
+package com.example.myGreen.database.repository;
 
-import com.example.myGreen.entity.User;
+import com.example.myGreen.database.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +14,12 @@ import javax.persistence.Table;
 @Qualifier("userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    public User findByUsername(String username);
+    User findByUsername(String username);
 
-    public User findByPhone(String phone);
+    User findByPhone(String phone);
 
-    public User findByEmail(String email);
+    User findByEmail(String email);
 
     @Query("select enabled from User t where t.username=:username")
-    public boolean findEnabledByUsername(@Param("username") String username);
+    boolean findEnabledByUsername(@Param("username") String username);
 }

@@ -2,7 +2,8 @@ package com.example.myGreen.repository;
 
 
 import com.example.myGreen.Application;
-import com.example.myGreen.entity.TemperatureSensor;
+import com.example.myGreen.database.entity.TemperatureSensor;
+import com.example.myGreen.database.repository.TemperatureSensorRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

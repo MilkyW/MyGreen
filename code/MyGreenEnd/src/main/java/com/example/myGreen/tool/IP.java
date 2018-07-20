@@ -3,7 +3,11 @@ package com.example.myGreen.tool;
 import javax.servlet.http.HttpServletRequest;
 
 public class IP {
-
+    /**
+     * 获取客户端真实IP地址
+     * @param request
+     * @return IP地址的字符串形式
+     */
     public static String getIPAddress(HttpServletRequest request) {
         String ip = null;
 

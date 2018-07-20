@@ -1,6 +1,6 @@
-package com.example.myGreen.repository;
+package com.example.myGreen.database.repository;
 
-import com.example.myGreen.entity.Garden;
+import com.example.myGreen.database.entity.Garden;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,10 +17,10 @@ import java.util.List;
 @Qualifier("gardenRepository")
 public interface GardenRepository extends JpaRepository<Garden, Long> {
 
-    public List<Garden> findByUserId(long userId);
+    List<Garden> findByUserId(long userId);
 
     @Transactional
     @Modifying
     @Query(value = "update garden set name=:name where id=:id", nativeQuery = true)
-    public void updateNameById(@Param("id") long id, @Param("name") String name);
+    void updateNameById(@Param("id") long id, @Param("name") String name);
 }

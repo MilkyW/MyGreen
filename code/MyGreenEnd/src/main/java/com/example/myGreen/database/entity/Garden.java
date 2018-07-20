@@ -1,4 +1,4 @@
-package com.example.myGreen.entity;
+package com.example.myGreen.database.entity;
 
 import javax.persistence.*;
 

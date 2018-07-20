@@ -1,6 +1,6 @@
 package com.example.myGreen.controller;
 
-import com.example.myGreen.entity.*;
+import com.example.myGreen.database.entity.*;
 import com.example.myGreen.service.ControllerService;
 import com.example.myGreen.service.GardenService;
 import com.example.myGreen.service.SensorService;
@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/* @Name: InterfaceController
- * @Desc: 提供接口给前端，对用户、花园、传感器和控制器进行操作
+/**
+ * 提供接口给前端
+ * 包含对用户、花园、传感器和控制器的操作
  */
 @RestController
 @RequestMapping("/")
@@ -141,16 +142,16 @@ public class InterfaceController {
 
     /* TemperatureSensorData */
 
-    /* @Name: getLatestTemperatureByGardenId
-     * @Return: {"id":long, "temperature":float }
+    /**
+     * @return {"id":long, "temperature":float }
      */
     @GetMapping("getLatestTemperatureByGardenId")
     public String getLatestTemperatureByGardenId(long gardenId) {
         return sensorService.getLatestTemperatureByGardenId(gardenId);
     }
 
-    /* @Name: getLatestTemperatureByGardenId
-     * @Return: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
+    /**
+     * @return {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
      */
     @GetMapping("getRecentTemperatureDataById")
     public String getRecentTemperatureDataById(long id, int num) {

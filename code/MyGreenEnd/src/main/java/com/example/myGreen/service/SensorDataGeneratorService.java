@@ -1,15 +1,15 @@
 package com.example.myGreen.service;
 
 import com.alibaba.fastjson.JSON;
-import com.example.myGreen.dto.NormalDto;
-import com.example.myGreen.entity.TemperatureSensor;
-import com.example.myGreen.entity.TemperatureSensorData;
-import com.example.myGreen.entity.WetnessSensor;
-import com.example.myGreen.entity.key.SensorDataKey;
-import com.example.myGreen.repository.TemperatureSensorDataRepository;
-import com.example.myGreen.repository.TemperatureSensorRepository;
-import com.example.myGreen.repository.WetnessSensorDataRepository;
-import com.example.myGreen.repository.WetnessSensorRepository;
+import com.example.myGreen.database.entity.TemperatureSensor;
+import com.example.myGreen.database.entity.TemperatureSensorData;
+import com.example.myGreen.database.entity.WetnessSensor;
+import com.example.myGreen.database.entity.key.SensorDataKey;
+import com.example.myGreen.database.repository.TemperatureSensorDataRepository;
+import com.example.myGreen.database.repository.TemperatureSensorRepository;
+import com.example.myGreen.database.repository.WetnessSensorDataRepository;
+import com.example.myGreen.database.repository.WetnessSensorRepository;
+import com.example.myGreen.service.mail.NormalDto;
 import com.example.myGreen.webSocket.SingleTemperatureHandler;
 import com.example.myGreen.webSocket.TemperatureWebSocketHandler;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class SensorDataGeneratorService {
                 /* Wrap data */
                 heatmapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
                 heatmapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
-                for (WebSocketSession session:list) {
+                for (WebSocketSession session : list) {
                     if (session != null) {
                         String jsonString = JSON.toJSONString(heatmapMap);
                         try {
@@ -108,7 +108,7 @@ public class SensorDataGeneratorService {
                 /* Wrap data */
                 linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
                 linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
-                for (WebSocketSession session:list) {
+                for (WebSocketSession session : list) {
                     if (session != null) {
                         try {
                             /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */

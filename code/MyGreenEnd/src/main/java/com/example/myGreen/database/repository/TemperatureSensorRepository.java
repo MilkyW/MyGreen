@@ -1,6 +1,6 @@
-package com.example.myGreen.repository;
+package com.example.myGreen.database.repository;
 
-import com.example.myGreen.entity.TemperatureSensor;
+import com.example.myGreen.database.entity.TemperatureSensor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,25 +18,25 @@ import java.util.List;
 @Qualifier("TemperatureSensorRepository")
 public interface TemperatureSensorRepository extends JpaRepository<TemperatureSensor, Long> {
     @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
-    public List<Long> findSensorIdByGardenId(@Param("gardenId") long gardenId);
+    List<Long> findSensorIdByGardenId(@Param("gardenId") long gardenId);
 
-    public List<TemperatureSensor> findByGardenId(long gardenId);
+    List<TemperatureSensor> findByGardenId(long gardenId);
 
-    public List<TemperatureSensor> findByName(String name);
+    List<TemperatureSensor> findByName(String name);
 
     @Transactional
     @Modifying
     @Query(value = "update temperatureSensor set valid = :valid where id = :id", nativeQuery = true)
-    public void updateValidById(@Param("id") long id, @Param("valid") boolean valid);
+    void updateValidById(@Param("id") long id, @Param("valid") boolean valid);
 
     @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
-    public List<Long> findIdByGardenId(@Param("gardenId") long gardenId);
+    List<Long> findIdByGardenId(@Param("gardenId") long gardenId);
 
     @Query("select id from TemperatureSensor t")
-    public List<Long> findAllId();
+    List<Long> findAllId();
 
     @Query("select new TemperatureSensor (id, gardenId) from TemperatureSensor t")
-    public List<TemperatureSensor> findSensorInfo();
+    List<TemperatureSensor> findSensorInfo();
 
     @Transactional
     @Modifying

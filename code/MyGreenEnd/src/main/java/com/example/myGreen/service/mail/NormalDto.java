@@ -1,4 +1,4 @@
-package com.example.myGreen.dto;
+package com.example.myGreen.service.mail;
 
 public class NormalDto {
     private int code;

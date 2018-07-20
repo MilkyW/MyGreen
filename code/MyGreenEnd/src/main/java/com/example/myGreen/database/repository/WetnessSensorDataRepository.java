@@ -1,6 +1,6 @@
-package com.example.myGreen.repository;
+package com.example.myGreen.database.repository;
 
-import com.example.myGreen.entity.WetnessSensorData;
+import com.example.myGreen.database.entity.WetnessSensorData;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,11 +16,11 @@ import java.util.List;
 public interface WetnessSensorDataRepository extends JpaRepository<WetnessSensorData, Long> {
 
     @Query(value = "select * from WetnessSensorData where id=:id", nativeQuery = true)
-    public List<WetnessSensorData> findBySensorId(@Param("id") long id);
+    List<WetnessSensorData> findBySensorId(@Param("id") long id);
 
     @Query(value = "select * from WetnessSensorData where id=:id and time=(select max(time) from WetnessSensorData having id=:id)", nativeQuery = true)
-    public WetnessSensorData findLatestDataById(@Param("id") long id);
+    WetnessSensorData findLatestDataById(@Param("id") long id);
 
     @Query(value = "select * from TemperatureSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
-    public List<WetnessSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
+    List<WetnessSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
 }

@@ -1,10 +1,9 @@
 package com.example.myGreen.service.mail;
 
-import com.example.myGreen.dto.NormalDto;
-import com.example.myGreen.entity.Register;
-import com.example.myGreen.entity.User;
-import com.example.myGreen.repository.RegisterRepository;
-import com.example.myGreen.repository.UserRepository;
+import com.example.myGreen.database.entity.Register;
+import com.example.myGreen.database.entity.User;
+import com.example.myGreen.database.repository.RegisterRepository;
+import com.example.myGreen.database.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,10 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
-    /* @Name: validate
-     * @Desc: 通过UUID验证用户，若超时则删除记录
+    /**
+     * 验证用户，若超时则删除记录
+     *
+     * @param token 用户提交的UUID
      */
     public NormalDto validate(String token) {
         NormalDto normalDto = new NormalDto();
@@ -86,8 +87,8 @@ public class MailService {
             log.info("用户注册，开始发送邮件 User:{} Email:{} Token:{}", user.getUsername(), user.getEmail(), token);
             executor.execute(new EmailThread(user, token));
         } else {
-            Register reg = registerRepository.findById(id).get();
             /* 已注册用户，重新发送验证邮件 */
+            Register reg = registerRepository.findById(id).get();
             /* 超时检测 */
             long now = new Date().getTime();
             if (isTimeout(now, reg.getTime(), 86400000)) {
@@ -105,15 +106,17 @@ public class MailService {
         return (now - past) > gap;
     }
 
-    /* @Name: EmailThread
-     * @Param: User user, String token
-     * @Desc: 发送邮件需要传入2个参数 user 和 token，user即为用户注册信息，token是一个随机的UUID
-     */
     private class EmailThread implements Runnable {
 
         private User user;
         private String token;
 
+        /**
+         * 发送邮件的线程
+         *
+         * @param user  用户注册信息
+         * @param token 随机的UUID
+         */
         public EmailThread(User user, String token) {
             this.user = user;
             this.token = token;
@@ -136,8 +139,9 @@ public class MailService {
                 helper.setText(message, true);
                 mailSender.send(mailMessage);
             } catch (Exception e) {
-                log.info("发送邮件失败：User:{} Token:{}", user.getUsername(), token);
+                log.info("发送邮件失败：username:{} token:{}", user.getUsername(), token);
                 e.printStackTrace();
+                return;
             }
             log.info("发送成功");
         }

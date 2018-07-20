@@ -1,4 +1,4 @@
-package com.example.myGreen.interceptor;
+package com.example.myGreen.httpReqPreHandle.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.example.myGreen.tool.IP;
@@ -8,23 +8,31 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 
-/* @Name: LoggerInterceptor
- * @Desc: 拦截HTTP请求，以日志形式输出ip地址、请求方法和请求链接
+/**
+ * 拦截HTTP请求，以日志形式输出ip地址、请求方法和请求链接
  */
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
-    private Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
+    private static Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String sessionId = request.getRequestedSessionId();
         String uri = request.getRequestURI();
         String param = JSON.toJSONString(request.getParameterMap());
         String method = request.getMethod();
         String ip = IP.getIPAddress(request);
 
-        logger.info("{} {} {}", ip, method, uri);
+        /* Get body */
+        BufferedReader br = request.getReader();
+        String str;
+        String body = "";
+        while ((str = br.readLine()) != null) {
+            body += str;
+        }
+
+        logger.info("{} {} {} {} {}", ip, method, uri, param, body);
 
         return true;
     }

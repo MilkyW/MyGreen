@@ -1,7 +1,8 @@
 package com.example.myGreen.repository;
 
 import com.example.myGreen.Application;
-import com.example.myGreen.entity.Garden;
+import com.example.myGreen.database.entity.Garden;
+import com.example.myGreen.database.repository.GardenRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,10 +1,10 @@
-package com.example.myGreen.entity;
+package com.example.myGreen.database.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "WETNESSSENSOR")
-public class WetnessSensor {
+@Table(name = "TEMPERATURESENSOR")
+public class TemperatureSensor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,10 +15,10 @@ public class WetnessSensor {
     private String name;
     private boolean valid;
 
-    public WetnessSensor() {
+    public TemperatureSensor() {
     }
 
-    public WetnessSensor(long id, long gardenId) {
+    public TemperatureSensor(long id, long gardenId) {
         this.id = id;
         this.gardenId = gardenId;
     }

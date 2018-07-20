@@ -6,7 +6,6 @@ import org.springframework.web.socket.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,7 +38,7 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         if (!session.getAttributes().containsKey("id")) {
             return;
         }
-        long id = (long)session.getAttributes().get("id");
+        long id = (long) session.getAttributes().get("id");
         if (map.containsKey(id)) {
             map.get(id).remove(session);
         }

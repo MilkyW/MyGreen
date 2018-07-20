@@ -1,7 +1,7 @@
 package com.example.myGreen.service;
 
-import com.example.myGreen.entity.Garden;
-import com.example.myGreen.repository.GardenRepository;
+import com.example.myGreen.database.entity.Garden;
+import com.example.myGreen.database.repository.GardenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
