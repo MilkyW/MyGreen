@@ -30,8 +30,12 @@ public class MapBG : MonoBehaviour
         {
             Destroy(transform.GetChild(i).gameObject);
         }
-        GameObject containerT = GameObject.Find("HeatMap");
-        GameObject containerH = GameObject.Find("HeatMap");
+        GameObject containerT = GameObject.Find("HeatMapT");
+        GameObject containerH = GameObject.Find("HeatMapH");
+        SpringMesh.HeatMap heatmapT = containerT.GetComponent<SpringMesh.HeatMap>();
+        SpringMesh.HeatMap heatmapH = containerH.GetComponent<SpringMesh.HeatMap>();
+        heatmapT.sswitch();
+        heatmapH.sswitch();
     }
 
     public void letUsDraw()
