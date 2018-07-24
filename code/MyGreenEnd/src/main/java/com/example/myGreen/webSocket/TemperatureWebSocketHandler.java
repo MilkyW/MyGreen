@@ -16,22 +16,18 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
 
     private static Logger log = LoggerFactory.getLogger(TemperatureWebSocketHandler.class);
 
-    private static final ArrayList<WebSocketSession> users = new ArrayList<>();
+    private static final Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
 
     private static final Map<Long, List<WebSocketSession>> map = new ConcurrentHashMap<>();
 
-    private static synchronized int getOnlineCount() {
-        return TemperatureWebSocketHandler.onlineCount;
-    }
-
     private static synchronized void addOnlineCount() {
         TemperatureWebSocketHandler.onlineCount++;
-        log.info("用户连接，在线用户:" + getOnlineCount());
+        log.info("用户连接，在线用户: {}", TemperatureWebSocketHandler.onlineCount);
     }
 
     private static synchronized void subOnlineCount() {
         TemperatureWebSocketHandler.onlineCount--;
-        log.info("用户断开，在线用户:" + getOnlineCount());
+        log.info("用户断开，在线用户: {}", TemperatureWebSocketHandler.onlineCount);
     }
 
     private static void deleteSessionFromMap(WebSocketSession session) {
@@ -53,7 +49,8 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        users.add(session);
+        //users.add(session);
+        users.put(session.getId(), session);
 
         addOnlineCount();
     }
@@ -83,7 +80,8 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         }
 
         deleteSessionFromMap(session);
-        users.remove(session);
+        //users.remove(session);
+        users.remove(session.getId());
 
         log.info("handleTransportError" + exception.getMessage());
     }
@@ -91,7 +89,7 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         deleteSessionFromMap(session);
-        users.remove(session);
+        users.remove(session.getId());
 
         subOnlineCount();
     }
@@ -102,7 +100,7 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
     }
 
     public void sendMessageToUsers(TextMessage message) {
-        for (WebSocketSession user : users) {
+        for (WebSocketSession user : users.values()) {
             try {
                 if (user.isOpen()) {
                     user.sendMessage(message);

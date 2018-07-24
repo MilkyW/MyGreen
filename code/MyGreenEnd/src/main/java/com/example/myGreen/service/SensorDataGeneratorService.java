@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.myGreen.database.entity.TemperatureSensor;
 import com.example.myGreen.database.entity.TemperatureSensorData;
 import com.example.myGreen.database.entity.WetnessSensor;
+import com.example.myGreen.database.entity.WetnessSensorData;
 import com.example.myGreen.database.entity.key.SensorDataKey;
 import com.example.myGreen.database.repository.TemperatureSensorDataRepository;
 import com.example.myGreen.database.repository.TemperatureSensorRepository;
@@ -11,7 +12,9 @@ import com.example.myGreen.database.repository.WetnessSensorDataRepository;
 import com.example.myGreen.database.repository.WetnessSensorRepository;
 import com.example.myGreen.service.mail.NormalDto;
 import com.example.myGreen.webSocket.SingleTemperatureHandler;
+import com.example.myGreen.webSocket.SingleWetnessHandler;
 import com.example.myGreen.webSocket.TemperatureWebSocketHandler;
+import com.example.myGreen.webSocket.WetnessWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,8 @@ public class SensorDataGeneratorService {
     @Autowired
     private WetnessSensorDataRepository wetnessSensorDataRepository;
 
-    /*  data generation
+    /**
+     *  data generator
      *  every 3 seconds insert a new line
      *  include WetnessSensorData, TemperatureSensorData
      */
@@ -48,8 +52,10 @@ public class SensorDataGeneratorService {
         NormalDto normalDto = new NormalDto();
 
         /* Map to wrap data */
-        Map<String, String> heatmapMap = new HashMap<>();
-        Map<String, String> linechartMap = new HashMap<>();
+        Map<String, String> tHeatMapMap = new HashMap<>();
+        Map<String, String> tLineChartMap = new HashMap<>();
+        Map<String, String> wHeatMapMap = new HashMap<>();
+        Map<String, String> wLineChartMap = new HashMap<>();
 
         /* Get sensors' ID and gardenId */
         List<TemperatureSensor> temperatureSensorList = temperatureSensorRepository.findSensorInfo();
@@ -70,7 +76,7 @@ public class SensorDataGeneratorService {
 
                 Date date = new Date();//获得系统时间.
                 String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
-                Timestamp goodsC_date = Timestamp.valueOf(nowTime);//把时间转换
+                Timestamp goodsC_date = Timestamp.valueOf(nowTime);//转换时间
                 sensorDataKey.setTime(goodsC_date);
 
                 float x = r.nextFloat() - 0.5f;
@@ -86,13 +92,13 @@ public class SensorDataGeneratorService {
                     continue;
                 }
                 /* Wrap data */
-                heatmapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
-                heatmapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+                tHeatMapMap.put("id", Long.toString(temperatureSensorData.getId().getId()));
+                tHeatMapMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
                 for (WebSocketSession session : list) {
                     if (session != null) {
-                        String jsonString = JSON.toJSONString(heatmapMap);
+                        String jsonString = JSON.toJSONString(tHeatMapMap);
                         try {
-                            /* @Format: {"id":long, "temperature":float} */
+                            /* @format: {"id":long, "temperature":float} */
                             session.sendMessage(new TextMessage(jsonString));
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -106,13 +112,13 @@ public class SensorDataGeneratorService {
                     continue;
                 }
                 /* Wrap data */
-                linechartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
-                linechartMap.put("time", temperatureSensorData.getId().getTime().toString());
+                tLineChartMap.put("temperature", Float.toString(temperatureSensorData.getTemperature()));
+                tLineChartMap.put("time", temperatureSensorData.getId().getTime().toString());
                 for (WebSocketSession session : list) {
                     if (session != null) {
                         try {
-                            /* @Format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
-                            session.sendMessage(new TextMessage(JSON.toJSONString(linechartMap)));
+                            /* @format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
+                            session.sendMessage(new TextMessage(JSON.toJSONString(tLineChartMap)));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -120,33 +126,62 @@ public class SensorDataGeneratorService {
                 }
             }
 
-//            for (WetnessSensor sensor : wetnessSensorIdList) {
-//                SensorDataKey sensorDataKey = new SensorDataKey();
-//                sensorDataKey.setId(sensor.getId());
-//
-//                Date date = new Date();//获得系统时间.
-//                String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
-//                Timestamp goodsC_date = Timestamp.valueOf(nowTime);//把时间转换
-//                sensorDataKey.setTime(goodsC_date);
-//
-//                float y = r.nextFloat();
-//
-//                WetnessSensorData wetnessSensorData = new WetnessSensorData();
-//                wetnessSensorData.setId(sensorDataKey);
-//                wetnessSensorData.setWetness(y * 100);
-//                wetnessSensorDataRepository.save(wetnessSensorData);
-//
-//                /* Inform client */
-//                WebSocketSession session = WetnessWebSocketHandler.getWebSocketByGardenId(sensor.getGardenId());
-//                if (session != null) {
-//                    try {
-//                        /* Turn data into json string */
-//                        session.sendMessage(new TextMessage(JSON.toJSONString(wetnessSensorData)));
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
+            for (WetnessSensor sensor : wetnessSensorIdList) {
+                long id = sensor.getId();
+                SensorDataKey sensorDataKey = new SensorDataKey();
+                sensorDataKey.setId(id);
+
+                Date date = new Date();//获得系统时间.
+                String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
+                Timestamp goodsC_date = Timestamp.valueOf(nowTime);//把时间转换
+                sensorDataKey.setTime(goodsC_date);
+
+                float y = r.nextFloat();
+
+                WetnessSensorData wetnessSensorData = new WetnessSensorData();
+                wetnessSensorData.setId(sensorDataKey);
+                wetnessSensorData.setWetness(y * 100);
+                wetnessSensorDataRepository.save(wetnessSensorData);
+
+                /* Inform heat map client */
+                List<WebSocketSession> list = WetnessWebSocketHandler.getWebSocketById(sensor.getGardenId());
+                if (list == null || list.isEmpty()) {
+                    continue;
+                }
+                /* Wrap data */
+                wHeatMapMap.put("id", Long.toString(wetnessSensorData.getId().getId()));
+                wHeatMapMap.put("wetness", Float.toString(wetnessSensorData.getWetness()));
+                for (WebSocketSession session : list) {
+                    if (session != null) {
+                        String jsonString = JSON.toJSONString(wHeatMapMap);
+                        try {
+                            /* @format: {"id":long, "temperature":float} */
+                            session.sendMessage(new TextMessage(jsonString));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                /* Inform line chart client */
+                list = SingleWetnessHandler.getWebSocketById(id);
+                if (list == null || list.isEmpty()) {
+                    continue;
+                }
+                /* Wrap data */
+                wLineChartMap.put("temperature", Float.toString(wetnessSensorData.getWetness()));
+                wLineChartMap.put("time", wetnessSensorData.getId().getTime().toString());
+                for (WebSocketSession session : list) {
+                    if (session != null) {
+                        try {
+                            /* @format: {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S"} */
+                            session.sendMessage(new TextMessage(JSON.toJSONString(wLineChartMap)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
 
             i++;
             try {

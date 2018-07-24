@@ -1,5 +1,6 @@
 package com.example.myGreen.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,8 @@ public class User implements UserDetails {
     private boolean enabled;
     private String firstname;
     private String lastname;
+    @JsonIgnore
+    private String role;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -48,7 +51,7 @@ public class User implements UserDetails {
     @Override
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority(role));
         return authorities;
     }
 
@@ -127,5 +130,13 @@ public class User implements UserDetails {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

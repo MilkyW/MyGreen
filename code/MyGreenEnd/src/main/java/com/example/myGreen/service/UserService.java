@@ -6,6 +6,8 @@ import com.example.myGreen.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -86,5 +88,14 @@ public class UserService {
         user.setNickname(newUser.getNickname());
 
         userRepository.save(user);
+    }
+
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    public boolean updateUserEnabledById(long id, boolean enabled) {
+        userRepository.updateEnabledById(id, enabled);
+        return true;
     }
 }

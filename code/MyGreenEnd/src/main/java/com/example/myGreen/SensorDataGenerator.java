@@ -19,6 +19,6 @@ public class SensorDataGenerator implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        //service.generate();
+        service.generate();
     }
 }

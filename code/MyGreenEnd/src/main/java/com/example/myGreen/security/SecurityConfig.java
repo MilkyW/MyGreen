@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +27,7 @@ import java.io.PrintWriter;
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = {"com.example.myGreen"})
+@EnableGlobalMethodSecurity(securedEnabled = true)// 控制权限注解
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
@@ -62,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
                     throws IOException, ServletException {
                 String ip = IP.getIPAddress(httpServletRequest);
-                log.info("{} 登陆成功", ip);
+                String username = httpServletRequest.getParameter("account");
+                log.info("{} {} 登陆成功", ip, username);
 
                 httpServletResponse.setContentType("application/json;charset=utf-8");
                 PrintWriter out = httpServletResponse.getWriter();
@@ -73,13 +76,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         })
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
-                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e)
+                            throws IOException, ServletException {
                         String ip = IP.getIPAddress(httpServletRequest);
-                        log.info("{} 登陆失败", ip);
+                        String username = httpServletRequest.getParameter("account");
+                        log.info("{} {} 登陆失败", ip, username);
 
                         httpServletResponse.setContentType("application/json;charset=utf-8");
                         PrintWriter out = httpServletResponse.getWriter();
-                        out.write("false");
+
+                        if (userSecurityService.isBanned(username)) {
+                            /* 账户被ban */
+                            out.write("banned");
+                        }else if (!userSecurityService.isEnabled(username)) {
+                            /* 账户未激活 */
+                            out.write("notEnabled");
+                        }else {
+                            /* 密码错误or账号未注册or */
+                            out.write("false");
+                        }
+
                         out.flush();
                         out.close();
                     }
@@ -90,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 /* 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面 */
                 //http.sessionManagement().maximumSessions(1).expiredUrl("/login");
         /* 调试用，可开放所有链接 */
-//        http.authorizeRequests().antMatchers("/*").permitAll();
+        http.authorizeRequests().antMatchers("/*").permitAll();
     }
 
     @Override

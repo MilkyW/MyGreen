@@ -30,4 +30,9 @@ public class ControllerService {
         controllerRepository.deleteById(id);
         return true;
     }
+
+    public boolean updateControllerNameById(long id, String name) {
+        controllerRepository.updateNameById(id, name);
+        return true;
+    }
 }

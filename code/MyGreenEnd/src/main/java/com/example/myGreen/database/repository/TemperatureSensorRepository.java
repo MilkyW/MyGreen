@@ -17,6 +17,7 @@ import java.util.List;
 @Table(name = "TEMPERATURESENSOR")
 @Qualifier("TemperatureSensorRepository")
 public interface TemperatureSensorRepository extends JpaRepository<TemperatureSensor, Long> {
+
     @Query("select id from TemperatureSensor t where t.gardenId=:gardenId")
     List<Long> findSensorIdByGardenId(@Param("gardenId") long gardenId);
 
@@ -40,6 +41,6 @@ public interface TemperatureSensorRepository extends JpaRepository<TemperatureSe
 
     @Transactional
     @Modifying
-    @Query(value = "update temperatureSensor set name=:name where id=:id", nativeQuery = true)
+    @Query(value = "update TemperatureSensor set name=:name where id=:id", nativeQuery = true)
     void updateNameById(@Param("id") long id, @Param("name") String name);
 }

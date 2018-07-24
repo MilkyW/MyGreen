@@ -69,6 +69,8 @@ public class MailService {
 
         User user = userRepository.findById(reg.getId()).get();
         user.setEnabled(true);
+        /* 删除验证信息 */
+        registerRepository.deleteById(user.getId());
 
         normalDto.setCode(0);
         normalDto.setResult("success,please close the window");

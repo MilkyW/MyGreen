@@ -17,6 +17,8 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(temperatureWebSocketHandler(), "/getAllLatestTemperature");
         registry.addHandler(singleTemperatureHandler(), "/getSingleLatestTemperature");
+        registry.addHandler(wetnessWebSocketHandler(), "/getAllLatestWetness");
+        registry.addHandler(singleWetnessHandler(), "/getSingleLatestWetness");
 //        registry.addHandler(wetnessWebSocketHandler(), "/checkLatestWetness");
 //        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestTemperature/sockjs").setAllowedOrigins("*").withSockJS();
 //        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestWetness/sockjs").setAllowedOrigins("*").withSockJS();
@@ -35,5 +37,10 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
     @Bean
     public WebSocketHandler singleTemperatureHandler() {
         return new SingleTemperatureHandler();
+    }
+
+    @Bean
+    public WebSocketHandler singleWetnessHandler() {
+        return new SingleWetnessHandler();
     }
 }

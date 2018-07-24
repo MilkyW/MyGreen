@@ -25,4 +25,9 @@ public interface GardenControllerRepository extends JpaRepository<GardenControll
     @Modifying
     @Query(value = "update controller set valid = :valid where id = :id", nativeQuery = true)
     void updateValidById(@Param("id") long id, @Param("valid") boolean valid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update controller set name=:name where id=:id", nativeQuery = true)
+    void updateNameById(@Param("id") long id, @Param("name") String name);
 }

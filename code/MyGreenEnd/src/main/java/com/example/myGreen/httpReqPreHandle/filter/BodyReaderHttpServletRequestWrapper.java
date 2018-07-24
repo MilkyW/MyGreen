@@ -65,7 +65,6 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
      *
      * @param br
      * @param encoding
-     * @return
      * @throws IOException
      */
     private byte[] readBytes(BufferedReader br, String encoding) throws IOException {

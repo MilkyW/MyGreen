@@ -1,6 +1,7 @@
 package com.example.myGreen.security;
 
 import com.example.myGreen.database.entity.User;
+import com.example.myGreen.database.repository.RegisterRepository;
 import com.example.myGreen.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,8 @@ public class UserSecurityService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RegisterRepository registerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -22,5 +25,15 @@ public class UserSecurityService implements UserDetailsService {
             return new User();
         }
         return user;
+    }
+
+    public boolean isBanned(String username) {
+        User user = userRepository.findByUsername(username);
+        /* 没有注册信息返回true */
+        return !registerRepository.findById(user.getId()).isPresent();
+    }
+
+    public boolean isEnabled(String username) {
+        return userRepository.findByUsername(username).isEnabled();
     }
 }

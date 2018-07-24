@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GardenService {
@@ -26,8 +27,20 @@ public class GardenService {
         return true;
     }
 
-    public boolean updateNameById(long id, String name) {
-        gardenRepository.updateNameById(id, name);
+    public boolean updateGarden(Garden garden) {
+        Optional<Garden> result = gardenRepository.findById(garden.getId());
+        if (!result.isPresent()) {
+            return false;
+        }
+        Garden oldGarden = result.get();
+
+        oldGarden.setName(garden.getName());
+        oldGarden.setWidth(garden.getWidth());
+        oldGarden.setLength(garden.getLength());
+        oldGarden.setIdealTemperature(garden.getIdealTemperature());
+        oldGarden.setIdealWetness(garden.getIdealWetness());
+
+        gardenRepository.save(garden);
         return true;
     }
 }

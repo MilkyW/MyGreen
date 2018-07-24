@@ -17,6 +17,9 @@ import java.util.List;
 @Qualifier("wetnessSensorRepository")
 public interface WetnessSensorRepository extends JpaRepository<WetnessSensor, Long> {
 
+    @Query("select id from WetnessSensor t where t.gardenId=:gardenId")
+    List<Long> findSensorIdByGardenId(@Param("gardenId") long gardenId);
+
     List<WetnessSensor> findByGardenId(long gardenId);
 
     List<WetnessSensor> findByName(String name);
@@ -34,4 +37,9 @@ public interface WetnessSensorRepository extends JpaRepository<WetnessSensor, Lo
 
     @Query("select new WetnessSensor (id, gardenId) from WetnessSensor t")
     List<WetnessSensor> findSensorInfo();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update WetnessSensor set name=:name where id=:id", nativeQuery = true)
+    void updateNameById(@Param("id") long id, @Param("name") String name);
 }
