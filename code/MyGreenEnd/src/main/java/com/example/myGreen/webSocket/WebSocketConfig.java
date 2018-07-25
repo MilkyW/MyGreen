@@ -15,32 +15,32 @@ public class WebSocketConfig extends WebMvcConfigurerAdapter implements WebSocke
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(temperatureWebSocketHandler(), "/getAllLatestTemperature");
-        registry.addHandler(singleTemperatureHandler(), "/getSingleLatestTemperature");
-        registry.addHandler(wetnessWebSocketHandler(), "/getAllLatestWetness");
-        registry.addHandler(singleWetnessHandler(), "/getSingleLatestWetness");
+        registry.addHandler(tHeatMapHandler(), "/getAllLatestTemperature");
+        registry.addHandler(tLineChartHandler(), "/getSingleLatestTemperature");
+        registry.addHandler(wHeatMapHandler(), "/getAllLatestWetness");
+        registry.addHandler(wLineChartHandler(), "/getSingleLatestWetness");
 //        registry.addHandler(wetnessWebSocketHandler(), "/checkLatestWetness");
 //        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestTemperature/sockjs").setAllowedOrigins("*").withSockJS();
 //        registry.addHandler(temperatureWebSocketHandler(), "/checkLatestWetness/sockjs").setAllowedOrigins("*").withSockJS();
     }
 
     @Bean
-    public WebSocketHandler temperatureWebSocketHandler() {
-        return new TemperatureWebSocketHandler();
+    public WebSocketHandler tHeatMapHandler() {
+        return new THeatMapHandler();
     }
 
     @Bean
-    public WebSocketHandler wetnessWebSocketHandler() {
-        return new WetnessWebSocketHandler();
+    public WebSocketHandler wHeatMapHandler() {
+        return new WHeatMapHandler();
     }
 
     @Bean
-    public WebSocketHandler singleTemperatureHandler() {
-        return new SingleTemperatureHandler();
+    public WebSocketHandler tLineChartHandler() {
+        return new TLineChartHandler();
     }
 
     @Bean
-    public WebSocketHandler singleWetnessHandler() {
-        return new SingleWetnessHandler();
+    public WebSocketHandler wLineChartHandler() {
+        return new WLineChartHandler();
     }
 }

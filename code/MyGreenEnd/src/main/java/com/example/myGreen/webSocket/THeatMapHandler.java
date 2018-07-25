@@ -10,24 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WetnessWebSocketHandler implements WebSocketHandler {
+public class THeatMapHandler implements WebSocketHandler {
 
     private static int onlineCount = 0;
 
-    private static Logger log = LoggerFactory.getLogger(WetnessWebSocketHandler.class);
+    private static Logger log = LoggerFactory.getLogger(THeatMapHandler.class);
 
     private static final Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
 
     private static final Map<Long, List<WebSocketSession>> map = new ConcurrentHashMap<>();
 
     private static synchronized void addOnlineCount() {
-        WetnessWebSocketHandler.onlineCount++;
-        log.info("用户连接，在线用户: {}", WetnessWebSocketHandler.onlineCount);
+        THeatMapHandler.onlineCount++;
+        log.info("用户连接，在线用户: {}", THeatMapHandler.onlineCount);
     }
 
     private static synchronized void subOnlineCount() {
-        WetnessWebSocketHandler.onlineCount--;
-        log.info("用户断开，在线用户: {}", WetnessWebSocketHandler.onlineCount);
+        THeatMapHandler.onlineCount--;
+        log.info("用户断开，在线用户: {}", THeatMapHandler.onlineCount);
     }
 
     private static void deleteSessionFromMap(WebSocketSession session) {
@@ -49,7 +49,6 @@ public class WetnessWebSocketHandler implements WebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        //users.add(session);
         users.put(session.getId(), session);
 
         addOnlineCount();
@@ -80,7 +79,6 @@ public class WetnessWebSocketHandler implements WebSocketHandler {
         }
 
         deleteSessionFromMap(session);
-        //users.remove(session);
         users.remove(session.getId());
 
         log.info("handleTransportError" + exception.getMessage());

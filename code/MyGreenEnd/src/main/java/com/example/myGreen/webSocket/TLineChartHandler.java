@@ -10,24 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TemperatureWebSocketHandler implements WebSocketHandler {
+public class TLineChartHandler implements WebSocketHandler {
 
     private static int onlineCount = 0;
 
-    private static Logger log = LoggerFactory.getLogger(TemperatureWebSocketHandler.class);
+    private static Logger log = LoggerFactory.getLogger(TLineChartHandler.class);
 
     private static final Map<String, WebSocketSession> users = new ConcurrentHashMap<>();
 
     private static final Map<Long, List<WebSocketSession>> map = new ConcurrentHashMap<>();
 
     private static synchronized void addOnlineCount() {
-        TemperatureWebSocketHandler.onlineCount++;
-        log.info("用户连接，在线用户: {}", TemperatureWebSocketHandler.onlineCount);
+        TLineChartHandler.onlineCount++;
+        log.info("用户连接，在线用户: {}", TLineChartHandler.onlineCount);
     }
 
     private static synchronized void subOnlineCount() {
-        TemperatureWebSocketHandler.onlineCount--;
-        log.info("用户断开，在线用户: {}", TemperatureWebSocketHandler.onlineCount);
+        TLineChartHandler.onlineCount--;
+        log.info("用户断开，在线用户: {}", TLineChartHandler.onlineCount);
     }
 
     private static void deleteSessionFromMap(WebSocketSession session) {
@@ -49,7 +49,6 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        //users.add(session);
         users.put(session.getId(), session);
 
         addOnlineCount();
@@ -80,7 +79,6 @@ public class TemperatureWebSocketHandler implements WebSocketHandler {
         }
 
         deleteSessionFromMap(session);
-        //users.remove(session);
         users.remove(session.getId());
 
         log.info("handleTransportError" + exception.getMessage());

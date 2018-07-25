@@ -10,27 +10,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class SingleWetnessHandler implements WebSocketHandler {
+public class WLineChartHandler implements WebSocketHandler {
 
     private static int onlineCount = 0;
 
-    private static Logger log = LoggerFactory.getLogger(SingleWetnessHandler.class);
+    private static Logger log = LoggerFactory.getLogger(WLineChartHandler.class);
 
     private static final ArrayList<WebSocketSession> users = new ArrayList<>();
 
     private static final Map<Long, List<WebSocketSession>> map = new ConcurrentHashMap<>();
 
     private static synchronized int getOnlineCount() {
-        return SingleWetnessHandler.onlineCount;
+        return WLineChartHandler.onlineCount;
     }
 
     private static synchronized void addOnlineCount() {
-        SingleWetnessHandler.onlineCount++;
+        WLineChartHandler.onlineCount++;
         log.info("用户连接，在线用户:" + getOnlineCount());
     }
 
     private static synchronized void subOnlineCount() {
-        SingleWetnessHandler.onlineCount--;
+        WLineChartHandler.onlineCount--;
         log.info("用户断开，在线用户:" + getOnlineCount());
     }
 

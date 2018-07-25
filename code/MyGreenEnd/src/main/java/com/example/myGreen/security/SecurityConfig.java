@@ -54,10 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                /* 任何人均可访问 */
                 .antMatchers("/isAccountExist").permitAll()
                 .antMatchers("/isPhoneExist").permitAll()
                 .antMatchers("/isEmailExist").permitAll()
                 .antMatchers("/saveUser").permitAll()
+                .antMatchers("/resendEmail").permitAll()
                 .anyRequest().authenticated()//其他的路径都是登录后即可访问
                 .and().formLogin().loginPage("/loginPage").successHandler(new AuthenticationSuccessHandler() {
             @Override
@@ -88,10 +90,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         if (userSecurityService.isBanned(username)) {
                             /* 账户被ban */
                             out.write("banned");
-                        }else if (!userSecurityService.isEnabled(username)) {
+                        } else if (!userSecurityService.isEnabled(username)) {
                             /* 账户未激活 */
                             out.write("notEnabled");
-                        }else {
+                        } else {
                             /* 密码错误or账号未注册or */
                             out.write("false");
                         }
@@ -103,10 +105,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("account").passwordParameter("password").permitAll()
                 .and().logout().logoutUrl("/logout").permitAll()
                 .and().csrf().disable();
-                /* 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面 */
-                //http.sessionManagement().maximumSessions(1).expiredUrl("/login");
+        /* 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面 */
+        //http.sessionManagement().maximumSessions(1).expiredUrl("/login");
         /* 调试用，可开放所有链接 */
-        http.authorizeRequests().antMatchers("/*").permitAll();
+        //http.authorizeRequests().antMatchers("/*").permitAll();
     }
 
     @Override
