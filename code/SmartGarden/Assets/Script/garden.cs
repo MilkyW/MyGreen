@@ -73,19 +73,20 @@ public class garden : MonoBehaviour {
                         break;
                 }
             }).Send();
-
         }
     }
 
     void MapOnClick()
     {
-        if (GameObject.Find("map/Text").GetComponent<Text>().text.ToString() == "Map")
+        if (GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text.ToString() == "Map")
         {
-            GameObject.Find("map/Text").GetComponent<Text>().text = "Temperature";
+            GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text = "Temperature";
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMap").gameObject.SetActive(true);
         }
-        else if (GameObject.Find("map/Text").GetComponent<Text>().text.ToString() == "Temperature")
+        else if (GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text.ToString() == "Temperature")
         {
-            GameObject.Find("map/Text").GetComponent<Text>().text = "Map";
+            GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text = "Map";
+            GameObject.Find("HeatCanvas/painting/Scroll View/map/background/HeatMap").gameObject.SetActive(false);
         }
     }
 }

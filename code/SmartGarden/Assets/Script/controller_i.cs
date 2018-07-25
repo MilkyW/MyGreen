@@ -59,6 +59,8 @@ public class controller_i : MonoBehaviour {
 
     void NameCheck()
     {
+        if (controller_name.text == show.getName())
+            return;
         if (function.SensorNameCheck(selected, controller_name.text))
         {
             name_existed.gameObject.SetActive(true);
@@ -73,7 +75,20 @@ public class controller_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        
+        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/deleteControllerById?id=" + show.getId()), HTTPMethods.Get, (req, res) =>
+        {
+            switch (req.State)
+            {
+                case HTTPRequestStates.Finished:
+                    Debug.Log(res.DataAsText);
+                    GameObject.Find("Canvas/cover").SetActive(false);
+                    GameObject.Find("Canvas/controller_info").SetActive(false);
+                    break;
+                default:
+                    Debug.Log("Error!Status code:" + res.StatusCode);
+                    break;
+            }
+        }).Send();
     }
 
     void SaveOnClick()
@@ -85,35 +100,21 @@ public class controller_i : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/controller_info").SetActive(false);
-            /*if (show.getName() != controller_name.text)
+            if (show.getName() != controller_name.text)
             {
-                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateController"), HTTPMethods.Post, (req, res) => {
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateControllerNameById?id="+show.getId()), HTTPMethods.Post, (req, res) =>
+                {
                     switch (req.State)
                     {
                         case HTTPRequestStates.Finished:
-                            Debug.Log("Successfully save!");
-                            GameObject.Find("Canvas/cover").SetActive(false);
-                            GameObject.Find("Canvas/controller_info").SetActive(false);
+                            Debug.Log(res.DataAsText);
                             break;
                         default:
                             Debug.Log("Error!Status code:" + res.StatusCode);
                             break;
                     }
-                });
-                request.AddHeader("Content-Type", "application/json");
-
-                JsonData newController = new JsonData();
-                newController["gardenId"] = selected.getId();
-                newController["x"] = show.getX();
-                newController["y"] = show.getY();
-                newController["name"] = controller_name.text;
-                newController["valid"] = show.getState();
-                request.RawData = System.Text.Encoding.UTF8.GetBytes(newController.ToJson());
-
-                request.Send();
-            }*/
+                }).Send();
+            }
             if (show.getState() != on.isOn)
             {
                 Debug.Log("my state:" + on.isOn);
@@ -123,11 +124,6 @@ public class controller_i : MonoBehaviour {
                     {
                         case HTTPRequestStates.Finished:
                             Debug.Log("Successfully save!");
-                            GameObject.Find("Canvas/cover").SetActive(false);
-                            GameObject.Find("Canvas/controller_info").SetActive(false);
-                            function.Clear(required, warning, pass);
-                            function.FreshGarden(selected);
-                            on.isOn = false;
                             break;
                         default:
                             Debug.Log("Error!Status code:" + res.StatusCode);
@@ -135,6 +131,8 @@ public class controller_i : MonoBehaviour {
                     }
                 }).Send();
             }
+            GameObject.Find("Canvas/cover").SetActive(false);
+            GameObject.Find("Canvas/controller_info").SetActive(false);
         }
     }
 }

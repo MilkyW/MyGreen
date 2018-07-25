@@ -100,7 +100,7 @@ public class garden_b : MonoBehaviour {
             newGarden["length"] = length.text;
             newGarden["name"] = garden_name.text;
             newGarden["idealTemperature"] = temperature.text;
-            newGarden["ideaWetness"] = humidity.text;
+            newGarden["idealWetness"] = humidity.text;
             request.RawData = System.Text.Encoding.UTF8.GetBytes(newGarden.ToJson());
 
             request.Send();

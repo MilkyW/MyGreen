@@ -1,8 +1,6 @@
 ﻿using BestHTTP;
-using LitJson;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
@@ -113,6 +111,28 @@ public class function {
         return;
     }
 
+    public static void FreshGardens(m_garden garden)
+    {
+        data.m_user.clearGardens();
+        HTTPRequest request_getGarden = new HTTPRequest(new Uri(data.IP + "/getGardenByUserId?userId=" + data.m_user.getId()), HTTPMethods.Get, (req_garden, res_garden) => {
+            Debug.Log(res_garden.DataAsText);
+            JArray array = JArray.Parse(res_garden.DataAsText);
+            foreach (var e in array)
+            {
+                m_garden newGarden = new m_garden();
+                newGarden.setId((long)e["id"]);
+                newGarden.setName((string)e["name"]);
+                newGarden.setLength((int)e["length"]);
+                newGarden.setWidth((int)e["width"]);
+                newGarden.setIdealTemperature((float)e["idealTemperature"]);
+                newGarden.setIdealHumidity((float)e["idealWetness"]);
+                Debug.Log(newGarden.getName());
+                data.m_user.addGardens(newGarden);
+            }
+            FreshGarden(garden);
+        }).Send();
+    }
+
     public static void GetSensors(m_garden garden)
     {
         List<sensor> sensors = new List<sensor>();
@@ -124,8 +144,8 @@ public class function {
                 sensor temp = new sensor();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"]);
-                temp.setY((int)e["y"]);
+                temp.setX((int)e["x"] * data.width / garden.getWidth());
+                temp.setY((int)e["y"] * data.length / garden.getLength());
                 temp.setType(true);
                 sensors.Add(temp);
             }
@@ -139,11 +159,10 @@ public class function {
                 sensor temp = new sensor();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"]);
-                temp.setY((int)e["y"]);
+                temp.setX((int)e["x"] * data.width/garden.getWidth());
+                temp.setY((int)e["y"] * data.length/garden.getLength());
                 temp.setType(false);
                 sensors.Add(temp);
-                MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Humidity, true, 0, 0, 0);
             }
             garden.addSensor(sensors);
         }).Send();
@@ -158,14 +177,17 @@ public class function {
                         MapBG.drawOne(n.getId(), n.getName(), n.getX(), n.getY(), MapBG.SensorControllerType.Temperature, true, n.getData(), garden.getIdealTemperature() * (float)1.2, garden.getIdealTemperature() * (float)0.8);
                     }
         }).Send();
-        /*HTTPRequest request_getSensorData2 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_data2, res_data2) => {
+        HTTPRequest request_getSensorData2 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_data2, res_data2) => {
             Debug.Log(res_data2.DataAsText);
             JArray array = JArray.Parse(res_data2.DataAsText);
             foreach (var e in array)
                 foreach (sensor n in garden.getSensors())
-                    if (n.getId() == (long)e["id"])
+                    if (n.getId() == (long)e["id"] && !n.getType())
+                    {
                         n.setData((float)e["wetness"]);
-        }).Send();*/
+                        MapBG.drawOne(n.getId(), n.getName(), n.getX(), n.getY(), MapBG.SensorControllerType.Humidity, true, n.getData(), garden.getIdealHumidity() * (float)1.2, garden.getIdealHumidity() * (float)0.8);
+                    }
+        }).Send();
         return;
     }
 
@@ -180,8 +202,8 @@ public class function {
                 controller temp = new controller();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"]);
-                temp.setY((int)e["y"]);
+                temp.setX((int)e["x"] * data.width / garden.getWidth());
+                temp.setY((int)e["y"] * data.length / garden.getLength());
                 temp.setState((bool)e["valid"]);
                 controllers.Add(temp);
                 MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, temp.getState(), 0, 0, 0);

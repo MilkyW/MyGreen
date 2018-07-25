@@ -46,7 +46,7 @@ public class sensor_i : MonoBehaviour {
         if (show.getType())
             temperature.isOn = true;
         else
-            humidity.isOn = false;
+            humidity.isOn = true;
     }
 
     void OnDisable()
@@ -64,6 +64,8 @@ public class sensor_i : MonoBehaviour {
 
     void NameCheck()
     {
+        if (sensor_name.text == show.getName())
+            return;
         if (function.SensorNameCheck(selected, sensor_name.text))
         {
             name_existed.gameObject.SetActive(true);
@@ -78,7 +80,20 @@ public class sensor_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-
+        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/deleteTemperatureSensorById?id=" + show.getId()), HTTPMethods.Get, (req, res) =>
+        {
+            switch (req.State)
+            {
+                case HTTPRequestStates.Finished:
+                    Debug.Log("delete");
+                    GameObject.Find("Canvas/cover").SetActive(false);
+                    GameObject.Find("Canvas/sensor_info").SetActive(false);
+                    break;
+                default:
+                    Debug.Log("Error!Status code:" + res.StatusCode);
+                    break;
+            }
+        }).Send();
     }
 
     void SaveOnClick()
@@ -90,40 +105,41 @@ public class sensor_i : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
+            if (sensor_name.text != show.getName())
+            {
+                if (show.getType())
+                {
+                    HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateTemperatureSensorNameById?id=" + show.getId() + "&name=" + sensor_name.text), HTTPMethods.Post, (req, res) =>
+                    {
+                        switch (req.State)
+                        {
+                            case HTTPRequestStates.Finished:
+                                Debug.Log(res.DataAsText);
+                                break;
+                            default:
+                                Debug.Log("Error!Status code:" + res.StatusCode);
+                                break;
+                        }
+                    }).Send();
+                }
+                else
+                {
+                    HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateWetnessSensorNameById?id=" + show.getId() + "&name=" + sensor_name.text), HTTPMethods.Post, (req, res) =>
+                    {
+                        switch (req.State)
+                        {
+                            case HTTPRequestStates.Finished:
+                                Debug.Log(res.DataAsText);
+                                break;
+                            default:
+                                Debug.Log("Error!Status code:" + res.StatusCode);
+                                break;
+                        }
+                    }).Send();
+                }
+            }
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/sensor_info").SetActive(false);
-            /*if (sensor_name.text != show.getName())
-            {
-                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateSensor"), HTTPMethods.Post, (req, res) =>
-                {
-                    switch (req.State)
-                    {
-                        case HTTPRequestStates.Finished:
-                            Debug.Log(res.DataAsText);
-                            GameObject.Find("Canvas/cover").SetActive(false);
-                            GameObject.Find("Canvas/sensor_info").SetActive(false);
-                            function.Clear(required, warning, pass);
-                            function.FreshGarden(selected);
-                            temperature.isOn = false;
-                            humidty.isOn = false;
-                            break;
-                        default:
-                            Debug.Log("Error!Status code:" + res.StatusCode);
-                            break;
-                    }
-                });
-                request.AddHeader("Content-Type", "application/json");
-
-                JsonData newSensor = new JsonData();
-                newSensor["gardenId"] = selected.getId();
-                newSensor["x"] = show.getX();
-                newSensor["y"] = show.getY();
-                newSensor["name"] = sensor_name.text;
-                newSensor["valid"] = true;
-                request.RawData = System.Text.Encoding.UTF8.GetBytes(newSensor.ToJson());
-
-                request.Send();
-            }*/
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using BestHTTP;
+using LitJson;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -83,6 +86,35 @@ public class garden_i : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
+            if (garden_name.text != selected.getName() || temperature.text != selected.getIdealTemperature().ToString() || humidity.text != selected.getIdealHumidity().ToString() || length.text != selected.getLength().ToString() || width.text != selected.getWidth().ToString())
+            {
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateGarden"), HTTPMethods.Post, (req, res) =>
+                {
+                    switch (req.State)
+                    {
+                        case HTTPRequestStates.Finished:
+                            Debug.Log(res.DataAsText);
+                            function.FreshGardens(selected);
+                            break;
+                        default:
+                            Debug.Log("Error!Status code:" + res.StatusCode);
+                            break;
+                    }
+                });
+                request.AddHeader("Content-Type", "application/json");
+
+                JsonData newGarden = new JsonData();
+                newGarden["id"] = selected.getId().ToString();
+                newGarden["userId"] = data.m_user.getId().ToString();
+                newGarden["width"] = width.text;
+                newGarden["length"] = length.text;
+                newGarden["name"] = garden_name.text;
+                newGarden["idealTemperature"] = temperature.text;
+                newGarden["idealWetness"] = humidity.text;
+                request.RawData = System.Text.Encoding.UTF8.GetBytes(newGarden.ToJson());
+
+                request.Send();
+            }
             GameObject.Find("Canvas/cover").SetActive(false);
             GameObject.Find("Canvas/garden_info").SetActive(false);
         }

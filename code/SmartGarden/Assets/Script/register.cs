@@ -199,6 +199,7 @@ public class register : MonoBehaviour {
                     case HTTPRequestStates.Finished:
                         submit.enabled = true;
                         Debug.Log("Successfully save!");
+                        message_b.id = long.Parse(res.DataAsText);
                         GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                         GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
                         break;

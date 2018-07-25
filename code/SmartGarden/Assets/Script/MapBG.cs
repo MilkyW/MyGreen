@@ -25,16 +25,23 @@ public class MapBG : MonoBehaviour
 
     public static void clearAll()
     {
-        for (int i = 1; i < GameObject.Find("Canvas/painting/Scroll View/map").transform.childCount; i++)
-            Destroy(GameObject.Find("Canvas/painting/Scroll View/map").transform.GetChild(i).gameObject);
+        for (int i = 1; i < GameObject.Find("HeatCanvas/painting/Scroll View/map").transform.childCount; i++)
+            Destroy(GameObject.Find("HeatCanvas/painting/Scroll View/map").transform.GetChild(i).gameObject);
+        GameObject containerT = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMap").gameObject;
+        //GameObject containerH = GameObject.Find("HeatMapH");
+        SpringMesh.HeatMap heatmapT = containerT.GetComponent<SpringMesh.HeatMap>();
+        //SpringMesh.HeatMap heatmapH = containerH.GetComponent<SpringMesh.HeatMap>();
+        heatmapT.sswitch();
+        //heatmapH.sswitch();
     }
 
     public static void drawOne(long id, string name, int x, int y, SensorControllerType type, bool valid, float now, float max, float min)
     {
         Object sensorcontrollerPreb = null;
         Debug.Log(name);
+        Debug.Log(x + "," + y);
         GameObject sensorcontroller;
-        GameObject container = GameObject.Find("Canvas/painting/Scroll View/map");
+        GameObject container = GameObject.Find("HeatCanvas/painting/Scroll View/map");
 
         switch (type)
         {
@@ -66,6 +73,6 @@ public class MapBG : MonoBehaviour
         sc.transform.SetParent(container.transform);
         RectTransform rt = sensorcontroller.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);
-        rt.localScale = new Vector3((float)0.5, (float)0.5, 1);
+        rt.localScale = new Vector3((float)0.3, (float)0.3, 1);
     }
 }

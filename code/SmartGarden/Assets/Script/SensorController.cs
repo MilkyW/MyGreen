@@ -147,7 +147,7 @@ public class SensorController : MonoBehaviour
     {
         if (type == MapBG.SensorControllerType.Irrigation)
         {
-            foreach (controller e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getControllers())
+            foreach (controller e in function.FindSelected().getControllers())
                 if (e.getId() == id)
                 {
                     //controller_i.selected = data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value];
@@ -158,7 +158,7 @@ public class SensorController : MonoBehaviour
         }
         else if (type == MapBG.SensorControllerType.Temperature)
         {
-            foreach (sensor e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getSensors())
+            foreach (sensor e in function.FindSelected().getSensors())
                 if (e.getId() == id && e.getType())
                 {
                     sensor_i.show = e;
@@ -168,7 +168,7 @@ public class SensorController : MonoBehaviour
         }
         else
         {
-            foreach (sensor e in data.m_user.getGardens()[GameObject.Find("Canvas/garden").GetComponent<Dropdown>().value].getSensors())
+            foreach (sensor e in function.FindSelected().getSensors())
                 if (e.getId() == id && !e.getType())
                 {
                     sensor_i.show = e;
