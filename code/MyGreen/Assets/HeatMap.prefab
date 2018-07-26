@@ -86,6 +86,8 @@ MonoBehaviour:
   bottom: 0
   radius: 0.5
   positionFX: 10
+  ideal: 20
+  step: 10
 --- !u!222 &222384747959432612
 CanvasRenderer:
   m_ObjectHideFlags: 1
