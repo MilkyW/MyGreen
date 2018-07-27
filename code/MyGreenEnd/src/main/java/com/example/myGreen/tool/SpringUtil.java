@@ -3,7 +3,8 @@ package com.example.myGreen.tool;
 import org.springframework.context.ApplicationContext;
 
 /**
- * 获取Springboot管理下的Bean，Bean无法自动注入时使用
+ * 获取Springboot管理下的Bean
+ * Bean无法自动注入时使用
  */
 public class SpringUtil {
 

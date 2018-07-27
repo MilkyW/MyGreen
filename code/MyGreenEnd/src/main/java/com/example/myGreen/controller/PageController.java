@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class PageController {
 
+    /**
+     * 未授权的请求自动导向此处
+     */
     @RequestMapping("/loginPage")
     @ResponseBody
     public String loginPage() {

@@ -37,4 +37,25 @@ public class WetnessSensorDataRepositoryTest {
             Assert.assertTrue(latestTime.after(time) || latestTime.equals(time));
         }
     }
+    
+    @Test
+    public void findLatestWetnessById() throws Exception {
+        long id = 1;
+        
+        repository.findLatestWetnessById(id);
+    }
+    
+    @Test
+    public void findRecentDataById() throws Exception {
+        long id = 1;
+        int num = 10;
+
+        List<WetnessSensorData> list = repository.findRecentDataById(id, num);
+        if (list.size() > num) {
+            Assert.fail(String.format("take more than {} pieces of data", num));
+        }
+        for (WetnessSensorData data:list) {
+            Assert.assertEquals(data.getId().getId(), id);
+        }
+    }
 }

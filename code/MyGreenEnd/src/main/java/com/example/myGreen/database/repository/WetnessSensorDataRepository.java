@@ -26,6 +26,6 @@ public interface WetnessSensorDataRepository extends JpaRepository<WetnessSensor
             nativeQuery = true)
     Float findLatestWetnessById(@Param("id") long id);
 
-    @Query(value = "select * from TemperatureSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
+    @Query(value = "select * from WetnessSensorData where id=:id order by time desc limit 0,:num", nativeQuery = true)
     List<WetnessSensorData> findRecentDataById(@Param("id") long id, @Param("num") int num);
 }

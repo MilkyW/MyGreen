@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * Filter
- * 对http请求进行包装，持久化body的数据
+ * 对http请求进行包装，以保存body中的数据，使其可被多次访问
  */
 public class HttpServletRequestReplacedFilter implements Filter {
 

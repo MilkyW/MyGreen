@@ -51,6 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
     }
 
+    /**
+     * Spring Security具体配置
+     *
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -60,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/isEmailExist").permitAll()
                 .antMatchers("/saveUser").permitAll()
                 .antMatchers("/resendEmail").permitAll()
+                .antMatchers("/validate").permitAll()
                 .anyRequest().authenticated()//其他的路径都是登录后即可访问
                 .and().formLogin().loginPage("/loginPage").successHandler(new AuthenticationSuccessHandler() {
             @Override

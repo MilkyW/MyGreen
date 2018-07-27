@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 
 /**
  * HttpServletRequest的包装
- * 存有HttpServletRequest的数据流中的数据，使其可被多次访问
+ * 存储HttpServletRequest的数据流中的数据，使其可被多次访问
  */
 public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private byte[] body;

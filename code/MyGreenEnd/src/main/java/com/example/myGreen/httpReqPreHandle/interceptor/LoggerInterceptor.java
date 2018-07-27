@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 
 /**
- * 拦截HTTP请求，以日志形式输出ip地址、请求方法和请求链接
+ * 拦截HTTP请求，以日志形式输出请求信息
+ * 信息包括：IP地址，请求方法，URI，请求参数，BODY
  */
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 

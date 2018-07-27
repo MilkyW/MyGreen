@@ -31,7 +31,9 @@ public class InterfaceController {
     @Autowired
     private SensorService sensorService;
 
-    /* User */
+    /* * * * * * * * * * * * * *
+     * User
+     * * * * * * * * * * * * * */
     @GetMapping("getUserByAccount")
     public User getUserByAccount(String account) {
         return userService.getUserByAccount(account);
@@ -75,7 +77,9 @@ public class InterfaceController {
         return userService.updateUserEnabledById(id, enabled);
     }
 
-    /* Garden */
+    /* * * * * * * * * * * * * *
+     * Garden
+     * * * * * * * * * * * * * */
     @GetMapping("getGardenByUserId")
     public List<Garden> getGardenByUserId(long userId) {
         return gardenService.getGardenByUserId(userId);
@@ -97,7 +101,9 @@ public class InterfaceController {
         return gardenService.updateGarden(garden);
     }
 
-    /* Temperature Sensor */
+    /* * * * * * * * * * * * * *
+     * Temperature Sensor
+     * * * * * * * * * * * * * */
     @GetMapping("getTemperatureSensorByGardenId")
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
         return sensorService.getTemperatureSensorByGardenId(gardenId);
@@ -119,7 +125,9 @@ public class InterfaceController {
         return sensorService.deleteTemperatureSensorById(id);
     }
 
-    /* Wetness Sensor */
+    /* * * * * * * * * * * * * *
+     * Wetness Sensor
+     * * * * * * * * * * * * * */
     @GetMapping("getWetnessSensorByGardenId")
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
         return sensorService.getWetnessSensorByGardenId(gardenId);
@@ -141,7 +149,9 @@ public class InterfaceController {
         return sensorService.deleteWetnessSensorById(id);
     }
 
-    /* Controller */
+    /* * * * * * * * * * * * * *
+     * Controller
+     * * * * * * * * * * * * * */
     @GetMapping("getControllerByGardenId")
     public List<GardenController> getControllerByGardenId(long gardenId) {
         return controllerService.getControllerByGardenId(gardenId);
@@ -168,10 +178,16 @@ public class InterfaceController {
         return controllerService.deleteControllerById(id);
     }
 
-    /* Temperature Sensor Data */
+    /* * * * * * * * * * * * * *
+     * Temperature Sensor Data
+     * * * * * * * * * * * * * */
 
     /**
-     * @return {"id":long, "temperature":float }
+     * 温度传感器热力图接口
+     * 获取各传感器的最新数据
+     *
+     * @param gardenId
+     * @return {"id":long, "temperature":float }[]
      */
     @GetMapping("getLatestTemperatureByGardenId")
     public String getLatestTemperatureByGardenId(long gardenId) {
@@ -179,17 +195,28 @@ public class InterfaceController {
     }
 
     /**
-     * @return {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
+     * 温度传感器折线图接口
+     * 获取传感器的最近数据
+     *
+     * @param id
+     * @param num 数据条数
+     * @return {"temperature":float, "time":"YYYY-MM-DD HH:MM:SS.S" }[]
      */
     @GetMapping("getRecentTemperatureDataById")
     public String getRecentTemperatureDataById(long id, int num) {
         return sensorService.getRecentTemperatureDataById(id, num);
     }
 
-    /* Wetness Sensor Data */
+    /* * * * * * * * * * * * * *
+     * Wetness Sensor Data
+     * * * * * * * * * * * * * */
 
     /**
-     * @return {"id":long, "wetness":float }
+     * 湿度传感器热力图接口
+     * 获取传感器的最新数据
+     *
+     * @param gardenId
+     * @return {"id":long, "wetness":float }[]
      */
     @GetMapping("getLatestWetnessByGardenId")
     public String getLatestWetnessByGardenId(long gardenId) {
@@ -197,7 +224,12 @@ public class InterfaceController {
     }
 
     /**
-     * @return {"wetness":float, "time":"YYYY-MM-DD HH:MM:SS.S" }
+     * 湿度传感器折线图接口
+     * 获取传感器的最近数据
+     *
+     * @param id
+     * @param num 数据条数
+     * @return {"wetness":float, "time":"YYYY-MM-DD HH:MM:SS.S" }[]
      */
     @GetMapping("getRecentWetnessDataById")
     public String getRecentWetnessDataById(long id, int num) {

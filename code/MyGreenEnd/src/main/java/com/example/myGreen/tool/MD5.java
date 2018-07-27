@@ -2,6 +2,9 @@ package com.example.myGreen.tool;
 
 import org.springframework.util.DigestUtils;
 
+/**
+ * 以MD5方式对原文进行加密与比对
+ */
 public class MD5 {
 
     public static String EncoderByMd5(String str) {

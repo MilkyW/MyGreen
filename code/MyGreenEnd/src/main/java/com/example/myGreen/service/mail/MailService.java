@@ -20,10 +20,11 @@ import java.util.concurrent.Executors;
 @Service
 public class MailService {
 
-    private final String uri = "http://localhost:8080";
+    private static final String uri = "http://192.168.1.87:8080";
 
     private static Logger log = LoggerFactory.getLogger(MailService.class);
 
+    /* 线程池 */
     private static ExecutorService executor = Executors.newCachedThreadPool();
 
     @Autowired
@@ -86,7 +87,7 @@ public class MailService {
         if (!registerRepository.existsById(id)) {
             /* 刚注册的用户，直接发送验证邮件 */
             String token = tokenManagement.getTokenOfSignUp(user.getId());
-            log.info("用户注册，开始发送邮件 User:{} Email:{} Token:{}", user.getUsername(), user.getEmail(), token);
+            log.info("用户注册，开始发送邮件 username:{} email:{} token:{}", user.getUsername(), user.getEmail(), token);
             executor.execute(new EmailThread(user, token));
         } else {
             /* 已注册用户，重新发送验证邮件 */
@@ -108,14 +109,15 @@ public class MailService {
         return (now - past) > gap;
     }
 
+    /**
+     * 发送邮件的线程
+     */
     private class EmailThread implements Runnable {
 
         private User user;
         private String token;
 
         /**
-         * 发送邮件的线程
-         *
          * @param user  用户注册信息
          * @param token 随机的UUID
          */

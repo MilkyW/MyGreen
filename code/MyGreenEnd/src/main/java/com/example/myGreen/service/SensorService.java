@@ -29,7 +29,9 @@ public class SensorService {
     @Autowired
     private WetnessSensorDataRepository wsDataRepo;
 
-    /* Temperature */
+    /* * * * * * * * * * * * * *
+     * Temperature
+     * * * * * * * * * * * * * */
     public List<TemperatureSensor> getTemperatureSensorByGardenId(long gardenId) {
         return tsRepo.findByGardenId(gardenId);
     }
@@ -48,7 +50,9 @@ public class SensorService {
         return true;
     }
 
-    /* Temperature Sensor Data */
+    /* * * * * * * * * * * * * *
+     * Temperature Sensor Data
+     * * * * * * * * * * * * * */
     public String getLatestTemperatureByGardenId(long gardenId) {
         ArrayList<String> list = new ArrayList<>();
 
@@ -84,7 +88,9 @@ public class SensorService {
         return list.toString();
     }
 
-    /* Wetness */
+    /* * * * * * * * * * * * * *
+     * Wetness
+     * * * * * * * * * * * * * */
     public List<WetnessSensor> getWetnessSensorByGardenId(long gardenId) {
         return wsRepo.findByGardenId(gardenId);
     }
@@ -103,7 +109,9 @@ public class SensorService {
         return true;
     }
 
-    /* Wetness Sensor Data */
+    /* * * * * * * * * * * * * *
+     * Wetness Sensor Data
+     * * * * * * * * * * * * * */
     public String getLatestWetnessByGardenId(long gardenId) {
         ArrayList<String> list = new ArrayList<>();
 

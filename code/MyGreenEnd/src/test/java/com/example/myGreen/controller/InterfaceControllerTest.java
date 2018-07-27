@@ -2,11 +2,15 @@ package com.example.myGreen.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.myGreen.Application;
-import com.example.myGreen.database.entity.Garden;
-import com.example.myGreen.database.entity.GardenController;
-import com.example.myGreen.database.entity.TemperatureSensor;
-import com.example.myGreen.database.entity.WetnessSensor;
+import com.example.myGreen.database.entity.*;
+import com.example.myGreen.database.repository.*;
+import com.example.myGreen.service.ControllerService;
+import com.example.myGreen.service.GardenService;
+import com.example.myGreen.service.SensorService;
+import com.example.myGreen.service.UserService;
+import org.json.JSONString;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +39,25 @@ public class InterfaceControllerTest {
 
     @Autowired
     private WebApplicationContext context;
+
     private MockMvc mvc;
 
     private String route = "/";
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private GardenControllerRepository controllerRepository;
+    @Autowired
+    private RegisterRepository registerRepository;
+    @Autowired
+    private TemperatureSensorRepository tsRepo;
+    @Autowired
+    private WetnessSensorRepository wsRepo;
+    @Autowired
+    private TemperatureSensorDataRepository tsDataRepo;
+    @Autowired
+    private WetnessSensorDataRepository wsDataRepo;
 
     @Before
     public void setUp() throws Exception {
@@ -128,12 +148,12 @@ public class InterfaceControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        mvc.perform(MockMvcRequestBuilders.get(route + "getUserByAccount")
-                .param("account", "dennis")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.nickname").value("DENNIS"));
+        User user = userRepository.findByUsername("dennis");
+        if (user == null) {
+            Assert.fail();
+        }else {
+            Assert.assertEquals("DENNIS", user.getNickname());
+        }
     }
 
     /* Garden */
@@ -335,7 +355,96 @@ public class InterfaceControllerTest {
     }
 
     /* Temperature Sensor Data */
+    @Test
+    public void getLatestTemperatureByGardenId() throws Exception{
+        long gardenId = 1;
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getLatestTemperatureByGardenId")
+                .param("gardenId", Long.toString(gardenId))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        List<Object> list = JSON.parseArray(result.getResponse().getContentAsString());
+        for (Object obj : list) {
+
+            JSONObject jsonObject = (JSONObject)obj;
+            long id = Long.parseLong(jsonObject.getString("id"));
+            Float temperature = tsDataRepo.findLatestTemperatureById(id);
+            Assert.assertEquals(temperature.toString(), jsonObject.getString("temperature"));
+        }
+    }
+
+    @Test
+    public void getRecentTemperatureDataById() throws Exception{
+        long id = 1;
+        int num = 10;
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getRecentTemperatureDataById")
+                .param("id", Long.toString(id)).param("num", Integer.toString(num))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        List<Object> list = JSONArray.parseArray(result.getResponse().getContentAsString());
+        List<TemperatureSensorData> origin = tsDataRepo.findRecentDataById(id, num);
+
+        for (int i=0;i<list.size();i++) {
+            String origin_temperature = Float.toString(origin.get(i).getTemperature());
+            String origin_time = origin.get(i).getId().getTime().toString();
+
+            JSONObject obj = (JSONObject)list.get(i);
+            Assert.assertEquals(obj.get("temperature"), origin_temperature);
+            Assert.assertEquals(obj.get("time"), origin_time);
+        }
+    }
 
     /* Wetness Sensor Data */
+    @Test
+    public void getLatestWetnessByGardenId() throws Exception{
+        long gardenId = 1;
 
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getLatestWetnessByGardenId")
+                .param("gardenId", Long.toString(gardenId))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        List<Object> list = JSON.parseArray(result.getResponse().getContentAsString());
+        for (Object obj : list) {
+
+            JSONObject jsonObject = (JSONObject)obj;
+            long id = Long.parseLong(jsonObject.getString("id"));
+            Float Wetness = wsDataRepo.findLatestWetnessById(id);
+            Assert.assertEquals(Wetness.toString(), jsonObject.getString("wetness"));
+        }
+    }
+
+    @Test
+    public void getRecentWetnessDataById() throws Exception{
+        long id = 1;
+        int num = 10;
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(route + "getRecentWetnessDataById")
+                .param("id", Long.toString(id)).param("num", Integer.toString(num))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        List<Object> list = JSONArray.parseArray(result.getResponse().getContentAsString());
+        List<WetnessSensorData> origin = wsDataRepo.findRecentDataById(id, num);
+
+        for (int i=0;i<list.size();i++) {
+            String origin_Wetness = Float.toString(origin.get(i).getWetness());
+            String origin_time = origin.get(i).getId().getTime().toString();
+
+            JSONObject obj = (JSONObject)list.get(i);
+            Assert.assertEquals(obj.get("wetness"), origin_Wetness);
+            Assert.assertEquals(obj.get("time"), origin_time);
+        }
+    }
 }

@@ -57,13 +57,16 @@ public class SensorDataGeneratorService {
         Map<String, String> wLineChartMap = new HashMap<>();
 
         /* Get sensors' ID and gardenId */
-        List<TemperatureSensor> temperatureSensorList = temperatureSensorRepository.findSensorInfo();
-        List<WetnessSensor> wetnessSensorIdList = wetnessSensorRepository.findSensorInfo();
+        List<TemperatureSensor> temperatureSensorList = null;
+        List<WetnessSensor> wetnessSensorIdList = null;
 
         // run every 3 seconds
         final long timeInterval = 3000;//ms
         int i = 0;
         while (i < 1000) {
+            temperatureSensorList = temperatureSensorRepository.findSensorInfo();
+            wetnessSensorIdList = wetnessSensorRepository.findSensorInfo();
+
             log.info("Generate round {}", i);
             // ------- code for task to run
             java.util.Random r = new java.util.Random();

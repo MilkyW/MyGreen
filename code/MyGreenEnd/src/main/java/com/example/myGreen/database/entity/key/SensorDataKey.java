@@ -5,6 +5,9 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+/**
+ * 传感器数据的复合主键
+ */
 @Embeddable
 public class SensorDataKey implements Serializable {
 

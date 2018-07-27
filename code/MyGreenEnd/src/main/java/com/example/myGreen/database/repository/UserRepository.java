@@ -3,6 +3,7 @@ package com.example.myGreen.database.repository;
 import com.example.myGreen.database.entity.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean findEnabledByUsername(@Param("username") String username);
 
     @Transactional
+    @Modifying
     @Query(value = "update User set enabled=:enabled where id=:id", nativeQuery = true)
     void updateEnabledById(@Param("id") long id, @Param("enabled") boolean enabled);
 }

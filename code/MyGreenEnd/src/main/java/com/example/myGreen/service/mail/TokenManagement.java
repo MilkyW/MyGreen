@@ -14,6 +14,12 @@ public class TokenManagement {
     @Autowired
     private RegisterRepository registerRepository;
 
+    /**
+     * 生成用户验证所需的token
+     *
+     * @param id 用户ID
+     * @return token
+     */
     public String getTokenOfSignUp(long id) {
         String token = UUID.randomUUID().toString();
         Long time = new Date().getTime();

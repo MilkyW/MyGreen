@@ -37,4 +37,25 @@ public class TemperatureSensorDataRepositoryTest {
             Assert.assertTrue(latestTime.after(time) || latestTime.equals(time));
         }
     }
+
+    @Test
+    public void findLatestTemperatureById() throws Exception {
+        long id = 1;
+
+        Float temperature = repository.findLatestTemperatureById(id);
+    }
+
+    @Test
+    public void findRecentDataById() throws Exception {
+        long id = 1;
+        int num = 10;
+
+        List<TemperatureSensorData> list = repository.findRecentDataById(id, num);
+        if (list.size() > num) {
+            Assert.fail(String.format("take more than {} pieces of data", num));
+        }
+        for (TemperatureSensorData data:list) {
+            Assert.assertEquals(data.getId().getId(), id);
+        }
+    }
 }
