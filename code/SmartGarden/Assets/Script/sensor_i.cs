@@ -80,20 +80,40 @@ public class sensor_i : MonoBehaviour {
 
     void DeleteOnClick()
     {
-        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/deleteTemperatureSensorById?id=" + show.getId()), HTTPMethods.Get, (req, res) =>
+        if (show.getType())
         {
-            switch (req.State)
+            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/deleteTemperatureSensorById?id=" + show.getId()), HTTPMethods.Get, (req, res) =>
             {
-                case HTTPRequestStates.Finished:
-                    Debug.Log("delete");
-                    GameObject.Find("Canvas/cover").SetActive(false);
-                    GameObject.Find("Canvas/sensor_info").SetActive(false);
-                    break;
-                default:
-                    Debug.Log("Error!Status code:" + res.StatusCode);
-                    break;
-            }
-        }).Send();
+                switch (req.State)
+                {
+                    case HTTPRequestStates.Finished:
+                        Debug.Log(res.DataAsText);
+                        GameObject.Find("Canvas/cover").SetActive(false);
+                        GameObject.Find("Canvas/sensor_info").SetActive(false);
+                        break;
+                    default:
+                        Debug.Log("Error!Status code:" + res.StatusCode);
+                        break;
+                }
+            }).Send();
+        }
+        else
+        {
+            HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/deleteWetnessSensorById?id=" + show.getId()), HTTPMethods.Get, (req, res) =>
+            {
+                switch (req.State)
+                {
+                    case HTTPRequestStates.Finished:
+                        Debug.Log("delete");
+                        GameObject.Find("Canvas/cover").SetActive(false);
+                        GameObject.Find("Canvas/sensor_info").SetActive(false);
+                        break;
+                    default:
+                        Debug.Log("Error!Status code:" + res.StatusCode);
+                        break;
+                }
+            }).Send();
+        }
     }
 
     void SaveOnClick()

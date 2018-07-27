@@ -24,6 +24,17 @@ public class userlist : MonoBehaviour
         parent = GameObject.Find("Content");
         itemHeight = item.GetComponent<RectTransform>().rect.height;
         itemLocalPos = item.transform.localPosition;
+        BuildList();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void BuildList()
+    {
         contentSize = parent.GetComponent<RectTransform>().sizeDelta;
         HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/getAllUser"), HTTPMethods.Get, (req, res) => {
             Debug.Log(res.DataAsText);
@@ -47,12 +58,6 @@ public class userlist : MonoBehaviour
         }).Send();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void AddItem(string username, bool enabled)
     {
         GameObject a = Instantiate(item) as GameObject;
@@ -74,9 +79,14 @@ public class userlist : MonoBehaviour
         foreach (user e in list)
             if (e.getUsername() == a.transform.Find("name").GetComponent<Text>().text)
                 selected = e;
+        Debug.Log(selected.getId());
         HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateUserEnabledById?id=" + selected.getId() + "&enabled=" + !selected.getEnabled()), HTTPMethods.Get, (req, res) =>
         {
             Debug.Log(res.DataAsText);
+            for (int i = 0; i < parent.transform.childCount; i++)
+                Destroy(parent.transform.GetChild(i).gameObject);
+            list.Clear();
+            BuildList();
         }).Send();
     }
 

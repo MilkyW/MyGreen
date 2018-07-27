@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class garden : MonoBehaviour {
-    public Button map;
+    public Dropdown map;
     public Text nickname;
     public Dropdown view;
     public Dropdown gardens;
@@ -21,7 +21,7 @@ public class garden : MonoBehaviour {
     void Start()
     {
         nickname.text = data.m_user.getNickname();
-        map.onClick.AddListener(MapOnClick);
+        map.onValueChanged.AddListener(delegate { MapChange(); });
         view.onValueChanged.AddListener(delegate { ViewChange(); });
         gardens.onValueChanged.AddListener(delegate { function.FreshGarden(data.m_user.getGardens()[gardens.value]); });
         List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
@@ -45,6 +45,25 @@ public class garden : MonoBehaviour {
     void Update()
     {
 
+    }
+
+    void MapChange() { 
+        if (map.value == 0)
+        {
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(false);
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(false);
+            function.FreshGarden(data.m_user.getGardens()[gardens.value]);
+        }
+        else if (map.value == 1)
+        {
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(true);
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(false);
+            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(true);
+        }
     }
 
     void ControlOnClick()
@@ -73,20 +92,6 @@ public class garden : MonoBehaviour {
                         break;
                 }
             }).Send();
-        }
-    }
-
-    void MapOnClick()
-    {
-        if (GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text.ToString() == "Map")
-        {
-            GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text = "Temperature";
-            GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMap").gameObject.SetActive(true);
-        }
-        else if (GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text.ToString() == "Temperature")
-        {
-            GameObject.Find("Canvas/button_map/Text").GetComponent<Text>().text = "Map";
-            GameObject.Find("HeatCanvas/painting/Scroll View/map/background/HeatMap").gameObject.SetActive(false);
         }
     }
 }

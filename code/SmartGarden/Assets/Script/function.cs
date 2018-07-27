@@ -104,6 +104,9 @@ public class function {
     {
         Debug.Log(garden.getName());
         MapBG.clearAll();
+        GameObject.Find("Canvas/map").GetComponent<Dropdown>().value = 0;
+        GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(false);
+        GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(false);
         garden.cleanSensor();
         garden.cleanController();
         GetSensors(garden);
@@ -172,10 +175,14 @@ public class function {
             foreach (var e in array)
                 foreach (sensor n in garden.getSensors())
                     if (n.getId() == (long)e["id"] && n.getType())
-                    {
                         n.setData((float)e["temperature"]);
-                        MapBG.drawOne(n.getId(), n.getName(), n.getX(), n.getY(), MapBG.SensorControllerType.Temperature, true, n.getData(), garden.getIdealTemperature() * (float)1.2, garden.getIdealTemperature() * (float)0.8);
-                    }
+            foreach (sensor e in garden.getSensors())
+            {
+                if (e.getType() && e.getData() != 0)
+                    MapBG.drawOne(e.getId(), e.getName(), e.getX(), e.getY(), MapBG.SensorControllerType.Temperature, true, e.getData(), garden.getIdealTemperature() * (float)1.2, garden.getIdealTemperature() * (float)0.8);
+                else if (e.getType() && e.getData() == 0)
+                    MapBG.drawOne(e.getId(), e.getName(), e.getX(), e.getY(), MapBG.SensorControllerType.Temperature, false, garden.getIdealTemperature(), garden.getIdealTemperature() * (float)1.2, garden.getIdealTemperature() * (float)0.8);
+            }
         }).Send();
         HTTPRequest request_getSensorData2 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + garden.getId()), HTTPMethods.Get, (req_data2, res_data2) => {
             Debug.Log(res_data2.DataAsText);
@@ -183,10 +190,14 @@ public class function {
             foreach (var e in array)
                 foreach (sensor n in garden.getSensors())
                     if (n.getId() == (long)e["id"] && !n.getType())
-                    {
                         n.setData((float)e["wetness"]);
-                        MapBG.drawOne(n.getId(), n.getName(), n.getX(), n.getY(), MapBG.SensorControllerType.Humidity, true, n.getData(), garden.getIdealHumidity() * (float)1.2, garden.getIdealHumidity() * (float)0.8);
-                    }
+            foreach (sensor e in garden.getSensors())
+            {
+                if (!e.getType() && e.getData() != 0)
+                    MapBG.drawOne(e.getId(), e.getName(), e.getX(), e.getY(), MapBG.SensorControllerType.Humidity, true, e.getData(), garden.getIdealHumidity() * (float)1.2, garden.getIdealHumidity() * (float)0.8);
+                else if (!e.getType() && e.getData() == 0)
+                    MapBG.drawOne(e.getId(), e.getName(), e.getX(), e.getY(), MapBG.SensorControllerType.Humidity, false, garden.getIdealHumidity(), garden.getIdealHumidity() * (float)1.2, garden.getIdealHumidity() * (float)0.8);
+            }
         }).Send();
         return;
     }
