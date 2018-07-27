@@ -67,6 +67,9 @@ public class UserService {
         /* Set unvalid */
         user.setEnabled(false);
 
+        /* Set role */
+        user.setRole("ROLE_USER");
+
         userRepository.save(user);
 
         /* Send email */

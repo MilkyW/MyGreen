@@ -61,6 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 /* 任何人均可访问 */
+                .antMatchers("/").permitAll()
+                .antMatchers("/Build/*").permitAll()
+                .antMatchers("/TemplateData/*").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/isAccountExist").permitAll()
                 .antMatchers("/isPhoneExist").permitAll()
                 .antMatchers("/isEmailExist").permitAll()
@@ -111,6 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }).loginProcessingUrl("/login")
                 .usernameParameter("account").passwordParameter("password").permitAll()
                 .and().logout().logoutUrl("/logout").permitAll()
+                .and().cors()
                 .and().csrf().disable();
         /* 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面 */
         //http.sessionManagement().maximumSessions(1).expiredUrl("/login");

@@ -17,4 +17,9 @@ public class PageController {
     public String loginPage() {
         return "please login";
     }
+
+    @RequestMapping("/")
+    public String index() {
+        return "index.html";
+    }
 }

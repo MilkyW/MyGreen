@@ -15,6 +15,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class GardenControllerRepositoryTest {
+
     @Autowired
     private GardenControllerRepository repository;
 
