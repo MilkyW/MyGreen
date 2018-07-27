@@ -7,3 +7,5 @@
   1. 将RXTXcomm.jar文件复制到$JAVA_HOME/jre/lib/ext目录下
   2. 将librxtxSerial.so和librxtxSerial64.so复制到$JAVA_HOME/jre/lib/amd64/目录下（如果是32位系统应该是i386或者i686，而不是amd64）
 - 如此可以避免 A fatal error has been detected by the Java Runtime Environment、 could not found COM port等问题。
+- sudo chmod 666 /dev/ttyACM0
+- sudo ln -s /dev/ttyACM0 /dev/ttyUSB0
