@@ -26,6 +26,8 @@ public class sensor_b : MonoBehaviour {
     public Text xy_pass;
     public List<Text> pass;
     public m_garden selected;
+    public Text x_out;
+    public Text y_out;
 
 
     // Use this for initialization
@@ -37,6 +39,8 @@ public class sensor_b : MonoBehaviour {
         warning.Add(xy_existed);
         warning.Add(x_illegal);
         warning.Add(y_illegal);
+        warning.Add(x_out);
+        warning.Add(y_out);
         pass.Add(name_pass);
         pass.Add(xy_pass);
         temperature.onValueChanged.AddListener(delegate { TemperatureOnValueChanged(); });
@@ -82,6 +86,12 @@ public class sensor_b : MonoBehaviour {
             xy_pass.gameObject.SetActive(false);
             return;
         }
+        if (int.Parse(location_x.text) > selected.getLength())
+        {
+            x_out.gameObject.SetActive(true);
+            xy_pass.gameObject.SetActive(false);
+            return;
+        }
         if (!data.xy.IsMatch(location_x.text))
         {
             x_illegal.gameObject.SetActive(true);
@@ -101,6 +111,12 @@ public class sensor_b : MonoBehaviour {
         if (location_y.text == "")
         {
             y_illegal.gameObject.SetActive(false);
+            xy_pass.gameObject.SetActive(false);
+            return;
+        }
+        if (int.Parse(location_y.text) > selected.getLength())
+        {
+            y_out.gameObject.SetActive(true);
             xy_pass.gameObject.SetActive(false);
             return;
         }

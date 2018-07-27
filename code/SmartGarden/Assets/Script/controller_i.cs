@@ -39,8 +39,8 @@ public class controller_i : MonoBehaviour {
     {
         selected = function.FindSelected();
         controller_name.text = show.getName();
-        location_x.text = "x:   " + show.getX();
-        location_y.text = "y:   " + show.getY();
+        location_x.text = "x:   " + show.getX() * selected.getLength() / data.length;
+        location_y.text = "y:   " + show.getY() * selected.getWidth() / data.width;
         on.isOn = show.getState();
     }
 
@@ -102,7 +102,7 @@ public class controller_i : MonoBehaviour {
         {
             if (show.getName() != controller_name.text)
             {
-                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateControllerNameById?id="+show.getId()), HTTPMethods.Post, (req, res) =>
+                HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/updateControllerNameById?id=" + show.getId() + "&name=" + controller_name.text), HTTPMethods.Post, (req, res) =>
                 {
                     switch (req.State)
                     {

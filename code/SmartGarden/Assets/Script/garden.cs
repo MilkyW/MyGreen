@@ -55,14 +55,20 @@ public class garden : MonoBehaviour {
             function.FreshGarden(data.m_user.getGardens()[gardens.value]);
         }
         else if (map.value == 1)
-        {
+        {        
             GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(true);
             GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(false);
+            GameObject containerT = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject;
+            SpringMesh.HeatMapT heatmapT = containerT.GetComponent<SpringMesh.HeatMapT>();
+            heatmapT.sswitch();
         }
         else
         {
             GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(false);
             GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(true);
+            GameObject containerH = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject;
+            SpringMesh.HeatMapH heatmapH = containerH.GetComponent<SpringMesh.HeatMapH>();
+            heatmapH.sswitch();
         }
     }
 

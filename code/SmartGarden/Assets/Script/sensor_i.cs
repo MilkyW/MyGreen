@@ -41,8 +41,8 @@ public class sensor_i : MonoBehaviour {
     {
         selected = function.FindSelected();
         sensor_name.text = show.getName();
-        location_x.text = "x:   " + show.getX();
-        location_y.text = "y:   " + show.getY();
+        location_x.text = "x:   " + show.getX() * selected.getLength() / data.length;
+        location_y.text = "y:   " + show.getY() * selected.getWidth() / data.width;
         if (show.getType())
             temperature.isOn = true;
         else

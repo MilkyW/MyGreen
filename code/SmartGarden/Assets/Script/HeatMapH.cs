@@ -50,7 +50,9 @@ namespace SpringMesh
 
         public void sswitch()
         {
+            this.temperatures = InitTemperatures();
             this.points = InitPoints();
+            Rerender();
         }
 
         private float[,] InitTemperatures()

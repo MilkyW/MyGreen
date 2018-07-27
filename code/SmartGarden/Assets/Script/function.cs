@@ -102,11 +102,11 @@ public class function {
 
     public static void FreshGarden(m_garden garden)
     {
-        Debug.Log(garden.getName());
-        MapBG.clearAll();
+        Debug.Log(garden.getName());     
         GameObject.Find("Canvas/map").GetComponent<Dropdown>().value = 0;
         GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject.SetActive(false);
         GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject.SetActive(false);
+        MapBG.clearAll();
         garden.cleanSensor();
         garden.cleanController();
         GetSensors(garden);
@@ -147,8 +147,8 @@ public class function {
                 sensor temp = new sensor();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"] * data.width / garden.getWidth());
-                temp.setY((int)e["y"] * data.length / garden.getLength());
+                temp.setX((int)e["x"] * data.width / garden.getLength());
+                temp.setY((int)e["y"] * data.length / garden.getWidth());
                 temp.setType(true);
                 sensors.Add(temp);
             }
@@ -162,8 +162,8 @@ public class function {
                 sensor temp = new sensor();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"] * data.width/garden.getWidth());
-                temp.setY((int)e["y"] * data.length/garden.getLength());
+                temp.setX((int)e["x"] * data.width/garden.getLength());
+                temp.setY((int)e["y"] * data.length/garden.getWidth());
                 temp.setType(false);
                 sensors.Add(temp);
             }
@@ -213,8 +213,8 @@ public class function {
                 controller temp = new controller();
                 temp.setId((long)e["id"]);
                 temp.setName((string)e["name"]);
-                temp.setX((int)e["x"] * data.width / garden.getWidth());
-                temp.setY((int)e["y"] * data.length / garden.getLength());
+                temp.setX((int)e["x"] * data.width / garden.getLength());
+                temp.setY((int)e["y"] * data.length / garden.getWidth());
                 temp.setState((bool)e["valid"]);
                 controllers.Add(temp);
                 MapBG.drawOne(temp.getId(), temp.getName(), temp.getX(), temp.getY(), MapBG.SensorControllerType.Irrigation, temp.getState(), 0, 0, 0);

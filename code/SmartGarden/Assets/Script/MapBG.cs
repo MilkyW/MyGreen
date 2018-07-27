@@ -27,12 +27,12 @@ public class MapBG : MonoBehaviour
     {
         for (int i = 1; i < GameObject.Find("HeatCanvas/painting/Scroll View/map").transform.childCount; i++)
             Destroy(GameObject.Find("HeatCanvas/painting/Scroll View/map").transform.GetChild(i).gameObject);
-        GameObject containerT = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject;
+       /*GameObject containerT = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapT").gameObject;
         GameObject containerH = GameObject.Find("HeatCanvas").transform.Find("painting/Scroll View/map/background/HeatMapH").gameObject;
         SpringMesh.HeatMapT heatmapT = containerT.GetComponent<SpringMesh.HeatMapT>();
         SpringMesh.HeatMapH heatmapH = containerH.GetComponent<SpringMesh.HeatMapH>();
         heatmapT.sswitch();
-        heatmapH.sswitch();
+        heatmapH.sswitch();*/
     }
 
     public static void drawOne(long id, string name, int x, int y, SensorControllerType type, bool valid, float now, float max, float min)
