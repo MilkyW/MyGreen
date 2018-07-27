@@ -231,7 +231,8 @@ namespace SpringMesh
         public void test()
         {
             m_garden selected = function.FindSelected();
-            HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) => {
+            HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) =>
+            {
                 Debug.Log(res_data1.DataAsText);
                 JArray array = JArray.Parse(res_data1.DataAsText);
                 foreach (var e in array)
@@ -251,7 +252,7 @@ namespace SpringMesh
         {
             Debug.Log("web socket init");
 
-            webSocket = new WebSocket(new Uri("ws://192.168.1.87:8080/getAllLatestWetness"));
+            webSocket = new WebSocket(new Uri(data.wsIP + "/getAllLatestWetness"));
             webSocket.OnOpen += OnOpen;
             webSocket.OnMessage += OnMessageReceived;
             webSocket.OnError += OnError;

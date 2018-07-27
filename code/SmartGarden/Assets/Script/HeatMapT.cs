@@ -231,7 +231,8 @@ namespace SpringMesh
         public void test()
         {
             m_garden selected = function.FindSelected();
-            HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestTemperatureByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) => {
+            HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestTemperatureByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) =>
+            {
                 Debug.Log(res_data1.DataAsText);
                 JArray array = JArray.Parse(res_data1.DataAsText);
                 foreach (var e in array)
@@ -251,7 +252,7 @@ namespace SpringMesh
         {
             Debug.Log("web socket init");
 
-            webSocket = new WebSocket(new Uri("ws://192.168.1.87:8080/getAllLatestTemperature"));
+            webSocket = new WebSocket(new Uri(data.wsIP + "/getAllLatestTemperature"));
             webSocket.OnOpen += OnOpen;
             webSocket.OnMessage += OnMessageReceived;
             webSocket.OnError += OnError;
@@ -311,10 +312,10 @@ namespace SpringMesh
         void OnError(WebSocket ws, Exception ex)
         {
             string errorMsg = string.Empty;
-            #if !UNITY_WEBGL || UNITY_EDITOR
+#if !UNITY_WEBGL || UNITY_EDITOR
             if (ws.InternalRequest.Response != null)
                 errorMsg = string.Format("Status Code from Server: {0} and Message: {1}", ws.InternalRequest.Response.StatusCode, ws.InternalRequest.Response.Message);
-            #endif
+#endif
             antiInit();
             init();
         }
