@@ -14,9 +14,10 @@ public class garden_b : MonoBehaviour {
     public InputField length;
     public InputField width;
     public InputField temperature;
-    public InputField humidty;
+    public InputField humidity;
     public List<InputField> required;
     public List<Text> warning;
+    public List<Text> pass;
     public Text name_pass;
     public Text name_existed;
 
@@ -26,13 +27,14 @@ public class garden_b : MonoBehaviour {
         required.Add(length);
         required.Add(width);
         required.Add(temperature);
-        required.Add(humidty);
+        required.Add(humidity);
         warning.Add(name_existed);
+        pass.Add(name_existed);
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         garden_name.onEndEdit.AddListener(delegate { NameCheck(); });
         submit.onClick.AddListener(SubmitOnClick);
-        cancel.onClick.AddListener(delegate { function.Clear(required, warning); });
+        cancel.onClick.AddListener(delegate { function.Clear(required, warning, pass); });
 	}
 	
 	// Update is called once per frame
@@ -63,13 +65,11 @@ public class garden_b : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/garden_box").SetActive(false);
             HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/saveGarden"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)
                 {
                     case HTTPRequestStates.Finished:
-                        Debug.Log("Successfully save!");
+                        Debug.Log(res.DataAsText);
                         GameObject.Find("Canvas/cover").SetActive(false);
                         GameObject.Find("Canvas/garden_box").SetActive(false);
                         m_garden temp = new m_garden();
@@ -78,13 +78,14 @@ public class garden_b : MonoBehaviour {
                         temp.setLength(int.Parse(length.text));
                         temp.setWidth(int.Parse(width.text));
                         temp.setIdealTemperature(float.Parse(temperature.text));
-                        temp.setIdealHumidty(float.Parse(humidty.text));
+                        temp.setIdealHumidity(float.Parse(humidity.text));
                         data.m_user.addGardens(temp);
                         Dropdown.OptionData newOption = new Dropdown.OptionData();
                         newOption.text = garden_name.text;
                         List<Dropdown.OptionData> newOptions = new List<Dropdown.OptionData>();
                         newOptions.Add(newOption);
-                        GameObject.Find("Canvas/garden").GetComponent<Dropdown>().AddOptions(newOptions);
+                        GameObject.Find("Canvas/gardens").GetComponent<Dropdown>().AddOptions(newOptions);
+                        GameObject.Find("Canvas/gardens").GetComponent<Dropdown>().value = GameObject.Find("Canvas/gardens").GetComponent<Dropdown>().options.Count - 1;
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);
@@ -99,11 +100,10 @@ public class garden_b : MonoBehaviour {
             newGarden["length"] = length.text;
             newGarden["name"] = garden_name.text;
             newGarden["idealTemperature"] = temperature.text;
-            newGarden["ideaWetness"] = humidty.text;
+            newGarden["idealWetness"] = humidity.text;
             request.RawData = System.Text.Encoding.UTF8.GetBytes(newGarden.ToJson());
 
             request.Send();
-
         }
     }
 }

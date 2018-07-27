@@ -13,6 +13,7 @@ public class user {
     private bool gender;
     private string phone;
     private string email;
+    private bool enabled;
     private List<m_garden> m_Gardens;
 
     public user()
@@ -37,6 +38,8 @@ public class user {
     public string getPhone() { return phone; }
 
     public string getEmail() { return email; }
+
+    public bool getEnabled() { return enabled; }
 
     public List<m_garden> getGardens() { return m_Gardens; }
 
@@ -68,5 +71,9 @@ public class user {
 
     public void setGardens(List<m_garden> m_Gardens_) { m_Gardens = m_Gardens_; }
 
+    public void setEnable(bool enabled_) { enabled = enabled_; }
+
     public void addGardens(m_garden m_Garden) { m_Gardens.Add(m_Garden); }
+
+    public void clearGardens() { m_Gardens.Clear(); }
 }

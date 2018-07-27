@@ -7,7 +7,7 @@ public class m_garden {
     private long id;
     private string name;
     private float ideal_temperature;
-    private float ideal_humidty;
+    private float ideal_humidity;
     private int length;
     private int width;
     private List<sensor> sensors;
@@ -22,7 +22,7 @@ public class m_garden {
     public long getId() { return id; }
     public string getName() { return name; }
     public float getIdealTemperature() { return ideal_temperature; }
-    public float getIdealHumidty() { return ideal_humidty; }
+    public float getIdealHumidity() { return ideal_humidity; }
     public int getLength() { return length; }
     public int getWidth() { return width; }
     public List<sensor> getSensors() { return sensors; }
@@ -31,7 +31,7 @@ public class m_garden {
     public void setId(long id_) { id = id_; }
     public void setName(string name_) { name = name_; }
     public void setIdealTemperature(float ideal_temperature_) { ideal_temperature = ideal_temperature_; }
-    public void setIdealHumidty(float ideal_humidty_) { ideal_humidty = ideal_humidty_; }
+    public void setIdealHumidity(float ideal_humidity_) { ideal_humidity = ideal_humidity_; }
     public void setLength(int length_) { length = length_; }
     public void setWidth(int width_) { width = width_; }
     public void setSensors(List<sensor> sensors_) { sensors = sensors_; }
@@ -42,10 +42,12 @@ public class m_garden {
         foreach (sensor e in sensors_)
             sensors.Add(e);
     }
+    public void cleanSensor() { sensors.Clear(); }
     public void addController(controller controller_) { controllers.Add(controller_); }
     public void addController(List<controller> controllers_)
     {
-        foreach (controller e in controllers)
+        foreach (controller e in controllers_)
             controllers.Add(e);
     }
+    public void cleanController() { controllers.Clear(); }
 }

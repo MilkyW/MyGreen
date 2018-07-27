@@ -199,6 +199,7 @@ public class register : MonoBehaviour {
                     case HTTPRequestStates.Finished:
                         submit.enabled = true;
                         Debug.Log("Successfully save!");
+                        message_b.id = long.Parse(res.DataAsText);
                         GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                         GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
                         break;
@@ -210,15 +211,15 @@ public class register : MonoBehaviour {
             request.AddHeader("Content-Type", "application/json");
 
             JsonData newUser = new JsonData();
-            newUser["account"] = username.text;
-            newUser["password"] = password.text;
+            newUser["username"] = username.text;
+            newUser["password"] = function.EncryptWithMD5(password.text);
             newUser["nickname"] = nickname.text;
             newUser["gender"] = male.isOn;
             newUser["phone"] = phone.text;
             newUser["email"] = email.text;
             newUser["firstname"] = firstname.text;
             newUser["lastname"] = lastname.text;
-            newUser["valid"] = "false";
+            newUser["enabled"] = "false";
             request.RawData = System.Text.Encoding.UTF8.GetBytes(newUser.ToJson());
 
             request.Send();

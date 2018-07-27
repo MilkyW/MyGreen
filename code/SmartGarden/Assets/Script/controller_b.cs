@@ -22,25 +22,36 @@ public class controller_b : MonoBehaviour {
     public Text name_pass;
     public Text xy_pass;
     public m_garden selected;
+    public List<Text> pass;
+    public Text x_out;
+    public Text y_out;
 
 
     // Use this for initialization
     void Start () {
-        selected = data.m_user.getGardens()[garden.gardens.value];
         warning.Add(name_existed);
         warning.Add(xy_existed);
         warning.Add(x_illegal);
         warning.Add(y_illegal);
+        warning.Add(x_out);
+        warning.Add(y_out);
         required.Add(controller_name);
         required.Add(location_x);
         required.Add(location_y);
+        pass.Add(name_pass);
+        pass.Add(xy_pass);
         submit.onClick.AddListener(CreateControllerOnClick);
-        cancel.onClick.AddListener(delegate { function.Clear(required, warning); });
+        cancel.onClick.AddListener(delegate { function.Clear(required, warning, pass); });
         foreach (InputField e in required)
             e.onEndEdit.AddListener(delegate { function.RequiredInputOnEndEdit(e); });
         location_x.onEndEdit.AddListener(delegate { XCheck(); });
         location_y.onEndEdit.AddListener(delegate { YCheck(); });
         controller_name.onEndEdit.AddListener(delegate { NameCheck(); });
+    }
+
+    void OnEnable()
+    {
+        selected = function.FindSelected();
     }
 
     // Update is called once per frame
@@ -50,7 +61,7 @@ public class controller_b : MonoBehaviour {
 
     void NameCheck()
     {
-        if (function.ControllerNameCheck(controller_name.text))
+        if (function.ControllerNameCheck(selected, controller_name.text))
         {
             name_existed.gameObject.SetActive(true);
             name_pass.gameObject.SetActive(false);
@@ -70,6 +81,12 @@ public class controller_b : MonoBehaviour {
             xy_pass.gameObject.SetActive(false);
             return;
         }
+        if (int.Parse(location_x.text)>selected.getLength())
+        {
+            x_out.gameObject.SetActive(true);
+            xy_pass.gameObject.SetActive(false);
+            return;
+        }
         if (!data.xy.IsMatch(location_x.text))
         {
             x_illegal.gameObject.SetActive(true);
@@ -78,7 +95,7 @@ public class controller_b : MonoBehaviour {
             return;
         }
         x_illegal.gameObject.SetActive(false);
-        if (function.XyCheck(location_x.text, location_y.text))
+        if (function.XyCheck(selected, int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
             xy_existed.gameObject.SetActive(false);
@@ -92,6 +109,12 @@ public class controller_b : MonoBehaviour {
             xy_pass.gameObject.SetActive(false);
             return;
         }
+        if (int.Parse(location_y.text) > selected.getWidth())
+        {
+            y_out.gameObject.SetActive(true);
+            xy_pass.gameObject.SetActive(false);
+            return;
+        }
         if (!data.xy.IsMatch(location_y.text))
         {
             y_illegal.gameObject.SetActive(true);
@@ -100,7 +123,7 @@ public class controller_b : MonoBehaviour {
             return;
         }
         y_illegal.gameObject.SetActive(false);
-        if (function.XyCheck(location_x.text, location_y.text))
+        if (function.XyCheck(selected, int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
             xy_existed.gameObject.SetActive(false);
@@ -110,24 +133,20 @@ public class controller_b : MonoBehaviour {
     {
         foreach (InputField e in required)
             function.RequiredInputOnEndEdit(e);
+        foreach (Text e in warning)
+            if (e.IsActive())
+                return;
         if (function.InputFieldRequired(required))
         {
-            GameObject.Find("Canvas/cover").SetActive(false);
-            GameObject.Find("Canvas/controller_box").SetActive(false);
             HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/saveController"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)
                 {
                     case HTTPRequestStates.Finished:
                         Debug.Log("Successfully save!");
                         GameObject.Find("Canvas/cover").SetActive(false);
-                        GameObject.Find("Canvas/garden_box").SetActive(false);
-                        controller temp = new controller();
-                        temp.setId(long.Parse(res.DataAsText));
-                        temp.setX(int.Parse(location_x.text));
-                        temp.setY(int.Parse(location_y.text));
-                        temp.setState(true);
-                        temp.setName(controller_name.text);
-                        selected.addController(temp);
+                        GameObject.Find("Canvas/controller_box").SetActive(false);
+                        function.Clear(required, warning, pass);
+                        function.FreshGarden(selected);
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);
