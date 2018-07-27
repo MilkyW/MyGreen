@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using CI.HttpClient;
 using System;
-using System.Text.RegularExpressions;
 using BestHTTP;
 using LitJson;
 
@@ -34,6 +32,9 @@ public class register : MonoBehaviour {
     public Text phone_pass;
     public Text email_pass;
     public Text c_pwd_pass;
+    public HTTPRequest request_username;
+    public HTTPRequest request_phone;
+    public HTTPRequest request_email;
 
     // Use this for initialization
     void Start () {
@@ -76,7 +77,8 @@ public class register : MonoBehaviour {
             username_existed.gameObject.SetActive(false);
             return;
         }
-        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/isAccountExist?account=" + username.text), HTTPMethods.Get, (req, res) => {
+        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/isAccountExist?account=" + username.text), HTTPMethods.Get, (req, res) =>
+        {
             if (res.DataAsText == "true")
             {
                 username_existed.gameObject.SetActive(true);
@@ -87,7 +89,11 @@ public class register : MonoBehaviour {
                 username_existed.gameObject.SetActive(false);
                 username_pass.gameObject.SetActive(true);
             }
-        }).Send();
+        });
+        if (request_username != null && request_username.State == HTTPRequestStates.Processing)
+            request_username.Abort();
+        request_username = request;
+        request_username.Send();
     }
 
     void PhoneCheck()
@@ -107,7 +113,8 @@ public class register : MonoBehaviour {
             return;
         }
         phone_illegal.gameObject.SetActive(false);
-        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/isPhoneExist?phone=" + phone.text), HTTPMethods.Get, (req, res) => {
+        HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/isPhoneExist?phone=" + phone.text), HTTPMethods.Get, (req, res) =>
+        {
             if (res.DataAsText == "true")
             {
                 phone_existed.gameObject.SetActive(true);
@@ -118,7 +125,11 @@ public class register : MonoBehaviour {
                 phone_existed.gameObject.SetActive(false);
                 phone_pass.gameObject.SetActive(true);
             }
-        }).Send();
+        });
+        if (request_phone != null && request_phone.State == HTTPRequestStates.Processing)
+            request_phone.Abort();
+        request_phone = request;
+        request_phone.Send();
     }
 
     void EmailCheck()
@@ -149,7 +160,11 @@ public class register : MonoBehaviour {
                 email_existed.gameObject.SetActive(false);
                 email_pass.gameObject.SetActive(true);
             }
-        }).Send();
+        });
+        if (request_email != null && request_email.State == HTTPRequestStates.Processing)
+            request_email.Abort();
+        request_email = request;
+        request_email.Send();
     }
 
     void ComfirmPasswordCheck()
@@ -177,21 +192,16 @@ public class register : MonoBehaviour {
                 return;
         if (function.InputFieldRequired(required))
         {
+            submit.enabled = false;
             HTTPRequest request = new HTTPRequest(new Uri(data.IP+"/saveUser"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)
                 {
                     case HTTPRequestStates.Finished:
+                        submit.enabled = true;
                         Debug.Log("Successfully save!");
+                        message_b.id = long.Parse(res.DataAsText);
                         GameObject.Find("Canvas").transform.Find("cover").gameObject.SetActive(true);
                         GameObject.Find("Canvas").transform.Find("message_box").gameObject.SetActive(true);
-                        data.m_user.setUsername(username.text);
-                        data.m_user.setNickname(nickname.text);
-                        data.m_user.setPassword(password.text);
-                        data.m_user.setFirstname(firstname.text);
-                        data.m_user.setLastname(lastname.text);
-                        data.m_user.setGender(male.isOn);
-                        data.m_user.setPhone(phone.text);
-                        data.m_user.setEmail(email.text);
                         break;
                     default:
                         Debug.Log("Error!Status code:" + res.StatusCode);
@@ -201,15 +211,15 @@ public class register : MonoBehaviour {
             request.AddHeader("Content-Type", "application/json");
 
             JsonData newUser = new JsonData();
-            newUser["account"] = username.text;
-            newUser["password"] = password.text;
+            newUser["username"] = username.text;
+            newUser["password"] = function.EncryptWithMD5(password.text);
             newUser["nickname"] = nickname.text;
             newUser["gender"] = male.isOn;
             newUser["phone"] = phone.text;
             newUser["email"] = email.text;
             newUser["firstname"] = firstname.text;
             newUser["lastname"] = lastname.text;
-            newUser["valid"] = "false";
+            newUser["enabled"] = "false";
             request.RawData = System.Text.Encoding.UTF8.GetBytes(newUser.ToJson());
 
             request.Send();
