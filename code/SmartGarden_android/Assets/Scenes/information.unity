@@ -384,7 +384,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &71235334
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -476,7 +476,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &81817244
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -550,7 +550,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &153888201
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -981,7 +981,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: modify password
+  m_Text: Modify password
 --- !u!222 &240223954
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2328,7 +2328,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &575723520
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5266,7 +5266,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1404443923
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6330,7 +6330,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1764348044
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6570,7 +6570,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1843190626
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -254,7 +254,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: register
+  m_Text: Register
 --- !u!222 &364660666
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1439,7 +1439,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: login
+  m_Text: Login
 --- !u!222 &2068279112
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -73,6 +73,6 @@ public class MapBG : MonoBehaviour
         sc.transform.SetParent(container.transform);
         RectTransform rt = sensorcontroller.GetComponent<RectTransform>();
         rt.anchoredPosition = new Vector2(x, y);
-        rt.localScale = new Vector3((float)0.3, (float)0.3, 1);
+        rt.localScale = new Vector3((float)0.7, (float)0.7, 1);
     }
 }

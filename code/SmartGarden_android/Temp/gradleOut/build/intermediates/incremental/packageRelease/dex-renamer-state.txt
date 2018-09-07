@@ -1,0 +1,4 @@
+#Fri Sep 07 20:05:23 CST 2018
+base.0=D\:\\Users\\LITTLECAT\\Documents\\OneDrive\\SJTU\\Curricula\\Software Engineering\\project\\MyGreen\\code\\SmartGarden_android\\Temp\\gradleOut\\build\\intermediates\\transforms\\dex\\release\\folders\\1000\\1f\\main
+renamed.0=classes.dex
+file.0=D\:\\Users\\LITTLECAT\\Documents\\OneDrive\\SJTU\\Curricula\\Software Engineering\\project\\MyGreen\\code\\SmartGarden_android\\Temp\\gradleOut\\build\\intermediates\\transforms\\dex\\release\\folders\\1000\\1f\\main\\classes.dex

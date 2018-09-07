@@ -3815,7 +3815,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: back
+  m_Text: Back
 --- !u!222 &199789977
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9354,7 +9354,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &462386606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10910,7 +10910,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 31.1, y: 27.807}
+  m_AnchoredPosition: {x: 31, y: 28}
   m_SizeDelta: {x: -62.2, y: -55.616}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494279206
@@ -11934,7 +11934,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &545422118
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13908,7 +13908,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: information
+  m_Text: Information
 --- !u!222 &629069881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15193,11 +15193,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'pass
+  m_Text: 'PASS
 
 
 
-    pass'
+    PASS'
 --- !u!222 &719926445
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19631,7 +19631,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &919949802
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19734,7 +19734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &929021956
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20726,11 +20726,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'pass
+  m_Text: 'PASS
 
 
 
-    pass'
+    PASS'
 --- !u!222 &974005019
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20833,7 +20833,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: close
+  m_Text: Close
 --- !u!222 &975576834
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20907,7 +20907,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &976184344
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21293,7 +21293,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: on
+  m_Text: On
 --- !u!222 &1007181015
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22637,7 +22637,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &1087864360
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23540,7 +23540,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1124509759
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25479,7 +25479,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1235240671
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31120,7 +31120,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &1483921732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31502,6 +31502,96 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224165692330999558, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374508602989218, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224601407526126642, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224556304570946828, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224008844570008864, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224778648510951536, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224165692330999558, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374508602989218, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224601407526126642, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224556304570946828, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224008844570008864, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224778648510951536, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224165692330999558, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374508602989218, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224601407526126642, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224556304570946828, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224008844570008864, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224778648510951536, guid: 61a74104c89af4241a7d6a73407a569c,
+        type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 61a74104c89af4241a7d6a73407a569c, type: 2}
@@ -33001,7 +33091,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1565079087
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33495,7 +33585,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1593832215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34005,7 +34095,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1623114584
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35761,7 +35851,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &1714929368
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36827,7 +36917,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1778419270
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36988,7 +37078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &1781900116
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37207,7 +37297,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &1821587606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37413,7 +37503,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: chart
+  m_Text: Chart
 --- !u!222 &1825527106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39652,7 +39742,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &1941765534
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40694,7 +40784,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &2013852275
 CanvasRenderer:
   m_ObjectHideFlags: 0
