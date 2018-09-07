@@ -25,7 +25,7 @@ public class data : MonoBehaviour {
 
     public static Regex phone = new Regex("^13|15|18[0-9]{9}$");
 
-    public static int width = 497;
+    public static int width = 500;
 
-    public static int length = 351;
+    public static int length = 750;
 }
