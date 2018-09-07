@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class garden : MonoBehaviour {
     public Dropdown map;
-    public Text nickname;
     public Dropdown view;
     public Dropdown gardens;
     public List<InputField> sensorinfo_required;
@@ -20,7 +19,6 @@ public class garden : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        nickname.text = data.m_user.getNickname();
         map.onValueChanged.AddListener(delegate { MapChange(); });
         view.onValueChanged.AddListener(delegate { ViewChange(); });
         gardens.onValueChanged.AddListener(delegate { function.FreshGarden(data.m_user.getGardens()[gardens.value]); });
