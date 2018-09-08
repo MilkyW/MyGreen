@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -233, y: 165.8}
+  m_AnchoredPosition: {x: -233, y: 165.79999}
   m_SizeDelta: {x: 0, y: 331.6}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &44347491
@@ -511,6 +511,21 @@ Prefab:
       propertyPath: m_Name
       value: listline
       objectReference: {fileID: 0}
+    - target: {fileID: 114733513714487916, guid: e0449a2ce347f1e47a70144a3738a5ec,
+        type: 2}
+      propertyPath: m_Text
+      value: Name
+      objectReference: {fileID: 0}
+    - target: {fileID: 114947341661628592, guid: e0449a2ce347f1e47a70144a3738a5ec,
+        type: 2}
+      propertyPath: m_Text
+      value: State
+      objectReference: {fileID: 0}
+    - target: {fileID: 114971905138420300, guid: e0449a2ce347f1e47a70144a3738a5ec,
+        type: 2}
+      propertyPath: m_Text
+      value: Enable/Disable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0449a2ce347f1e47a70144a3738a5ec, type: 2}
   m_IsPrefabParent: 0
@@ -829,7 +844,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1852552217}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.49999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

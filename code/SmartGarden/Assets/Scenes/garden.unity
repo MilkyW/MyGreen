@@ -9516,7 +9516,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &462386606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11325,7 +11325,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &545422118
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13519,7 +13519,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: information
+  m_Text: Information
 --- !u!222 &629069881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14652,11 +14652,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'pass
+  m_Text: 'PASS
 
 
 
-    pass'
+    PASS'
 --- !u!222 &719926445
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18956,7 +18956,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &919949802
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19059,7 +19059,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &929021956
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20057,11 +20057,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'pass
+  m_Text: 'PASS
 
 
 
-    pass'
+    PASS'
 --- !u!222 &974005019
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20166,7 +20166,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: close
+  m_Text: Close
 --- !u!222 &975576834
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20240,7 +20240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &976184344
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20618,7 +20618,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: on
+  m_Text: ON
 --- !u!222 &1007181015
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22357,7 +22357,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &1087864360
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23312,7 +23312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1124509759
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25255,7 +25255,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1235240671
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31002,7 +31002,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &1483921732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31785,6 +31785,8 @@ MonoBehaviour:
   bottom: 0
   radius: 0.3
   positionFX: 10
+  ideal: 20
+  step: 5
 --- !u!23 &1531393382
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32734,7 +32736,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1565079087
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33232,7 +33234,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: pass
+  m_Text: PASS
 --- !u!222 &1593832215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33713,7 +33715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1623114584
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35322,7 +35324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &1714929368
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36414,7 +36416,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: Submit
 --- !u!222 &1778419270
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36579,7 +36581,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: cancel
+  m_Text: Cancel
 --- !u!222 &1781900116
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36771,7 +36773,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &1821587606
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36979,7 +36981,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: chart
+  m_Text: Chart
 --- !u!222 &1825527106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38876,6 +38878,8 @@ MonoBehaviour:
   bottom: 0
   radius: 0.3
   positionFX: 10
+  ideal: 20
+  step: 5
 --- !u!23 &1938998710
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38987,7 +38991,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: save
+  m_Text: Save
 --- !u!222 &1941765534
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -40059,7 +40063,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: delete
+  m_Text: Delete
 --- !u!222 &2013852275
 CanvasRenderer:
   m_ObjectHideFlags: 0
