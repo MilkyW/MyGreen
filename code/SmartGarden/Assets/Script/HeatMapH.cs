@@ -41,9 +41,9 @@ namespace SpringMesh
 
         private void OnEnable()
         {
-            test();
             selected = function.FindSelected();
             ideal = (int)selected.getIdealTemperature();
+            test();
         }
 
         private void OnDisable()
@@ -264,7 +264,6 @@ namespace SpringMesh
 
         public void test()
         {
-            m_garden selected = function.FindSelected();
             HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestWetnessByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) =>
             {
                 Debug.Log(res_data1.DataAsText);
