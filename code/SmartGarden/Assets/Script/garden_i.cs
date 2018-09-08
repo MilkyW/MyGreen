@@ -50,7 +50,7 @@ public class garden_i : MonoBehaviour {
     void OnDisable()
     {
         function.Clear(required, warning, pass);
-        function.FreshGarden(selected);
+        //function.FreshGarden(selected);
     }
 
     // Update is called once per frame
@@ -94,7 +94,7 @@ public class garden_i : MonoBehaviour {
                     {
                         case HTTPRequestStates.Finished:
                             Debug.Log(res.DataAsText);
-                            function.FreshGardens(selected);
+                            function.FreshGarden(selected);
                             break;
                         default:
                             Debug.Log("Error!Status code:" + res.StatusCode);
