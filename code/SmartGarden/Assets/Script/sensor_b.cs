@@ -100,7 +100,6 @@ public class sensor_b : MonoBehaviour {
             return;
         }
         x_illegal.gameObject.SetActive(false);
-        x_out.gameObject.SetActive(false);
         if (function.XyCheck(selected, int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
@@ -129,7 +128,6 @@ public class sensor_b : MonoBehaviour {
             return;
         }
         y_illegal.gameObject.SetActive(false);
-        y_out.gameObject.SetActive(false);
         if (function.XyCheck(selected,int.Parse(location_x.text), int.Parse(location_y.text)))
             xy_existed.gameObject.SetActive(true);
         else
