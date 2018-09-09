@@ -17,9 +17,13 @@ public class data : MonoBehaviour {
     //public static string IP = "http://192.168.3.22:8080";
     //public static string wsIP = "ws://192.168.3.22:8080";
 
-    //Android: B315
+    //Android:  B315 wxr
     public static string IP = "http://10.162.152.220:8080";
     public static string wsIP = "ws://10.162.152.220:8080";
+
+    //Android:  B315 ydx
+    //public static string IP = "http://10.162.23.134:8080";
+    //public static string wsIP = "ws://10.162.23.134:8080";
 
     public static user m_user = new user();
 

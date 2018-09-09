@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class garden : MonoBehaviour {
     public Dropdown map;
-    public Text nickname;
     public Dropdown view;
     public Dropdown gardens;
     public List<InputField> sensorinfo_required;
