@@ -19,6 +19,15 @@ public class GardenService {
         return gardenRepository.findByUserId(userId);
     }
 
+    public Garden getGardenById(long id) {
+        Optional<Garden> gardenOptional = gardenRepository.findById(id);
+        if (gardenOptional.isPresent()) {
+            return gardenOptional.get();
+        }else {
+            return null;
+        }
+    }
+
     public void saveGarden(Garden garden) {
         gardenRepository.save(garden);
     }

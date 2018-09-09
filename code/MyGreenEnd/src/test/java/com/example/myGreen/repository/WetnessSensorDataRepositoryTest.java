@@ -22,19 +22,16 @@ public class WetnessSensorDataRepositoryTest {
 
     @Test
     public void findBySensorId() {
-        List<WetnessSensorData> list = repository.findBySensorId(1);
+        long id = 1;
+
+        List<WetnessSensorData> list = repository.findBySensorId(id);
+
+        if (list.isEmpty()) {
+            Assert.fail(String.format("Wetness sensor ID:{} has no data", id));
+        }
+
         for (WetnessSensorData temperatureSensorData : list) {
             Assert.assertEquals(temperatureSensorData.getId().getId(), 1);
-        }
-    }
-
-    @Test
-    public void findLatestDataById() {
-        List<WetnessSensorData> list = repository.findBySensorId(1);
-        Timestamp latestTime = repository.findLatestDataById(1).getId().getTime();
-        for (WetnessSensorData data : list) {
-            Timestamp time = data.getId().getTime();
-            Assert.assertTrue(latestTime.after(time) || latestTime.equals(time));
         }
     }
     

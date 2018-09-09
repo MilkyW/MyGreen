@@ -85,6 +85,11 @@ public class InterfaceController {
         return gardenService.getGardenByUserId(userId);
     }
 
+    @GetMapping("getGardenById")
+    public Garden getGardenById(long id) {
+        return gardenService.getGardenById(id);
+    }
+
     @PostMapping("saveGarden")
     public long saveGarden(@RequestBody Garden garden) {
         gardenService.saveGarden(garden);

@@ -29,16 +29,6 @@ public class TemperatureSensorDataRepositoryTest {
     }
 
     @Test
-    public void findLatestDataById() {
-        List<TemperatureSensorData> list = repository.findBySensorId(1);
-        Timestamp latestTime = repository.findLatestDataById(1).getId().getTime();
-        for (TemperatureSensorData data : list) {
-            Timestamp time = data.getId().getTime();
-            Assert.assertTrue(latestTime.after(time) || latestTime.equals(time));
-        }
-    }
-
-    @Test
     public void findLatestTemperatureById() throws Exception {
         long id = 1;
 
