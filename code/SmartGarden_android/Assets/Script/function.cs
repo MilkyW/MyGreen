@@ -1,4 +1,5 @@
 ﻿using BestHTTP;
+using LitJson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -111,7 +112,22 @@ public class function {
         garden.cleanController();
         GetSensors(garden);
         GetControllers(garden);
+        //GetGardenInfo(garden);
         return;
+    }
+
+    public static void GetGardenInfo(m_garden garden)
+    {
+        HTTPRequest request_getGarden = new HTTPRequest(new Uri(data.IP + "/getGardenByGardenId=" + garden.getId()), HTTPMethods.Get, (req_garden, res_garden) =>
+        {
+            JsonData json = JsonMapper.ToObject(res_garden.DataAsText);
+            Debug.Log(res_garden.DataAsText);
+            garden.setName((string)json["name"]);
+            garden.setLength((int)json["length"]);
+            garden.setWidth((int)json["width"]);
+            garden.setIdealTemperature((float)json["idealTemperature"]);
+            garden.setIdealHumidity((float)json["idealWetness"]);
+        }).Send();
     }
 
     public static void FreshGardens(m_garden garden)

@@ -84,7 +84,7 @@ public class garden : MonoBehaviour {
         {
             SceneManager.LoadScene("information");
         }
-        else if (view.value == 3) //log out
+        else if (view.value == 2) //log out
         {
             HTTPRequest request = new HTTPRequest(new Uri(data.IP + "/logout"), HTTPMethods.Post, (req, res) => {
                 switch (req.State)

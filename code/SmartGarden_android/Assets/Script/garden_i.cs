@@ -15,7 +15,6 @@ public class garden_i : MonoBehaviour {
     public InputField temperature;
     public InputField humidity;
     public Button save;
-    public Button delete;
     public Text name_existed;
     public Text name_pass;
     public List<InputField> required;
@@ -50,7 +49,7 @@ public class garden_i : MonoBehaviour {
     void OnDisable()
     {
         function.Clear(required, warning, pass);
-        function.FreshGarden(selected);
+        //function.FreshGarden(selected);
     }
 
     // Update is called once per frame
@@ -72,11 +71,6 @@ public class garden_i : MonoBehaviour {
         }
     }
 
-    void DeleteOnClick()
-    {
-        
-    }
-
     void SaveOnClick()
     {
         foreach (InputField e in required)
@@ -94,7 +88,7 @@ public class garden_i : MonoBehaviour {
                     {
                         case HTTPRequestStates.Finished:
                             Debug.Log(res.DataAsText);
-                            function.FreshGardens(selected);
+                            function.FreshGarden(selected);
                             break;
                         default:
                             Debug.Log("Error!Status code:" + res.StatusCode);

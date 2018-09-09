@@ -15,7 +15,6 @@ public class garden_i : MonoBehaviour {
     public InputField temperature;
     public InputField humidity;
     public Button save;
-    public Button delete;
     public Text name_existed;
     public Text name_pass;
     public List<InputField> required;
@@ -70,11 +69,6 @@ public class garden_i : MonoBehaviour {
             name_existed.gameObject.SetActive(false);
             name_pass.gameObject.SetActive(true);
         }
-    }
-
-    void DeleteOnClick()
-    {
-        
     }
 
     void SaveOnClick()

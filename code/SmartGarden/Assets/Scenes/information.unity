@@ -2491,8 +2491,6 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Garden
       m_Image: {fileID: 0}
-    - m_Text: Friends
-      m_Image: {fileID: 0}
     - m_Text: Logout
       m_Image: {fileID: 0}
   m_OnValueChanged:

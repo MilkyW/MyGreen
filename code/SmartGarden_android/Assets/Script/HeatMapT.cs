@@ -19,6 +19,8 @@ namespace SpringMesh
         public int bottom = 0;
         public float radius = 0.3f;
         public int positionFX = 10;
+        public int ideal = 20;
+        public int step = 5;
 
         WebSocket webSocket;
         m_garden selected;
@@ -39,8 +41,9 @@ namespace SpringMesh
 
         private void OnEnable()
         {
-            test();
             selected = function.FindSelected();
+            ideal = (int)selected.getIdealTemperature();
+            test();
         }
 
         private void OnDisable()
@@ -138,11 +141,29 @@ namespace SpringMesh
 
         private Color CalcColor(float temperature)
         {
-            int count = (int)temperature / 10;
-            float temp = (temperature % 10) / 10;
+            //if (temperature > 10)
+            //    return Color.black;
+            //int count = (int)temperature / 10;
+            int count;
+            if (temperature > ideal)
+                count = ((int)(temperature) - ideal) / step + 5;
+            else
+                count = -((int)(ideal - temperature) / step) + 5 - 1;
+            if (count < 0) count = 0;
+            if (count > 10) count = 10;
             Color[] colors = GetColors(count);
+            if (colors[0] == colors[1])
+                return colors[0];
             Color from = colors[0];
             Color to = colors[1];
+            //float temp = (temperature % 10) / 10;
+            float temp;
+            if (temperature > ideal)
+                temp = ((temperature - ideal) % step) / step;
+            else
+                temp = 1 - ((ideal - temperature) % step) / step;
+            if (temp > 0.9) return to;
+            if (temp < 0.1) return from;
             Color offset = to - from;
             return from + offset * temp;
         }
@@ -153,57 +174,70 @@ namespace SpringMesh
             Color startColor = Color.blue, endColor = Color.blue;
             switch (index)
             {
-                // 0~10 color
+                //when ideal = 20:
+
+                //step == 5: -5~0 color
+                //step == 10: -30~-20 color
                 case 0:
+                    startColor = Color.blue;
+                    endColor = Color.blue;
+                    break;
+                //step == 5: 0~5 color
+                //step == 10: -20~-10 color
+                case 1:
+                    startColor = Color.blue;
+                    endColor = Color.blue;
+                    break;
+                //step == 5: 5~10 color
+                //step == 10: -10~0 color
+                case 2:
                     startColor = Color.blue;
                     endColor = Color.cyan;
                     break;
-                // 10~20 color
-                case 1:
+                //step == 5: 10~15 color
+                //step == 10: 0~10 color
+                case 3:
                     startColor = Color.cyan;
                     endColor = Color.green;
                     break;
-                // 20~30 color
-                case 2:
+                //step == 5: 15~20 color
+                //step == 10: 10~20 color
+                case 4:
+                    startColor = Color.green;
+                    endColor = Color.green;
+                    break;
+                //step == 5: 20~25 color
+                //step == 10: 20~30 color
+                case 5:
+                    startColor = Color.green;
+                    endColor = Color.green;
+                    break;
+                //step == 5: 25~30 color
+                //step == 10: 30~40 color
+                case 6:
                     startColor = Color.green;
                     endColor = Color.yellow;
                     break;
-                // 30~40 color
-                case 3:
+                //step == 5: 30~35 color
+                //step == 10: 40~50 color
+                case 7:
                     startColor = Color.yellow;
                     endColor = Color.red;
                     break;
-                // 40~50 color
-                case 4:
+                //step == 5: 35~40 color
+                //step == 10: 50~60 color
+                case 8:
                     startColor = Color.red;
                     endColor = Color.magenta;
                     break;
-                // 50~60 color
-                case 5:
-                    startColor = Color.magenta;
-                    endColor = Color.magenta;
-                    break;
-                // 60~70 color
-                case 6:
-                    startColor = Color.magenta;
-                    endColor = Color.magenta;
-                    break;
-                // 70~80 color
-                case 7:
-                    startColor = Color.magenta;
-                    endColor = Color.magenta;
-                    break;
-                // 80~90 color
-                case 8:
-                    startColor = Color.magenta;
-                    endColor = Color.magenta;
-                    break;
-                // 90~100 color
+                //step == 5: 40~45 color
+                //step == 10: 60~70 color
                 case 9:
                     startColor = Color.magenta;
                     endColor = Color.magenta;
                     break;
-                // over 100 color
+                //step == 5: 45~50 color
+                //step == 10: over 70 color
                 case 10:
                     startColor = Color.magenta;
                     endColor = Color.magenta;
@@ -230,7 +264,6 @@ namespace SpringMesh
 
         public void test()
         {
-            m_garden selected = function.FindSelected();
             HTTPRequest request_getSensorData1 = new HTTPRequest(new Uri(data.IP + "/getLatestTemperatureByGardenId?gardenId=" + selected.getId()), HTTPMethods.Get, (req_data1, res_data1) =>
             {
                 Debug.Log(res_data1.DataAsText);
