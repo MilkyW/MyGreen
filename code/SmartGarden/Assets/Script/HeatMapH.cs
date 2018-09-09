@@ -42,7 +42,7 @@ namespace SpringMesh
         private void OnEnable()
         {
             selected = function.FindSelected();
-            ideal = (int)selected.getIdealHumidity();
+            ideal = (int)selected.getIdealTemperature();
             test();
         }
 

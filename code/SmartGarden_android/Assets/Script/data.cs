@@ -6,8 +6,8 @@ using UnityEngine;
 public class data : MonoBehaviour {
 
     //WebGL
-    //public static string IP = "http://localhost:8080";
-    //public static string wsIP = "ws://localhost:8080";
+    public static string IP = "http://localhost:8080";
+    public static string wsIP = "ws://localhost:8080";
 
     //Android: 3101
     //public static string IP = "http://192.168.1.87:8080";
@@ -16,14 +16,6 @@ public class data : MonoBehaviour {
     //Android: Home
     //public static string IP = "http://192.168.3.22:8080";
     //public static string wsIP = "ws://192.168.3.22:8080";
-
-    //Android:  B315 wxr
-    public static string IP = "http://10.162.152.220:8080";
-    public static string wsIP = "ws://10.162.152.220:8080";
-
-    //Android:  B315 ydx
-    //public static string IP = "http://10.162.23.134:8080";
-    //public static string wsIP = "ws://10.162.23.134:8080";
 
     public static user m_user = new user();
 
