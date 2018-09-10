@@ -1,0 +1,22 @@
+package com.example.myGreen.service.mail;
+
+public class NormalDto {
+    private int code;
+    private String result;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+}
